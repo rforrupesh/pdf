@@ -1,0 +1,16 @@
+---
+layout: default
+title: Blog
+---
+
+<h1>Blog</h1>
+
+<ul>
+  {% assign blog_pages = site.pages | where_exp: "page", "page.url contains '/blog/' and page.name != 'index.html'" %}
+
+  {% for post in blog_pages %}
+    <li>
+      <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+    </li>
+  {% endfor %}
+</ul>
