@@ -1,25 +1,52 @@
-{% assign blog_pages = site.pages | where_exp: "p", "p.url contains '/blog/' and p.name != 'index.html'" | sort: "url" %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{{ page.title }}</title>
+</head>
 
-{% for p in blog_pages %}
-  {% if p.url == page.url %}
-    {% assign index = forloop.index0 %}
-  {% endif %}
-{% endfor %}
+<body>
 
-{% assign last_index = blog_pages.size | minus: 1 %}
+{% include navbar.html %}
 
-<div style="display:flex; justify-content:space-between;">
-  
-  {% if index > 0 %}
-    <a href="{{ site.baseurl }}{{ blog_pages[index-1].url }}">
-      ← {{ blog_pages[index-1].title }}
-    </a>
-  {% endif %}
+<div style="display:flex; gap:40px; max-width:1000px; margin:auto;">
 
-  {% if index < last_index %}
-    <a href="{{ site.baseurl }}{{ blog_pages[index+1].url }}">
-      {{ blog_pages[index+1].title }} →
-    </a>
-  {% endif %}
+  <!-- MAIN ARTICLE -->
+  <article style="flex:3;">
+    <h1>{{ page.title }}</h1>
+
+    {{ content }}
+
+    <hr>
+
+    <!-- NEXT / PREVIOUS -->
+    <div style="display:flex; justify-content:space-between;">
+      
+      {% if page.previous %}
+        <a href="{{ site.baseurl }}{{ page.previous.url }}">← {{ page.previous.title }}</a>
+      {% endif %}
+
+      {% if page.next %}
+        <a href="{{ site.baseurl }}{{ page.next.url }}">{{ page.next.title }} →</a>
+      {% endif %}
+
+    </div>
+  </article>
+
+  <!-- SIDEBAR -->
+  <aside style="flex:1;">
+    <h3>Recent Posts</h3>
+    <ul>
+      {% for post in site.posts limit:5 %}
+        <li>
+          <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  </aside>
 
 </div>
+
+{% include footer.html %}
+
+</body>
+</html>
