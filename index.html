@@ -3,7 +3,17 @@ layout: default
 title: Split PDF | Professional PDF Tools
 description: Free online tools to split, manage and download PDF files easily.
 ---
-
+<div class="post-grid">
+  {% for post in site.posts limit:5 %}
+    <div class="post-card">
+      <a href="{{ post.url }}">
+        <img src="{{ post.thumbnail }}" alt="{{ post.title }}">
+        <h3>{{ post.title }}</h3>
+      </a>
+      <p>{{ post.excerpt }}</p>
+    </div>
+  {% endfor %}
+</div>
     <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
