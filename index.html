@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Simple GitHub Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f4f4f4;
+            text-align: center;
+        }
+
+        header {
+            background: #333;
+            color: white;
+            padding: 15px 0;
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            background: #007bff;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        #message {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+
+        footer {
+            margin-top: 30px;
+            padding: 10px;
+            background: #222;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>My GitHub Page</h1>
+</header>
+
+<div class="container">
+    <h2>Welcome 👋</h2>
+    <p>This is my simple website hosted on GitHub Pages.</p>
+
+    <button onclick="showMessage()">Click Me</button>
+
+    <div id="message"></div>
+</div>
+
+<footer>
+    <p>© 2026 My Website</p>
+</footer>
+
+<script>
+    function showMessage() {
+        document.getElementById("message").innerText = "Hello! JavaScript is working 🎉";
+    }
+</script>
+
+</body>
+</html>
