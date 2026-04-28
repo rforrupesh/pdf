@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "How to Split PDF Easily"
+description: "Downloading a PDF ensures document formatting remains identical across all devices and operating systems"
 ---
 
 This is a complete guide to split PDF files online.
