@@ -1,16 +1,10 @@
 ---
-layout: default
-title: why to Download PDF
-description: Learn why downloading PDFs is useful.
+layout: post
+title: "How to Split PDF Easily"
 ---
 
-<h1>How to why PDF</h1>
+This is a complete guide to split PDF files online.
 
-<p>This guide explains why to download PDF files easily.</p>
-
-<h2>Steps</h2>
-<ul>
-  <li>Open the PDF tool</li>
-  <li>Upload your file</li>
-  <li>Click download</li>
-</ul>
+Step 1: Upload file  
+Step 2: Select pages  
+Step 3: Download result  
