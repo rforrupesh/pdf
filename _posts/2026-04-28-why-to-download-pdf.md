@@ -1,6 +1,7 @@
 ---
-layout: post
-title: "why to Download PDF"
+layout: default
+title: why to Download PDF
+description: Learn why downloading PDFs is useful.
 ---
 
 <h1>How to why PDF</h1>
