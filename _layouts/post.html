@@ -3,44 +3,125 @@
 
 {% include head.html %}
 
-<body>
+<body class="post-page">
 
 {% include navbar.html %}
 
-<div class="container">
+<!-- Breadcrumb -->
+<div class="post-breadcrumb-bar">
+  <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+    <ol>
+      <li><a href="{{ site.baseurl }}/">Home</a></li>
+      <li><a href="{{ site.baseurl }}/blog/">Blog</a></li>
+      <li aria-current="page">{{ page.title }}</li>
+    </ol>
+  </nav>
+</div>
+
+<div class="post-layout">
 
   <!-- MAIN ARTICLE -->
-  <article>
-    <h1>{{ page.title }}</h1>
+  <main class="post-main">
 
-    {{ content }}
-
-    <hr>
-
-    <!-- NEXT / PREVIOUS -->
-    <div class="nav-links">
-      
-      {% if page.previous %}
-        <a href="{{ site.baseurl }}{{ page.previous.url }}">← {{ page.previous.title }}</a>
+    <!-- Post header -->
+    <div class="post-header">
+      {% if page.category %}
+        <span class="post-cat-badge">{{ page.category }}</span>
+      {% else %}
+        <span class="post-cat-badge">PDF Guide</span>
       {% endif %}
-
-      {% if page.next %}
-        <a href="{{ site.baseurl }}{{ page.next.url }}">{{ page.next.title }} →</a>
-      {% endif %}
-
+      <h1 class="post-title">{{ page.title }}</h1>
+      <div class="post-meta">
+        <span class="post-meta-item">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg>
+          {{ page.date | date: "%B %d, %Y" }}
+        </span>
+        {% if page.author %}
+        <span class="post-meta-item">
+          <svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+          {{ page.author }}
+        </span>
+        {% endif %}
+        <span class="post-meta-item">
+          <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+          PDF Tools
+        </span>
+      </div>
     </div>
-  </article>
+
+    <!-- Article body -->
+    <article class="contents">
+      {{ content }}
+
+      <hr class="post-divider">
+
+      <!-- Next / Previous -->
+      <div class="post-nav-links">
+        {% if page.previous %}
+          <a href="{{ site.baseurl }}{{ page.previous.url }}" class="post-nav-btn post-nav-prev">
+            <svg viewBox="0 0 24 24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z"/></svg>
+            <span>
+              <small>Previous</small>
+              {{ page.previous.title }}
+            </span>
+          </a>
+        {% else %}
+          <div></div>
+        {% endif %}
+
+        {% if page.next %}
+          <a href="{{ site.baseurl }}{{ page.next.url }}" class="post-nav-btn post-nav-next">
+            <span>
+              <small>Next</small>
+              {{ page.next.title }}
+            </span>
+            <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+          </a>
+        {% endif %}
+      </div>
+    </article>
+
+  </main>
 
   <!-- SIDEBAR -->
-  <aside>
-    <h3>Recent Posts</h3>
-    <ul>
-      {% for post in site.posts limit:5 %}
-        <li>
-          <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
-        </li>
-      {% endfor %}
-    </ul>
+  <aside class="post-sidebar">
+
+    <!-- Try tool CTA -->
+    <div class="sidebar-cta">
+      <div class="sidebar-cta-icon">
+        <svg viewBox="0 0 24 24" fill="#1a73e8"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11zM8 15.01l1.41 1.41L11 14.84V19h2v-4.16l1.59 1.59L16 15.01 12.01 11 8 15.01z"/></svg>
+      </div>
+      <strong>Try PDF Splitter</strong>
+      <p>Split, remove &amp; manage PDF pages free — right in your browser.</p>
+      <a href="{{ site.baseurl }}/split.html" class="sidebar-cta-btn">Open PDF Tool →</a>
+    </div>
+
+    <!-- Recent posts -->
+    <div class="sidebar-widget">
+      <h3 class="sidebar-widget-title">
+        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+        Recent Posts
+      </h3>
+      <ul class="sidebar-posts-list">
+        {% for post in site.posts limit:5 %}
+          <li class="sidebar-post-item {% if post.url == page.url %}active{% endif %}">
+            <a href="{{ site.baseurl }}{{ post.url }}">
+              <span class="sidebar-post-icon">📄</span>
+              {{ post.title }}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <!-- Privacy badge -->
+    <div class="sidebar-privacy">
+      <div class="sidebar-privacy-row">
+        <span>🔒</span><strong>100% Private</strong>
+      </div>
+      <p>Files never leave your device. All processing is done locally in your browser.</p>
+    </div>
+
   </aside>
 
 </div>
