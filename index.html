@@ -613,6 +613,7 @@ description: Free browser-based PDF tools. Split pages, remove pages, and downlo
       document.getElementById('pt-landing').style.display = 'none';
       const toolEl = document.getElementById('pt-tool');
       toolEl.style.display = window.innerWidth >= 768 ? 'flex' : 'block';
+      toolEl.scrollIntoView({ behavior: 'smooth' });
       document.getElementById('pt-file-info').textContent = file.name;
 
       ptInitRangeUI();
