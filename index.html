@@ -107,8 +107,9 @@ description: Free browser-based PDF tools. Split pages, remove pages, and downlo
       #pt-tool {
         display: none; /* toggled to flex by JS */
         flex-direction: row;
-        height: 78vh;
-        min-height: 500px;
+         height: auto;
+  min-height: auto;
+  margin-top: 20px;
       }
       .pt-sidebar {
         width: 320px;
@@ -373,6 +374,33 @@ description: Free browser-based PDF tools. Split pages, remove pages, and downlo
       background: #fff; border-bottom: 1px solid var(--pt-border);
       white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
+
+
+    .pt-layout {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* Desktop */
+@media (min-width: 768px) {
+  .pt-layout {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  #pt-grid {
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  .pt-sidebar {
+    height: auto !important;
+    position: sticky;
+    top: 80px; /* below navbar */
+  }
+}
+
   </style>
 
 
@@ -405,8 +433,7 @@ description: Free browser-based PDF tools. Split pages, remove pages, and downlo
     <div id="pt-file-info"></div>
 
     <!-- Sidebar + Grid wrapper -->
-    <div style="display:flex; flex-direction:inherit; flex:1; min-height:0; width:100%;">
-
+<div class="pt-layout">
       <aside class="pt-sidebar">
         <!-- Mobile toggle -->
         <div class="pt-sidebar-toggle" id="pt-sidebar-toggle" onclick="ptToggleSidebar()">
@@ -592,6 +619,12 @@ description: Free browser-based PDF tools. Split pages, remove pages, and downlo
       ptBuildGrid();
     } catch (err) { alert('Error loading PDF: ' + err.message); }
     ptHideStatus();
+
+    document.getElementById('pt-landing').style.display = 'none';
+
+/* ✅ ADD THIS */
+document.querySelector('footer').style.display = 'none';
+
   }
 
   function tick(ms=20) { return new Promise(r => setTimeout(r, ms)); }
@@ -934,4 +967,3 @@ description: Free browser-based PDF tools. Split pages, remove pages, and downlo
 
 })();
 </script>
-
