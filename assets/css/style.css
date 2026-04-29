@@ -102,7 +102,6 @@ body {
     padding: 0 20px;
     position: relative;
     z-index: auto;
-    box-shadow: 0 1px 0 #e8e8e8, 0 2px 8px rgba(0,0,0,0.05);
 }
 
 /* Inner centering wrapper */
@@ -178,7 +177,6 @@ body {
     flex-direction: column;
     padding-top: var(--nav-height);
     box-sizing: border-box;
-    box-shadow: 4px 0 24px rgba(0,0,0,0.10);
 }
 .nav-menu.open { transform: translateX(0); }
 
