@@ -1,641 +1,147 @@
 ---
 layout: default
-title: Split PDF | Professional PDF Tools
-description: Free online tools to split, manage and download PDF files easily.
+title: PDF Tools – Split, Remove & Manage PDFs Free
+description: Free browser-based PDF tools. Split pages, remove pages, and download results instantly. No upload, no server – 100% private.
 ---
-<div class="post-grid">
-  {% for post in site.posts limit:5 %}
-    <div class="post-card">
-      <a href="{{ post.url }}">
-        <img src="{{ post.thumbnail }}" alt="{{ post.title }}">
+
+<!-- ===== HERO ===== -->
+<section class="hp-hero">
+  <div class="hp-hero-badge">🔒 100% Private — files stay on your device</div>
+  <h1 class="hp-hero-h1">Professional PDF Tools,<br><span class="hp-hero-accent">Free &amp; Private</span></h1>
+  <p class="hp-hero-sub">Split, remove pages, and manage PDFs right in your browser. No uploads. No accounts. No limits.</p>
+  <a href="/split.html" class="hp-cta-btn">
+    <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11zM8 15.01l1.41 1.41L11 14.84V19h2v-4.16l1.59 1.59L16 15.01 12.01 11 8 15.01z"/></svg>
+    Try PDF Splitter Free
+  </a>
+  <div class="hp-hero-stats">
+    <div class="hp-stat"><strong>0</strong><span>Uploads to server</span></div>
+    <div class="hp-stat-div"></div>
+    <div class="hp-stat"><strong>∞</strong><span>Files you can process</span></div>
+    <div class="hp-stat-div"></div>
+    <div class="hp-stat"><strong>Free</strong><span>Always, forever</span></div>
+  </div>
+</section>
+
+<!-- ===== TOOLS GRID ===== -->
+<section class="hp-section">
+  <h2 class="hp-section-title">Our Tools</h2>
+  <p class="hp-section-sub">Everything runs locally in your browser — fast, private, no sign-up needed.</p>
+
+  <div class="hp-tools-grid">
+    <a href="/split.html" class="hp-tool-card">
+      <div class="hp-tool-icon" style="background:#e8f0fe;">
+        <svg viewBox="0 0 24 24" fill="#1a73e8"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11zM8 15.01l1.41 1.41L11 14.84V19h2v-4.16l1.59 1.59L16 15.01 12.01 11 8 15.01z"/></svg>
+      </div>
+      <div class="hp-tool-body">
+        <h3>Split PDF</h3>
+        <p>Extract pages by range, custom selection, or fixed groups. Download as single PDF or ZIP.</p>
+        <span class="hp-tool-link">Open tool →</span>
+      </div>
+    </a>
+
+    <a href="/remove/" class="hp-tool-card">
+      <div class="hp-tool-icon" style="background:#fce8e6;">
+        <svg viewBox="0 0 24 24" fill="#d93025"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+      </div>
+      <div class="hp-tool-body">
+        <h3>Remove Pages</h3>
+        <p>Delete unwanted pages from any PDF in seconds. Preview every page before you confirm.</p>
+        <span class="hp-tool-link">Open tool →</span>
+      </div>
+    </a>
+
+    <div class="hp-tool-card hp-tool-coming">
+      <div class="hp-tool-icon" style="background:#e6f4ea;">
+        <svg viewBox="0 0 24 24" fill="#1e8e3e"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+      </div>
+      <div class="hp-tool-body">
+        <h3>Merge PDF <span class="hp-badge">Soon</span></h3>
+        <p>Combine multiple PDFs into one document with drag-and-drop page ordering.</p>
+        <span class="hp-tool-link" style="color:var(--text-sub)">Coming soon</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== HOW IT WORKS ===== -->
+<section class="hp-section hp-how">
+  <h2 class="hp-section-title">How It Works</h2>
+  <div class="hp-steps">
+    <div class="hp-step">
+      <div class="hp-step-num">1</div>
+      <h4>Open a Tool</h4>
+      <p>Choose Split PDF or Remove Pages above — no sign-up needed.</p>
+    </div>
+    <div class="hp-step-arrow">→</div>
+    <div class="hp-step">
+      <div class="hp-step-num">2</div>
+      <h4>Upload Your PDF</h4>
+      <p>Drag &amp; drop or click to select. Your file never leaves your device.</p>
+    </div>
+    <div class="hp-step-arrow">→</div>
+    <div class="hp-step">
+      <div class="hp-step-num">3</div>
+      <h4>Download Result</h4>
+      <p>Process and download instantly. That's it — clean and simple.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== WHY US ===== -->
+<section class="hp-section">
+  <h2 class="hp-section-title">Why PDF Tools?</h2>
+  <div class="hp-features">
+    <div class="hp-feature">
+      <div class="hp-feature-icon">🔒</div>
+      <h4>100% Private</h4>
+      <p>All processing happens in your browser using PDF.js and pdf-lib. Nothing is sent to any server.</p>
+    </div>
+    <div class="hp-feature">
+      <div class="hp-feature-icon">⚡</div>
+      <h4>Instant Processing</h4>
+      <p>No waiting for uploads or server queues. Results are ready in seconds on your own hardware.</p>
+    </div>
+    <div class="hp-feature">
+      <div class="hp-feature-icon">📱</div>
+      <h4>Works on Any Device</h4>
+      <p>Fully responsive on desktop, tablet, and mobile. Use it anywhere, anytime.</p>
+    </div>
+    <div class="hp-feature">
+      <div class="hp-feature-icon">🆓</div>
+      <h4>Completely Free</h4>
+      <p>No limits, no watermarks, no premium tiers. Every feature is free, always.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== RECENT BLOG POSTS ===== -->
+<section class="hp-section">
+  <div class="hp-blog-header">
+    <div>
+      <h2 class="hp-section-title" style="margin-bottom:4px;">Latest from the Blog</h2>
+      <p class="hp-section-sub" style="margin-bottom:0;">Tips and guides for working with PDFs.</p>
+    </div>
+    <a href="/blog/" class="hp-view-all">View all posts →</a>
+  </div>
+
+  <div class="hp-posts-grid">
+    {% for post in site.posts limit:3 %}
+    <a href="{{ post.url }}" class="hp-post-card">
+      <div class="hp-post-thumb">
+        {% if post.thumbnail %}
+          <img src="{{ post.thumbnail }}" alt="{{ post.title }}" loading="lazy">
+        {% else %}
+          <div class="hp-post-thumb-placeholder">
+            <svg viewBox="0 0 24 24" fill="#dadce0"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11zM8 13h8v2H8zm0-4h5v2H8z"/></svg>
+          </div>
+        {% endif %}
+      </div>
+      <div class="hp-post-body">
+        <span class="hp-post-date">{{ post.date | date: "%b %d, %Y" }}</span>
         <h3>{{ post.title }}</h3>
-      </a>
-      <p>{{ post.excerpt }}</p>
-    </div>
-  {% endfor %}
-</div>
-    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-
-    
-
-    <div id="fileInfo" style="font-size: 13px; font-weight: 600; color: var(--text-sub);"></div>
-
-
-<div id="landing-view">
-    <h1 class="hero-h1">Professional PDF Tools</h1>
-    <p class="hero-sub">Split, rotate, and manage PDF pages in your browser.</p>
-    
-    <div class="upload-container" id="drop-zone" onclick="document.getElementById('fIn').click()">
-        <svg class="upload-icon" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11zM8 15.01l1.41 1.41L11 14.84V19h2v-4.16l1.59 1.59L16 15.01 12.01 11 8 15.01z"/></svg>
-        <br>
-        <button class="btn-main-upload">Choose PDF File</button>
-        <p class="upload-text-small">or drag and drop here</p>
-    </div>
-    
-    <input type="file" id="fIn" accept=".pdf" class="hidden">
-    <p style="margin-top: 30px; color: var(--text-sub); font-size: 13px;">Privacy Guaranteed: Your files never leave your device.</p>
-</div>
-
-<div id="tool-view">
-    <aside class="sidebar">
-
-        <!-- Mobile toggle (hidden on desktop via CSS) -->
-        <div class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()">
-            <span class="sidebar-toggle-left">
-                <svg viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
-                Split Settings
-            </span>
-            <svg class="sidebar-chevron open" id="sidebarChevron" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
-        </div>
-
-        <div class="sidebar-body open" id="sidebarBody">
-            <div class="tab-group">
-                <div id="tab-range" class="tab active" onclick="setMode('range')">Range</div>
-                <div id="tab-manual" class="tab" onclick="setMode('manual')">Selection</div>
-                <div id="tab-remove" class="tab" onclick="setMode('remove')">Skip</div>
-            </div>
-            
-            <div id="panel-range">
-                <div class="range-label">Splitting Mode</div>
-
-                <!-- Hidden native select kept for JS compatibility -->
-                <select id="rangeModeSelect" class="hidden" onchange="toggleRangeUI()">
-                    <option value="single">Single Range (Output: .pdf)</option>
-                    <option value="custom">Multiple Ranges (Output: .zip)</option>
-                    <option value="fixed">Split into groups of... (Output: .zip)</option>
-                </select>
-
-                <!-- Custom styled dropdown -->
-                <div class="custom-select-wrap" id="customSelectWrap">
-                    <div class="custom-select-trigger" id="customSelectTrigger" onclick="toggleCustomSelect()">
-                        <span id="customSelectLabel">Single Range</span>
-                        <svg class="custom-select-arrow" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
-                    </div>
-                    <div class="custom-select-dropdown" id="customSelectDropdown">
-                        <div class="custom-select-option selected" data-value="single" onclick="selectCustomOption(this)">Single Range</div>
-                        <div class="custom-select-option" data-value="custom" onclick="selectCustomOption(this)">Multiple Ranges</div>
-                        <div class="custom-select-option" data-value="fixed" onclick="selectCustomOption(this)">Split into groups</div>
-                    </div>
-                </div>
-
-                <div id="range-list-container">
-                    <div class="range-label">Define Ranges</div>
-                    <div id="range-rows"></div>
-                    <button id="addRangeBtn" class="btn-add-range" onclick="addRangeRow()">+ Add Another Range</button>
-                </div>
-
-                <div id="fixed-group-container" class="hidden">
-                    <div class="range-label">Pages per PDF</div>
-                    <input type="number" id="fixedSize" value="5" min="1" oninput="updateRangeInfo(); buildGridDebounced()">
-                </div>
-
-                <div id="rangeInfo" class="info-box"></div>
-            </div>
-
-            <div id="panel-manual" class="hidden">
-                <p id="manualCount" style="font-weight: 700; color: var(--primary);">Selected: 0</p>
-            </div>
-            <div id="panel-remove" class="hidden">
-                <textarea id="skipInput" placeholder="Skip: 1, 3, 5-10" oninput="buildGridDebounced()"></textarea>
-            </div>
-
-            <div class="action-area">
-                <button class="btn-exec" onclick="processPdf('download')">Download Result</button>
-                <button class="btn-exec btn-share" onclick="processPdf('share')">Share Result</button>
-            </div>
-        </div>
-    </aside>
-
-    <main id="grid"></main>
-
-    <div class="mobile-action-bar">
-        <button class="btn-exec" onclick="processPdf('download')">Download</button>
-        <button class="btn-exec btn-share" onclick="processPdf('share')">Share</button>
-    </div>
-</div>
-
-<div id="zoomOverlay">
-    <button class="close-zoom" onclick="closeZoom()"><svg width="32" height="32" viewBox="0 0 24 24" fill="white"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button>
-    <canvas id="zoomCanvas"></canvas>
-    <div style="margin-top: 20px; display: flex; gap: 15px; width: 100%; max-width: 400px;">
-        <button class="btn-exec" style="background:white; color:black" onclick="modalRotate()">Rotate</button>
-        <button class="btn-exec" style="background:var(--danger)" id="modalDelBtn" onclick="modalToggleDel()">Remove</button>
-    </div>
-</div>
-
-<div id="statusOverlay"><div class="spinner"></div><p id="statusMsg" style="margin-top:18px; font-size:14px; font-weight:600; color:var(--text-sub);">Processing…</p></div>
-
-<!-- Result Modal -->
-<div id="resultModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.55); z-index:3000; align-items:center; justify-content:center; padding:20px;">
-    <div style="background:#fff; border-radius:20px; padding:32px 28px; width:100%; max-width:420px; box-shadow:0 20px 60px rgba(0,0,0,0.25); text-align:center; position:relative;">
-        <button onclick="closeResultModal()" style="position:absolute;top:14px;right:16px;border:none;background:none;cursor:pointer;color:var(--text-sub);font-size:22px;line-height:1;">×</button>
-        <div style="width:64px;height:64px;border-radius:50%;background:#e6f4ea;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;">
-            <svg width="34" height="34" viewBox="0 0 24 24" fill="#1e8e3e"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-        </div>
-        <h2 style="font-size:20px;font-weight:800;margin:0 0 6px;">PDF Ready!</h2>
-        <p style="font-size:13px;color:var(--text-sub);margin:0 0 4px;word-break:break-all;" id="resultFileName"></p>
-        <p style="font-size:12px;color:#aaa;margin:0 0 26px;" id="resultFileSize"></p>
-        <div style="display:flex;gap:12px;">
-            <button onclick="resultDownload()" style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;background:var(--primary);color:#fff;border:none;padding:14px;border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
-                Download
-            </button>
-            <button onclick="resultShare()" style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;background:#fff;color:var(--primary);border:2px solid var(--primary);padding:14px;border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg>
-                Share
-            </button>
-        </div>
-        <button onclick="closeResultModal()" style="width:100%;margin-top:12px;background:none;border:none;color:var(--text-sub);font-size:13px;cursor:pointer;padding:8px;">Continue editing</button>
-    </div>
-</div>
-
-<script>
-    const _PDFLib = window.PDFLib;
-    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
-
-    let rawBuffer = null, jsDoc = null, pageCount = 0;
-    let mode = 'range', selectedPages = new Set(), thumbCache = new Map();
-    let rotations = {}, manualDeletes = new Set();
-    let currentZoomedPg = null, originalFileName = "doc";
-    let sidebarOpen = true;
-
-    const fIn = document.getElementById('fIn');
-    const dropZone = document.getElementById('drop-zone');
-
-    fIn.onchange = (e) => handleFile(e.target.files[0]);
-    dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragging'); });
-    dropZone.addEventListener('dragleave', () => { dropZone.classList.remove('dragging'); });
-    dropZone.addEventListener('drop', (e) => {
-        e.preventDefault();
-        dropZone.classList.remove('dragging');
-        if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
-    });
-
-    function toggleSidebar() {
-        sidebarOpen = !sidebarOpen;
-        document.getElementById('sidebarBody').classList.toggle('open', sidebarOpen);
-        document.getElementById('sidebarChevron').classList.toggle('open', sidebarOpen);
-    }
-
-    async function handleFile(file) {
-        if (!file || file.type !== 'application/pdf') return alert("Please upload a PDF.");
-        originalFileName = file.name.replace(/\.[^/.]+$/, "");
-        document.getElementById('statusOverlay').style.display = 'flex';
-        document.getElementById('statusMsg').innerText = 'Reading PDF…';
-        // yield to let the overlay paint before blocking work
-        await new Promise(r => setTimeout(r, 30));
-        try {
-            rawBuffer = await file.arrayBuffer();
-            document.getElementById('statusMsg').innerText = 'Loading pages…';
-            await new Promise(r => setTimeout(r, 20));
-            jsDoc = await pdfjsLib.getDocument({data: rawBuffer.slice(0)}).promise;
-            pageCount = jsDoc.numPages;
-            document.getElementById('landing-view').style.display = 'none';
-            document.getElementById('tool-view').style.display = 'flex';
-            document.getElementById('fileInfo').innerText = file.name;
-            initRangeUI();
-            buildGrid();
-        } catch (err) { alert("Error loading PDF: " + err.message); }
-        document.getElementById('statusOverlay').style.display = 'none';
-    }
-
-    function initRangeUI() {
-        const container = document.getElementById('range-rows');
-        container.innerHTML = '';
-        addRangeRow(1, pageCount);
-        toggleRangeUI();
-    }
-
-    function addRangeRow(start = "", end = "") {
-        const div = document.createElement('div');
-        div.className = 'range-row';
-        div.innerHTML = `
-            <input type="number" class="r-start" value="${start}" placeholder="From" oninput="updateRangeInfo(); buildGridDebounced()">
-            <input type="number" class="r-end" value="${end}" placeholder="To" oninput="updateRangeInfo(); buildGridDebounced()">
-            <button class="btn-icon" onclick="removeRow(this)" style="color:var(--danger)">×</button>
-        `;
-        document.getElementById('range-rows').appendChild(div);
-        updateRangeInfo();
-    }
-
-    function removeRow(btn) {
-        if(document.querySelectorAll('.range-row').length > 1) {
-            btn.parentElement.remove();
-            updateRangeInfo();
-            buildGridDebounced(0);
-        }
-    }
-
-    function toggleRangeUI() {
-        const val = document.getElementById('rangeModeSelect').value;
-        const addBtn = document.getElementById('addRangeBtn');
-        
-        document.getElementById('range-list-container').classList.toggle('hidden', val === 'fixed');
-        document.getElementById('fixed-group-container').classList.toggle('hidden', val !== 'fixed');
-        
-        if (val === 'single') {
-            addBtn.classList.add('hidden');
-            while(document.querySelectorAll('.range-row').length > 1) document.querySelector('.range-row:last-child').remove();
-        } else if (val === 'custom') {
-            addBtn.classList.remove('hidden');
-        }
-        updateRangeInfo();
-        buildGridDebounced(0);
-    }
-
-    function updateRangeInfo() {
-        const modeSel = document.getElementById('rangeModeSelect').value;
-        const info = document.getElementById('rangeInfo');
-        if (modeSel === 'single') {
-            info.innerHTML = `Result will be a <b>single .pdf</b> file.`;
-        } else if (modeSel === 'custom') {
-            const count = document.querySelectorAll('.range-row').length;
-            info.innerHTML = `<b>${count}</b> PDFs will be created in a <b>.zip</b> archive.`;
-        } else {
-            const size = parseInt(document.getElementById('fixedSize').value) || 1;
-            const files = Math.ceil(pageCount / size);
-            info.innerHTML = `Splitting into groups of <b>${size}</b>.<br><b>${files}</b> PDFs will be created in a <b>.zip</b>.`;
-        }
-    }
-
-    function setMode(m) {
-        mode = m;
-        ['range', 'manual', 'remove'].forEach(k => {
-            document.getElementById(`tab-${k}`).classList.toggle('active', k === m);
-            document.getElementById(`panel-${k}`).classList.toggle('hidden', k !== m);
-        });
-        buildGridDebounced(0);
-    }
-
-    function rotatePg(num) {
-        rotations[num] = ((rotations[num] || 0) + 90) % 360;
-        // Fast path: just update the image transform without full rebuild
-        const img = document.getElementById(`img-${num}`);
-        if (img) img.style.transform = `rotate(${rotations[num]}deg)`;
-        // Invalidate cached thumb so zoom shows correct rotation
-        thumbCache.delete(num);
-        enqueueThumb(num);
-    }
-    function togglePgDel(num) {
-        manualDeletes.has(num) ? manualDeletes.delete(num) : manualDeletes.add(num);
-        // Fast path: just toggle CSS class on card
-        const item = document.querySelector(`.pg-item[data-pg="${num}"]`);
-        if (item) {
-            item.classList.toggle('to-remove', manualDeletes.has(num));
-        }
-    }
-    function openZoom(num) { currentZoomedPg = num; document.getElementById('zoomOverlay').style.display = 'flex'; renderZoom(num); }
-    function closeZoom() { document.getElementById('zoomOverlay').style.display = 'none'; }
-    function modalRotate() { rotatePg(currentZoomedPg); renderZoom(currentZoomedPg); }
-    function modalToggleDel() { togglePgDel(currentZoomedPg); closeZoom(); }
-
-    async function renderZoom(num) {
-        const canvas = document.getElementById('zoomCanvas');
-        const page = await jsDoc.getPage(num);
-        const rot = rotations[num] || 0;
-        const scale = Math.min((window.innerWidth * 0.9) / page.getViewport({scale:1}).width, 2.5);
-        const viewport = page.getViewport({ scale, rotation: rot });
-        canvas.width = viewport.width;
-        canvas.height = viewport.height;
-        await page.render({ canvasContext: canvas.getContext('2d'), viewport }).promise;
-    }
-
-    function parseRanges(str) {
-        const set = new Set();
-        str.replace(/,/g, ' ').split(/\s+/).forEach(p => {
-            if (p.includes('-')) {
-                const pts = p.split('-');
-                let s = parseInt(pts[0]), e = parseInt(pts[1]);
-                if (!isNaN(s) && !isNaN(e)) for (let i = Math.min(s,e); i <= Math.max(s,e); i++) set.add(i);
-            } else { let n = parseInt(p); if (!isNaN(n)) set.add(n); }
-        });
-        return set;
-    }
-
-    // ── Custom dropdown ──
-    function toggleCustomSelect() {
-        const trigger = document.getElementById('customSelectTrigger');
-        const dropdown = document.getElementById('customSelectDropdown');
-        const isOpen = dropdown.classList.contains('open');
-        if (isOpen) {
-            dropdown.classList.remove('open');
-            trigger.classList.remove('open');
-        } else {
-            dropdown.classList.add('open');
-            trigger.classList.add('open');
-        }
-    }
-
-    function selectCustomOption(el) {
-        const value = el.dataset.value;
-        // Update visual state
-        document.querySelectorAll('.custom-select-option').forEach(o => o.classList.remove('selected'));
-        el.classList.add('selected');
-        // Update label (strip badge text)
-        const labelMap = { single: 'Single Range', custom: 'Multiple Ranges', fixed: 'Split into groups' };
-        document.getElementById('customSelectLabel').textContent = labelMap[value];
-        // Close dropdown
-        document.getElementById('customSelectDropdown').classList.remove('open');
-        document.getElementById('customSelectTrigger').classList.remove('open');
-        // Sync hidden native select and trigger logic
-        const sel = document.getElementById('rangeModeSelect');
-        sel.value = value;
-        toggleRangeUI();
-    }
-
-    // Close dropdown when clicking outside
-    document.addEventListener('click', (e) => {
-        if (!document.getElementById('customSelectWrap')?.contains(e.target)) {
-            document.getElementById('customSelectDropdown')?.classList.remove('open');
-            document.getElementById('customSelectTrigger')?.classList.remove('open');
-        }
-    });
-
-    // ── Render queue: max 2 concurrent renders on mobile, 4 on desktop ──
-    const MAX_CONCURRENT = window.innerWidth < 768 ? 2 : 4;
-    let renderQueue = [], renderActive = 0, buildGridTimer = null;
-
-    function flushQueue() {
-        while (renderActive < MAX_CONCURRENT && renderQueue.length) {
-            const task = renderQueue.shift();
-            renderActive++;
-            task().finally(() => { renderActive--; flushQueue(); });
-        }
-    }
-
-    function enqueueThumb(id) {
-        // If already cached, apply immediately without queue
-        if (thumbCache.has(id)) {
-            const img = document.getElementById(`img-${id}`);
-            if (img) img.src = thumbCache.get(id);
-            return;
-        }
-        // Deduplicate: skip if already queued
-        if (renderQueue.some(t => t._id === id)) return;
-        const task = async () => {
-            const img = document.getElementById(`img-${id}`);
-            if (!img) return; // item removed before render
-            try {
-                const page = await jsDoc.getPage(id);
-                // Use slightly higher scale on retina but cap for performance
-                const thumbScale = Math.min(0.35, 150 / page.getViewport({scale:1}).width);
-                const viewport = page.getViewport({ scale: thumbScale });
-                const canvas = document.createElement('canvas');
-                canvas.width  = viewport.width;
-                canvas.height = viewport.height;
-                const ctx = canvas.getContext('2d', { willReadFrequently: false });
-                await page.render({ canvasContext: ctx, viewport }).promise;
-                const url = canvas.toDataURL('image/jpeg', 0.65);
-                thumbCache.set(id, url);
-                // Re-query in case DOM changed while rendering
-                const target = document.getElementById(`img-${id}`);
-                if (target) target.src = url;
-                // Help GC
-                canvas.width = canvas.height = 0;
-            } catch(e) { /* page fetch can fail if PDF changes */ }
-        };
-        task._id = id;
-        renderQueue.push(task);
-        flushQueue();
-    }
-
-    // Debounced buildGrid — prevents re-render on every keystroke
-    function buildGridDebounced(delay) {
-        if (buildGridTimer) clearTimeout(buildGridTimer);
-        buildGridTimer = setTimeout(buildGrid, delay != null ? delay : (window.innerWidth < 768 ? 400 : 150));
-    }
-
-    function buildGrid() {
-        if (!jsDoc) return;
-        buildGridTimer = null;
-        const container = document.getElementById('grid');
-
-        const activePages = new Set();
-        const rangeMode = document.getElementById('rangeModeSelect').value;
-
-        if (mode === 'range' && rangeMode !== 'fixed') {
-            document.querySelectorAll('.range-row').forEach(row => {
-                let s = parseInt(row.querySelector('.r-start').value),
-                    e = parseInt(row.querySelector('.r-end').value);
-                if (!isNaN(s) && !isNaN(e))
-                    for (let i = Math.min(s,e); i <= Math.max(s,e); i++) activePages.add(i);
-            });
-        } else {
-            for (let i = 1; i <= pageCount; i++) activePages.add(i);
-        }
-
-        const skipSet = mode === 'remove'
-            ? parseRanges(document.getElementById('skipInput').value)
-            : new Set();
-        if (mode === 'manual')
-            document.getElementById('manualCount').innerText = `Selected: ${selectedPages.size}`;
-
-        // ── Diff update: reuse existing DOM nodes instead of full innerHTML wipe ──
-        const existingIds = new Set();
-        container.querySelectorAll('.pg-item[data-pg]').forEach(el => existingIds.add(+el.dataset.pg));
-
-        const wantedPages = [];
-        for (let i = 1; i <= pageCount; i++) {
-            if (mode === 'range' && rangeMode !== 'fixed' && !activePages.has(i)) continue;
-            wantedPages.push(i);
-        }
-        const wantedSet = new Set(wantedPages);
-
-        // Remove items no longer needed
-        existingIds.forEach(id => {
-            if (!wantedSet.has(id)) {
-                const el = container.querySelector(`.pg-item[data-pg="${id}"]`);
-                if (el) el.remove();
-            }
-        });
-
-        // Insert/update items
-        wantedPages.forEach((i, idx) => {
-            const isRemoved = skipSet.has(i) || manualDeletes.has(i);
-            const isSelected = selectedPages.has(i) && mode === 'manual';
-            const rot = rotations[i] || 0;
-
-            let item = container.querySelector(`.pg-item[data-pg="${i}"]`);
-            if (!item) {
-                // Create fresh node
-                item = document.createElement('div');
-                item.dataset.pg = i;
-                item.innerHTML = `
-                    <div class="pg-tools">
-                        <button class="tool-btn del-btn" data-action="del"><svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button>
-                        <button class="tool-btn" data-action="rot"><svg viewBox="0 0 24 24"><path d="M15.55 5.55L11 1v4.07C7.06 5.56 4 8.93 4 13s3.06 7.44 7 7.93V18.9c-2.83-.48-5-2.94-5-5.9s2.17-5.42 5-5.9V11l4.55-4.45z"/></svg></button>
-                        <button class="tool-btn" data-action="zoom"><svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg></button>
-                    </div>
-                    <img id="img-${i}" draggable="false">
-                    <div class="pg-num">PAGE ${i}</div>
-                `;
-                // Single delegated listener per card
-                item.addEventListener('click', (e) => {
-                    const btn = e.target.closest('[data-action]');
-                    if (btn) {
-                        e.stopPropagation();
-                        const pg = +item.dataset.pg;
-                        if (btn.dataset.action === 'del')  { togglePgDel(pg); return; }
-                        if (btn.dataset.action === 'rot')  { rotatePg(pg);    return; }
-                        if (btn.dataset.action === 'zoom') { openZoom(pg);    return; }
-                    }
-                    if (mode === 'manual') {
-                        const pg = +item.dataset.pg;
-                        selectedPages.has(pg) ? selectedPages.delete(pg) : selectedPages.add(pg);
-                        buildGrid();
-                    }
-                });
-
-                // Insert at correct position
-                const refEl = container.querySelectorAll('.pg-item[data-pg]')[idx];
-                if (refEl) container.insertBefore(item, refEl);
-                else container.appendChild(item);
-            }
-
-            // Update classes
-            item.className = `pg-item${isSelected ? ' selected' : ''}${isRemoved ? ' to-remove' : ''}`;
-            // Update image rotation without re-rendering thumb
-            const imgEl = item.querySelector('img');
-            if (imgEl) imgEl.style.transform = `rotate(${rot}deg)`;
-
-            // Queue thumbnail render (no-op if cached)
-            enqueueThumb(i);
-        });
-    }
-
-    // Legacy alias kept for zoom/rotate calls that call buildGrid() directly
-    function renderThumb(id) { enqueueThumb(id); }
-
-    // Holds last compiled result for the result modal
-    let lastBlob = null, lastName = null;
-
-    async function processPdf(action) {
-        document.getElementById('statusOverlay').style.display = 'flex';
-        document.getElementById('statusMsg').innerText = 'Compiling your PDF…';
-        try {
-            const pdfDoc = await _PDFLib.PDFDocument.load(rawBuffer, { ignoreEncryption: true });
-            const rangeMode = document.getElementById('rangeModeSelect').value;
-            const skipSet = mode === 'remove' ? parseRanges(document.getElementById('skipInput').value) : new Set();
-            
-            let batches = [];
-
-            if (mode === 'range') {
-                if (rangeMode === 'single' || rangeMode === 'custom') {
-                    document.querySelectorAll('.range-row').forEach((row) => {
-                        let s = parseInt(row.querySelector('.r-start').value), e = parseInt(row.querySelector('.r-end').value);
-                        let pages = [];
-                        for(let i=s; i<=e; i++) if(!manualDeletes.has(i)) pages.push(i-1);
-                        // smart name: originalName_s-e.pdf
-                        if(pages.length) batches.push({ name: `${originalFileName}_${s}-${e}.pdf`, pages, s, e });
-                    });
-                } else {
-                    const size = parseInt(document.getElementById('fixedSize').value) || 1;
-                    for (let i = 0; i < pageCount; i += size) {
-                        let pages = [];
-                        for (let j = i; j < i + size && j < pageCount; j++) if (!manualDeletes.has(j+1)) pages.push(j);
-                        const s = i + 1, e = Math.min(i + size, pageCount);
-                        if(pages.length) batches.push({ name: `${originalFileName}_${s}-${e}.pdf`, pages, s, e });
-                    }
-                }
-            } else if (mode === 'manual') {
-                let sorted = Array.from(selectedPages).sort((a,b)=>a-b).filter(i => !manualDeletes.has(i));
-                let pages = sorted.map(i => i-1);
-                const s = sorted[0], e = sorted[sorted.length-1];
-                if(pages.length) batches.push({ name: `${originalFileName}_${s}-${e}.pdf`, pages, s, e });
-            } else {
-                let allPages = [];
-                for(let i=1; i<=pageCount; i++) if(!skipSet.has(i) && !manualDeletes.has(i)) allPages.push(i-1);
-                const s = allPages[0]+1, e = allPages[allPages.length-1]+1;
-                if(allPages.length) batches.push({ name: `${originalFileName}_${s}-${e}.pdf`, pages: allPages, s, e });
-            }
-
-            if(!batches.length) throw new Error("No pages to process");
-
-            let finalBlob, finalName;
-
-            if (batches.length === 1) {
-                const outDoc = await _PDFLib.PDFDocument.create();
-                for (const idx of batches[0].pages) {
-                    const [cp] = await outDoc.copyPages(pdfDoc, [idx]);
-                    if (rotations[idx+1]) cp.setRotation(_PDFLib.degrees((cp.getRotation().angle || 0) + rotations[idx+1]));
-                    outDoc.addPage(cp);
-                }
-                const bytes = await outDoc.save();
-                finalBlob = new Blob([bytes], {type:'application/pdf'});
-                finalName = batches[0].name;
-            } else {
-                const zip = new JSZip();
-                for (const batch of batches) {
-                    const outDoc = await _PDFLib.PDFDocument.create();
-                    for (const idx of batch.pages) {
-                        const [cp] = await outDoc.copyPages(pdfDoc, [idx]);
-                        if (rotations[idx+1]) cp.setRotation(_PDFLib.degrees((cp.getRotation().angle || 0) + rotations[idx+1]));
-                        outDoc.addPage(cp);
-                    }
-                    const bytes = await outDoc.save();
-                    zip.file(batch.name, bytes);
-                }
-                finalBlob = await zip.generateAsync({type:"blob"});
-                // zip name uses overall page span
-                const allPg = batches.flatMap(b => b.pages).map(p => p+1);
-                finalName = `${originalFileName}_${Math.min(...allPg)}-${Math.max(...allPg)}.zip`;
-            }
-
-            lastBlob = finalBlob;
-            lastName = finalName;
-            document.getElementById('statusOverlay').style.display = 'none';
-
-            if (action === 'download') {
-                triggerDownload(finalBlob, finalName);
-                showResultModal(finalName, finalBlob);
-            } else {
-                shareFile(finalBlob, finalName);
-            }
-
-        } catch (e) { 
-            alert(e.message); 
-            document.getElementById('statusOverlay').style.display = 'none';
-        }
-    }
-
-    function triggerDownload(blob, name) {
-        const l = document.createElement('a');
-        l.href = URL.createObjectURL(blob);
-        l.download = name;
-        l.click();
-    }
-
-    function shareFile(blob, name) {
-        const file = new File([blob], name, {type: blob.type});
-        if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
-            navigator.share({ files: [file], title: name });
-        } else if (navigator.share) {
-            navigator.share({ title: name, url: URL.createObjectURL(blob) });
-        } else {
-            triggerDownload(blob, name);
-            alert("Share not supported on this browser — file downloaded instead.");
-        }
-    }
-
-    function showResultModal(name, blob) {
-        document.getElementById('resultFileName').innerText = name;
-        const sizeMB = (blob.size / 1024 / 1024).toFixed(2);
-        const sizeKB = (blob.size / 1024).toFixed(0);
-        document.getElementById('resultFileSize').innerText = blob.size > 1024*1024 ? `${sizeMB} MB` : `${sizeKB} KB`;
-        document.getElementById('resultModal').style.display = 'flex';
-    }
-
-    function closeResultModal() {
-        document.getElementById('resultModal').style.display = 'none';
-    }
-
-    function resultDownload() {
-        if (lastBlob && lastName) triggerDownload(lastBlob, lastName);
-    }
-
-    function resultShare() {
-        if (lastBlob && lastName) shareFile(lastBlob, lastName);
-    }
-</script>
+        <p>{{ post.excerpt | strip_html | truncatewords: 20 }}</p>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+</section>

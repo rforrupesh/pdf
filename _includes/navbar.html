@@ -1,13 +1,49 @@
 <nav class="navbar">
   <div class="nav-container">
-    <a href="{{ site.baseurl }}/" class="logo">PDF Tools</a>
+    <a href="{{ site.baseurl }}/" class="logo">PDF<span class="logo-accent">Tools</span></a>
 
-    <div class="nav-links">
-      <a href="{{ site.baseurl }}/">Home</a>
-      <a href="{{ site.baseurl }}/split.html">Split PDF</a>
-      <a href="{{ site.baseurl }}/blog/">Blog</a>
-    <a href="{{ site.baseurl }}/remove/">Remove</a>
+    <!-- Hamburger button (mobile only) -->
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
 
+    <div class="nav-links" id="navLinks">
+      <a href="{{ site.baseurl }}/" class="nav-link">
+        <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+        Home
+      </a>
+      <a href="{{ site.baseurl }}/split.html" class="nav-link">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/></svg>
+        Split PDF
+      </a>
+      <a href="{{ site.baseurl }}/blog/" class="nav-link">
+        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+        Blog
+      </a>
+      <a href="{{ site.baseurl }}/remove/" class="nav-link">
+        <svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+        Remove Pages
+      </a>
     </div>
   </div>
 </nav>
+
+<script>
+(function(){
+  var btn = document.getElementById('navToggle');
+  var links = document.getElementById('navLinks');
+  if(!btn) return;
+  btn.addEventListener('click', function(){
+    var open = links.classList.toggle('open');
+    btn.classList.toggle('open', open);
+    btn.setAttribute('aria-expanded', open);
+  });
+  links.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){
+      links.classList.remove('open');
+      btn.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+    });
+  });
+})();
+</script>
