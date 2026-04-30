@@ -428,7 +428,6 @@ description: Free browser-based PDF tools. Split pages, remove pages, and downlo
   <div id="pt-tool">
 
     <!-- File info strip -->
-    <div id="pt-file-info"></div>
 
     <!-- Sidebar + Grid wrapper -->
 <div class="pt-layout">
@@ -612,7 +611,6 @@ description: Free browser-based PDF tools. Split pages, remove pages, and downlo
       const toolEl = document.getElementById('pt-tool');
       toolEl.style.display = window.innerWidth >= 768 ? 'flex' : 'block';
       toolEl.scrollIntoView({ behavior: 'smooth' });
-      document.getElementById('pt-file-info').textContent = file.name;
 
       ptInitRangeUI();
       ptBuildGrid();
