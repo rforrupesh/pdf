@@ -367,19 +367,15 @@ description: Free browser-based PDF tools. Split pages, remove pages, and downlo
 
     .pt-hidden { display: none !important; }
 
-    /* File info strip */
-    #pt-file-info {
-      padding: 8px 18px;
-      font-size: 12px; font-weight: 600; color: var(--pt-text-sub);
-      background: #fff; border-bottom: 1px solid var(--pt-border);
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    }
+
 
 
     .pt-layout {
   display: flex;
   flex-direction: column;
   width: 100%;
+  margin-top: 10px;
+
 }
 
 /* Desktop */
@@ -387,6 +383,8 @@ description: Free browser-based PDF tools. Split pages, remove pages, and downlo
   .pt-layout {
     flex-direction: row;
     align-items: flex-start;
+    margin-top: 10px;
+
   }
 
   #pt-grid {
@@ -624,8 +622,8 @@ description: Free browser-based PDF tools. Split pages, remove pages, and downlo
     document.getElementById('pt-landing').style.display = 'none';
 
 /* ✅ ADD THIS */
-document.querySelector('footer').style.display = 'none';
-
+const footer = document.querySelector('footer');
+if (footer) footer.style.display = 'none';
   }
 
   function tick(ms=20) { return new Promise(r => setTimeout(r, ms)); }
