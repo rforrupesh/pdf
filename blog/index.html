@@ -5,10 +5,12 @@ title: Blog
 
 <h1>Blog</h1>
 
-<ul>
-  {% for post in site.posts %}
+<ul class="post-list">
+  {% raw %}{% for post in site.posts %}{% endraw %}
     <li>
-      <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+      <a href="{% raw %}{{ site.baseurl }}{{ post.url }}{% endraw %}">
+        {% raw %}{{ post.title }}{% endraw %}
+      </a>
     </li>
-  {% endfor %}
+  {% raw %}{% endfor %}{% endraw %}
 </ul>
