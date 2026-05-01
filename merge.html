@@ -1,0 +1,629 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Responsive Navbar</title>
+
+<style>
+:root {
+  --bg: #ffffff;
+  --text: #222;
+  --border: #e5e5e5;
+}
+
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: system-ui, sans-serif;
+}
+
+/* NAVBAR */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px clamp(16px, 4vw, 28px);
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+
+/* LOGO */
+.logo img {
+  height: clamp(28px, 4vw, 40px);
+  width: auto;
+  display: block;
+}
+
+/* MENU */
+.menu {
+  display: flex;
+  gap: clamp(16px, 2vw, 28px);
+}
+
+.menu a {
+  text-decoration: none;
+  color: var(--text);
+  font-size: clamp(14px, 1.4vw, 16px);
+  line-height: 1.4;
+  transition: 0.2s;
+}
+
+.menu a:hover,
+.menu a:focus {
+  color: black;
+}
+
+/* HAMBURGER BUTTON */
+.icon-btn {
+  display: none;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+}
+
+.icon-btn:hover,
+.icon-btn:focus {
+  background: #f3f3f3;
+}
+
+/* HAMBURGER LINES */
+.line {
+  position: absolute;
+  left: 10px;
+  width: 22px;
+  height: 2px;
+  background: black;
+  transition: 0.3s;
+}
+
+.line:nth-child(1) { top: 13px; }
+.line:nth-child(2) { top: 20px; }
+.line:nth-child(3) { top: 27px; }
+
+/* ANIMATION TO X */
+.icon-btn.active .line:nth-child(1) {
+  transform: rotate(45deg);
+  top: 20px;
+}
+.icon-btn.active .line:nth-child(2) {
+  opacity: 0;
+}
+.icon-btn.active .line:nth-child(3) {
+  transform: rotate(-45deg);
+  top: 20px;
+}
+
+/* OVERLAY */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.3s;
+}
+
+.overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* CLOSE BUTTON (hidden on desktop) */
+.close-btn {
+  display: none;
+}
+
+/* MOBILE */
+@media (max-width: 900px) {
+
+  .icon-btn {
+    display: block;
+  }
+
+  .menu {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 85%;
+    height: 100vh;
+    background: #fff;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 90px 20px 30px;
+    gap: 10px;
+
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+
+    transition: 0.35s ease;
+    z-index: 1000;
+  }
+
+  .menu.active {
+    right: 0;
+  }
+
+  /* CLOSE BUTTON INSIDE MENU */
+  .close-btn {
+    display: flex;
+    position: absolute;
+    top: 16px;
+    right: 16px;
+
+    width: 40px;
+    height: 40px;
+
+    border: none;
+    border-radius: 10px;
+    background: #f3f3f3;
+
+    font-size: 20px;
+    cursor: pointer;
+
+    align-items: center;
+    justify-content: center;
+  }
+
+  .close-btn:hover {
+    background: #e5e5e5;
+  }
+
+  /* MOBILE LINKS */
+  .menu a {
+    font-size: clamp(15px, 4vw, 18px);
+    padding: 14px;
+    border-radius: 10px;
+  }
+
+  .menu a:hover {
+    background: #f5f5f5;
+  }
+
+  /* SCROLL FADE EFFECT */
+  .menu::after {
+    content: "";
+    position: sticky;
+    bottom: 0;
+    height: 20px;
+    background: linear-gradient(to top, white, transparent);
+  }
+}
+</style>
+
+<!-- PROFESSIONAL DRAG & DROP + TOOL UI (CSS UPGRADE) -->
+<style>
+
+/* TOOL WRAPPER */
+.tool {
+  max-width: 950px;
+  margin: 50px auto;
+  padding: 28px;
+  border-radius: 18px;
+  background: linear-gradient(180deg, #ffffff, #fafafa);
+  border: 1px solid var(--border);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+/* DROP ZONE */
+.drop-zone {
+  border: 2px dashed var(--border);
+  border-radius: 18px;
+  padding: 50px 20px;
+  text-align: center;
+  background: linear-gradient(180deg, #fafafa, #f3f3f3);
+  transition: all 0.25s ease;
+  cursor: pointer;
+  position: relative;
+}
+
+.drop-zone::before {
+  content: "📄";
+  font-size: 42px;
+  display: block;
+  margin-bottom: 12px;
+  opacity: 0.7;
+}
+
+.drop-zone strong {
+  display: block;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.drop-zone span {
+  font-size: 13px;
+  opacity: 0.6;
+}
+
+.drop-zone:hover {
+  border-color: #bbb;
+  transform: translateY(-2px);
+}
+
+.drop-zone.dragover {
+  background: #ececec;
+  border-color: black;
+  transform: scale(1.02);
+}
+
+/* ACTION BAR */
+.actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 22px 0 10px;
+}
+
+.actions button {
+  padding: 11px 16px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: white;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.actions button:hover {
+  background: #f5f5f5;
+}
+
+.tool .primary {
+  background: black;
+  color: white;
+  border: none;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.tool .primary:hover {
+  opacity: 0.9;
+}
+
+/* FILE LIST */
+#fileList {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding-top: 16px;
+}
+
+/* FILE CARD */
+.file-card {
+  min-width: 190px;
+  max-width: 220px;
+  padding: 16px;
+  border-radius: 16px;
+  background: #fff;
+  border: 1px solid var(--border);
+  cursor: grab;
+  flex-shrink: 0;
+  transition: all 0.25s ease;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.04);
+  position: relative;
+}
+
+.file-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+}
+
+.file-card.drag {
+  opacity: 0.4;
+  transform: scale(0.95);
+}
+
+/* FILE ICON */
+.file-card::before {
+  content: "📑";
+  font-size: 24px;
+  display: block;
+  margin-bottom: 10px;
+}
+
+/* FILE TITLE */
+.file-title {
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* FILE META */
+.file-meta {
+  font-size: 11px;
+  opacity: 0.5;
+  margin-bottom: 10px;
+}
+
+/* DELETE BUTTON */
+.delete-btn {
+  font-size: 12px;
+  color: #d11a2a;
+  cursor: pointer;
+  font-weight: 500;
+  text-align: right;
+}
+
+.delete-btn:hover {
+  text-decoration: underline;
+}
+
+/* EMPTY STATE */
+.empty-state {
+  text-align: center;
+  font-size: 13px;
+  opacity: 0.5;
+  padding: 20px;
+}
+
+/* SCROLLBAR (SUBTLE) */
+#fileList::-webkit-scrollbar {
+  height: 6px;
+}
+
+#fileList::-webkit-scrollbar-thumb {
+  background: #ddd;
+  border-radius: 10px;
+}
+
+#fileList::-webkit-scrollbar-thumb:hover {
+  background: #ccc;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<nav aria-label="Main Navigation">
+  
+  <!-- LOGO -->
+  <a href="#" class="logo">
+    <img src="https://instafonts.in/wp-content/uploads/2024/08/cropped-logofonts-1.webp" alt="PDF Tools Logo">
+  </a>
+
+  <!-- MENU -->
+  <div class="menu" id="menu">
+    <button class="close-btn" id="closeBtn" aria-label="Close menu">✕</button>
+
+    <a href="#">Merge PDF</a>
+    <a href="#">Split PDF</a>
+    <a href="#">Organize</a>
+    <a href="#">Remove Pages</a>
+    <a href="#">Compress</a>
+    <a href="#">Convert PDF</a>
+    <a href="#">Unlock PDF</a>
+    <a href="#">Protect PDF</a>
+    <a href="#">Rotate PDF</a>
+    <a href="#">Add Watermark</a>
+    <a href="#">Edit PDF</a>
+  </div>
+
+  <!-- HAMBURGER -->
+  <button class="icon-btn" id="btn" aria-label="Open menu">
+    <span class="line"></span>
+    <span class="line"></span>
+    <span class="line"></span>
+  </button>
+
+</nav>
+
+<div class="overlay" id="overlay"></div>
+
+
+
+<div class="tool">
+
+  <!-- DROP ZONE -->
+  <div class="drop-zone" id="dropZone">
+    <p>Drop PDFs here</p>
+    <p style="font-size:13px; opacity:0.6;">or click to choose files</p>
+    <input type="file" id="fileInput" multiple accept="application/pdf" hidden>
+  </div>
+
+  <!-- OPTIONS -->
+  <div id="options" style="display:none; margin-top:20px;">
+
+    <div class="actions">
+      <button onclick="sortFiles('asc')">Sort A–Z</button>
+      <button onclick="sortFiles('desc')">Sort Z–A</button>
+      <button class="primary" onclick="mergePDFs()">Merge PDF</button>
+    </div>
+
+    <!-- FILES -->
+    <div id="fileList"></div>
+
+  </div>
+
+</div>
+
+
+
+
+
+<script>
+let files = [];
+
+const input = document.getElementById("fileInput");
+const list = document.getElementById("fileList");
+const options = document.getElementById("options");
+const dropZone = document.getElementById("dropZone");
+
+// CLICK TO UPLOAD
+dropZone.addEventListener("click", () => input.click());
+
+// FILE SELECT
+input.addEventListener("change", (e) => {
+  addFiles(e.target.files);
+  input.value = "";
+});
+
+// DRAG & DROP
+dropZone.addEventListener("dragover", (e) => {
+  e.preventDefault();
+  dropZone.classList.add("dragover");
+});
+
+dropZone.addEventListener("dragleave", () => {
+  dropZone.classList.remove("dragover");
+});
+
+dropZone.addEventListener("drop", (e) => {
+  e.preventDefault();
+  dropZone.classList.remove("dragover");
+  addFiles(e.dataTransfer.files);
+});
+
+// ADD FILES
+function addFiles(newFiles) {
+  const pdfs = Array.from(newFiles).filter(f => f.type === "application/pdf");
+  if (!pdfs.length) return;
+
+  files.push(...pdfs);
+  options.style.display = "block";
+  render();
+}
+
+// RENDER FILES
+function render() {
+  list.innerHTML = "";
+
+  files.forEach((file, i) => {
+    const card = document.createElement("div");
+    card.className = "file-card";
+    card.draggable = true;
+
+    card.innerHTML = `
+      <div class="file-title" title="${file.name}">${file.name}</div>
+      <div class="delete-btn">Delete</div>
+    `;
+
+    // DELETE
+    card.querySelector(".delete-btn").onclick = () => {
+      files.splice(i, 1);
+      render();
+      if (files.length === 0) options.style.display = "none";
+    };
+
+    // DRAG
+    card.addEventListener("dragstart", () => card.classList.add("drag"));
+    card.addEventListener("dragend", () => card.classList.remove("drag"));
+
+    card.addEventListener("dragover", (e) => {
+      e.preventDefault();
+
+      const dragging = document.querySelector(".drag");
+      if (!dragging) return;
+
+      const nodes = [...list.children];
+      const from = nodes.indexOf(dragging);
+      const to = nodes.indexOf(card);
+
+      if (from < to) {
+        list.insertBefore(dragging, card.nextSibling);
+      } else {
+        list.insertBefore(dragging, card);
+      }
+
+      const moved = files.splice(from, 1)[0];
+      files.splice(to, 0, moved);
+    });
+
+    list.appendChild(card);
+  });
+}
+
+// SORT
+function sortFiles(type) {
+  files.sort((a, b) =>
+    type === "asc"
+      ? a.name.localeCompare(b.name)
+      : b.name.localeCompare(a.name)
+  );
+  render();
+}
+
+// MERGE
+async function mergePDFs() {
+  if (files.length < 2) {
+    alert("Select at least 2 PDFs");
+    return;
+  }
+
+  const { PDFDocument } = PDFLib;
+  const merged = await PDFDocument.create();
+
+  for (let f of files) {
+    const bytes = await f.arrayBuffer();
+    const pdf = await PDFDocument.load(bytes);
+    const pages = await merged.copyPages(pdf, pdf.getPageIndices());
+    pages.forEach(p => merged.addPage(p));
+  }
+
+  const out = await merged.save();
+
+  const name = files.map(f => f.name.replace(".pdf","")).join("_") + ".pdf";
+
+  const blob = new Blob([out], { type: "application/pdf" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = name;
+  a.click();
+}
+</script>    
+ 
+
+
+
+<script>
+const btn = document.getElementById("btn");
+const menu = document.getElementById("menu");
+const overlay = document.getElementById("overlay");
+const closeBtn = document.getElementById("closeBtn");
+
+/* OPEN MENU */
+btn.addEventListener("click", () => {
+  btn.classList.add("active");
+  menu.classList.add("active");
+  overlay.classList.add("active");
+  document.body.style.overflow = "hidden";
+});
+
+/* CLOSE MENU */
+function closeMenu() {
+  btn.classList.remove("active");
+  menu.classList.remove("active");
+  overlay.classList.remove("active");
+  document.body.style.overflow = "";
+}
+
+/* EVENTS */
+overlay.addEventListener("click", closeMenu);
+closeBtn.addEventListener("click", closeMenu);
+
+document.querySelectorAll(".menu a").forEach(link => {
+  link.addEventListener("click", closeMenu);
+});
+</script>
+<!-- PDF LIB -->
+<script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+
+
+</body>
+</html>
