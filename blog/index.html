@@ -6,18 +6,18 @@ title: Blog
 <h1 class="page-title">Blog</h1>
 
 <div class="cards">
-  {% raw %}{% for post in site.posts %}{% endraw %}
+  {% for post in site.posts %}
     
-    <a class="card blog-card" href="{% raw %}{{ post.url | relative_url }}{% endraw %}">
+    <a class="card blog-card" href="{{ post.url | relative_url }}">
       
       <img 
-        src="{% raw %}{{ post.thumbnail | default: 'https://instafonts.in/wp-content/uploads/2024/10/Font-for-Subtitles.webp' }}{% endraw %}" 
-        alt="{% raw %}{{ post.title }}{% endraw %}"
+        src="{{ post.thumbnail | default: 'https://instafonts.in/wp-content/uploads/2024/10/Font-for-Subtitles.webp' }}" 
+        alt="{{ post.title }}"
       >
 
-      <h3>{% raw %}{{ post.title }}{% endraw %}</h3>
+      <h3>{{ post.title }}</h3>
 
     </a>
 
-  {% raw %}{% endfor %}{% endraw %}
+  {% endfor %}
 </div>
