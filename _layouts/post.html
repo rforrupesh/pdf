@@ -15,37 +15,38 @@
 
 <div class="post-container">
 
-  <!-- MAIN -->
+  <!-- MAIN CONTENT -->
   <main class="post-main">
 
     <h1 class="post-title">{{ page.title }}</h1>
 
     {% if page.thumbnail %}
-      <img class="post-thumb" src="{{ page.thumbnail }}" alt="{{ page.title }}">
+      <img class="post-thumb" src="{{ page.thumbnail | relative_url }}" alt="{{ page.title }}">
     {% endif %}
 
     <article class="post-content" id="postContent">
       {{ content }}
     </article>
 
-    <!-- Related Articles -->
+    <!-- RELATED POSTS -->
     <div class="related">
       <h3>Related Articles</h3>
-      <div class="cards">
-        {% for post in site.posts limit:3 %}
+      <ul class="related-list">
+        {% for post in site.posts limit:5 %}
           {% if post.url != page.url %}
-            <a class="card blog-card" href="{{ post.url | relative_url }}">
-              <img src="{{ post.thumbnail | default: 'https://instafonts.in/wp-content/uploads/2024/10/Font-for-Subtitles.webp' }}">
-              <h3>{{ post.title }}</h3>
-            </a>
+            <li>
+              <a href="{{ post.url | relative_url }}">
+                {{ post.title }}
+              </a>
+            </li>
           {% endif %}
         {% endfor %}
-      </div>
+      </ul>
     </div>
 
   </main>
 
-  <!-- SIDEBAR -->
+  <!-- SIDEBAR TOC -->
   <aside class="post-sidebar">
     <div class="toc-box">
       <h4>Contents</h4>
@@ -68,10 +69,13 @@ headings.forEach((h, i) => {
 
   const li = document.createElement("li");
   const a = document.createElement("a");
+
   a.href = "#" + id;
   a.textContent = h.textContent;
 
-  if (h.tagName === "H3") li.style.marginLeft = "10px";
+  if (h.tagName === "H3") {
+    li.style.marginLeft = "10px";
+  }
 
   li.appendChild(a);
   toc.appendChild(li);
