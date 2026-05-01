@@ -63,14 +63,29 @@
 const toc = document.getElementById("toc");
 const headings = document.querySelectorAll("#postContent h2, #postContent h3");
 
-headings.forEach((h, i) => {
-  const id = "h" + i;
-  h.id = id;
+function slugify(text) {
+  return text.toLowerCase()
+    .replace(/[^a-z0-9\s]/g, '')
+    .trim()
+    .replace(/\s+/g, '-');
+}
+
+headings.forEach((h) => {
+  let id = h.id || slugify(h.textContent);
+
+  // avoid duplicate IDs
+  let uniqueId = id;
+  let i = 1;
+  while (document.getElementById(uniqueId)) {
+    uniqueId = id + "-" + i++;
+  }
+
+  h.id = uniqueId;
 
   const li = document.createElement("li");
   const a = document.createElement("a");
 
-  a.href = "#" + id;
+  a.href = "#" + uniqueId;
   a.textContent = h.textContent;
 
   if (h.tagName === "H3") {
@@ -81,6 +96,7 @@ headings.forEach((h, i) => {
   toc.appendChild(li);
 });
 </script>
+
 
 </body>
 </html>
