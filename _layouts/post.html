@@ -63,6 +63,8 @@
 const toc = document.getElementById("toc");
 const headings = document.querySelectorAll("#postContent h2, #postContent h3");
 
+const usedIds = new Set();
+
 function slugify(text) {
   return text.toLowerCase()
     .replace(/[^a-z0-9\s]/g, '')
@@ -71,15 +73,16 @@ function slugify(text) {
 }
 
 headings.forEach((h) => {
-  let id = h.id || slugify(h.textContent);
+  let baseId = h.id || slugify(h.textContent);
+  let uniqueId = baseId;
 
-  // avoid duplicate IDs
-  let uniqueId = id;
+  // only add -1, -2 if actually duplicate
   let i = 1;
-  while (document.getElementById(uniqueId)) {
-    uniqueId = id + "-" + i++;
+  while (usedIds.has(uniqueId)) {
+    uniqueId = baseId + "-" + i++;
   }
 
+  usedIds.add(uniqueId);
   h.id = uniqueId;
 
   const li = document.createElement("li");
