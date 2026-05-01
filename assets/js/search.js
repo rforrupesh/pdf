@@ -1,6 +1,6 @@
 let posts = [];
 
-fetch('/search.json')
+fetch('/pdf/search.json')
   .then(response => response.json())
   .then(data => posts = data);
 
