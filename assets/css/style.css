@@ -160,3 +160,21 @@ nav {
     z-index: 999;
   }
 }
+
+/* footer improvement */
+.footer {
+  text-align: center;
+  padding: 18px 12px;
+  margin-top: 40px;
+  font-size: 14px;
+  color: #777;
+  border-top: 1px solid #eee;
+}
+
+/* Mobile footer improvement */
+@media (max-width: 600px) {
+  .footer {
+    font-size: 12px;
+    padding: 16px 10px;
+  }
+}
