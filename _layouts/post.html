@@ -61,9 +61,7 @@
 <!-- TOC SCRIPT -->
 <script>
 const toc = document.getElementById("toc");
-const headings = document.querySelectorAll("#postContent h2, #postContent h3");
-
-const usedIds = new Set();
+const headings = document.querySelectorAll("#postContent h2"); // ONLY H2
 
 function slugify(text) {
   return text.toLowerCase()
@@ -73,27 +71,14 @@ function slugify(text) {
 }
 
 headings.forEach((h) => {
-  let baseId = h.id || slugify(h.textContent);
-  let uniqueId = baseId;
-
-  // only add -1, -2 if actually duplicate
-  let i = 1;
-  while (usedIds.has(uniqueId)) {
-    uniqueId = baseId + "-" + i++;
-  }
-
-  usedIds.add(uniqueId);
-  h.id = uniqueId;
+  let id = h.id || slugify(h.textContent);
+  h.id = id;
 
   const li = document.createElement("li");
   const a = document.createElement("a");
 
-  a.href = "#" + uniqueId;
+  a.href = "#" + id;
   a.textContent = h.textContent;
-
-  if (h.tagName === "H3") {
-    li.style.marginLeft = "10px";
-  }
 
   li.appendChild(a);
   toc.appendChild(li);
