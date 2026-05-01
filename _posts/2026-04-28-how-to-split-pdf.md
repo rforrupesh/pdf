@@ -1,6 +1,7 @@
 ---
 layout: post
-title: "How to Split PDF Easily"
+title: "post 1"
+thumbnail: /assets/img/Fancy-Text-Style.png
 ---
 
 This is a complete guide to split PDF files online.
