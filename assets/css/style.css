@@ -204,3 +204,30 @@ nav {
   transform: translateY(-3px);
   border-color: #ddd;
 }
+
+.post-breadcrumb-bar {
+  margin: 20px 0;
+  font-size: 13px;
+  color: #777;
+}
+
+.breadcrumb-nav a {
+  color: #555;
+  text-decoration: none;
+}
+
+.breadcrumb-nav a:hover {
+  text-decoration: underline;
+}
+
+.post-main {
+  max-width: 700px;
+  margin: auto;
+  padding: 10px 15px;
+}
+
+.post-main .section-body {
+  font-size: 15px;
+  line-height: 1.8;
+  color: #444;
+}
