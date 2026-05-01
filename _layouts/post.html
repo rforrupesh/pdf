@@ -8,27 +8,75 @@
 {% include navbar.html %}
 
 <!-- Breadcrumb -->
-<div class="post-breadcrumb-bar">
-  <nav class="breadcrumb-nav">
-    <a href="{{ '/' | relative_url }}">Home</a> /
-    <a href="{{ '/blog/' | relative_url }}">Blog</a> /
-    <span>{{ page.title }}</span>
-  </nav>
+<div class="post-breadcrumb">
+  <a href="{{ '/' | relative_url }}">Home</a> /
+  <a href="{{ '/blog/' | relative_url }}">Blog</a>
 </div>
 
-<main class="post-main">
+<div class="post-container">
 
-  <!-- Title -->
-  <h1 class="page-title">{{ page.title }}</h1>
+  <!-- MAIN -->
+  <main class="post-main">
 
-  <!-- Content -->
-  <article class="section-body">
-    {{ content }}
-  </article>
+    <h1 class="post-title">{{ page.title }}</h1>
 
-</main>
+    {% if page.thumbnail %}
+      <img class="post-thumb" src="{{ page.thumbnail }}" alt="{{ page.title }}">
+    {% endif %}
+
+    <article class="post-content" id="postContent">
+      {{ content }}
+    </article>
+
+    <!-- Related Articles -->
+    <div class="related">
+      <h3>Related Articles</h3>
+      <div class="cards">
+        {% for post in site.posts limit:3 %}
+          {% if post.url != page.url %}
+            <a class="card blog-card" href="{{ post.url | relative_url }}">
+              <img src="{{ post.thumbnail | default: 'https://instafonts.in/wp-content/uploads/2024/10/Font-for-Subtitles.webp' }}">
+              <h3>{{ post.title }}</h3>
+            </a>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+
+  </main>
+
+  <!-- SIDEBAR -->
+  <aside class="post-sidebar">
+    <div class="toc-box">
+      <h4>Contents</h4>
+      <ul id="toc"></ul>
+    </div>
+  </aside>
+
+</div>
 
 {% include footer.html %}
+
+<!-- TOC SCRIPT -->
+<script>
+const toc = document.getElementById("toc");
+const headings = document.querySelectorAll("#postContent h2, #postContent h3");
+
+headings.forEach((h, i) => {
+  const id = "h" + i;
+  h.id = id;
+
+  const li = document.createElement("li");
+  const a = document.createElement("a");
+  a.href = "#" + id;
+  a.textContent = h.textContent;
+
+  if (h.tagName === "H3") li.style.marginLeft = "10px";
+
+  li.appendChild(a);
+  toc.appendChild(li);
+});
+</script>
 
 </body>
 </html>
