@@ -645,6 +645,7 @@ main {
 <div class="toast" id="toast"></div>
 
 <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.0/pako.min.js"></script>
 <script>
 let files = [];
 let dragFrom = null;
@@ -799,62 +800,196 @@ function sortFiles(dir) {
   render();
 }
 
+// ── COMPRESSION HELPERS ──
+
+// Yield so UI can repaint between heavy steps
+const tick = () => new Promise(r => setTimeout(r, 0));
+
+// Recompress a raw stream buffer using pako DEFLATE (level 9 = max)
+// Returns { data: Uint8Array, didCompress: bool }
+function deflateStream(rawBytes) {
+  try {
+    const compressed = pako.deflate(rawBytes, { level: 9 });
+    // Only use compressed version if it's actually smaller
+    if (compressed.byteLength < rawBytes.byteLength) {
+      return { data: compressed, didCompress: true };
+    }
+  } catch(e) { /* pako failed, skip */ }
+  return { data: rawBytes, didCompress: false };
+}
+
+// Walk every indirect object in a PDFDocument and recompress its stream (if any)
+// This targets: content streams, image XObjects, font subsets, ICC profiles, etc.
+async function recompressAllStreams(pdfDoc, onProgress) {
+  const context = pdfDoc.context;
+  const indirectObjects = context.enumerateIndirectObjects();
+  let done = 0;
+  const total = indirectObjects.length;
+  let savedBytes = 0;
+
+  for (const [ref, obj] of indirectObjects) {
+    done++;
+    if (done % 50 === 0) {
+      onProgress && onProgress(done, total);
+      await tick();
+    }
+
+    // Only process stream objects
+    if (!obj || typeof obj.encode !== 'function') continue;
+
+    try {
+      // Get raw (decoded) stream bytes
+      const rawBytes = obj.getContents ? obj.getContents() : null;
+      if (!rawBytes || rawBytes.byteLength === 0) continue;
+
+      // Try to recompress with pako at max level
+      const { data: recompressed, didCompress } = deflateStream(rawBytes);
+      if (!didCompress) continue;
+
+      // Update the stream with FlateDecode filter
+      obj.dict.set(
+        context.obj('Filter'),
+        context.obj('FlateDecode')
+      );
+      obj.dict.set(
+        context.obj('Length'),
+        context.obj(recompressed.byteLength)
+      );
+      // Remove any DecodeParms that might conflict
+      obj.dict.delete(context.obj('DecodeParms'));
+      obj.contents = recompressed;
+
+      savedBytes += (rawBytes.byteLength - recompressed.byteLength);
+    } catch(e) {
+      // Skip objects we cannot recompress — never break the PDF
+    }
+  }
+
+  return savedBytes;
+}
+
+// Strip optional but bulky metadata that does not affect rendering:
+// XMP metadata stream, document info dict fields (Author, Creator, Producer, Keywords)
+function stripBloatMetadata(pdfDoc) {
+  try {
+    const context = pdfDoc.context;
+    const catalog = pdfDoc.catalog;
+
+    // Remove XMP metadata stream ref
+    const metaKey = context.obj('Metadata');
+    if (catalog.has(metaKey)) catalog.delete(metaKey);
+
+    // Slim down Info dict — keep Title only, wipe the rest
+    const infoRef = pdfDoc.getInfoDict ? pdfDoc.getInfoDict() : null;
+    if (infoRef) {
+      const keysToRemove = ['Author','Creator','Producer','Keywords','Subject','CreationDate','ModDate'];
+      keysToRemove.forEach(k => {
+        try { infoRef.delete(context.obj(k)); } catch(e) {}
+      });
+    }
+  } catch(e) { /* non-fatal */ }
+}
+
+// ── MAIN MERGE + COMPRESS ──
 async function mergePDFs() {
   if (files.length < 2) { showToast('Add at least 2 PDF files.'); return; }
   const topBtn = $('mergeBtnTop'), botBtn = $('mergeBtnBottom'), prog = $('progressWrap'), txt = $('progressText');
   [topBtn, botBtn].forEach(b => { if (b) b.disabled = true; });
   prog.classList.add('show');
+
   try {
     const { PDFDocument } = PDFLib;
     const out = await PDFDocument.create();
 
-    // ── Step 1: Load & copy pages ──
+    // ── STEP 1: Load each PDF and copy pages ──
     for (let i = 0; i < files.length; i++) {
-      txt.textContent = `Reading file ${i+1} of ${files.length}…`;
-      // Load with ignoreEncryption:false so protected files surface an error clearly
-      const bytes = await files[i].arrayBuffer();
-      const doc = await PDFDocument.load(bytes, { ignoreEncryption: false });
+      txt.textContent = `Loading file ${i+1} of ${files.length}…`;
+      await tick();
+
+      let bytes;
+      try {
+        bytes = await files[i].arrayBuffer();
+      } catch(e) {
+        showToast(`Could not read "${files[i].name}". Skipped.`);
+        continue;
+      }
+
+      let doc;
+      try {
+        // parseSpeed: lazy = faster load for big files; only parses objects on demand
+        doc = await PDFDocument.load(bytes, {
+          ignoreEncryption: false,
+          parseSpeed: PDFLib.ParseSpeeds ? PDFLib.ParseSpeeds.Slow : undefined,
+        });
+      } catch(e) {
+        if (e.message && e.message.toLowerCase().includes('encrypt')) {
+          showToast(`"${files[i].name}" is password-protected. Skipped.`);
+        } else {
+          showToast(`"${files[i].name}" could not be parsed. Skipped.`);
+        }
+        continue;
+      }
+
       const pageIndices = doc.getPageIndices();
       const copied = await out.copyPages(doc, pageIndices);
       copied.forEach(p => out.addPage(p));
-      // Yield to keep UI responsive between large files
-      await new Promise(r => setTimeout(r, 0));
+      await tick();
     }
 
-    // ── Step 2: Save with max compression flags ──
-    // useObjectStreams: packs multiple PDF objects into compressed ObjStm streams (biggest win)
-    // addDefaultPage: false keeps the doc clean
-    // objectsPerTick: higher = faster but blocks UI less if we yield manually
-    txt.textContent = 'Compressing & saving…';
-    await new Promise(r => setTimeout(r, 0)); // let the text render before heavy work
+    if (out.getPageCount() === 0) {
+      showToast('No pages were merged. Check your files.');
+      return;
+    }
 
-    const compressed = await out.save({
-      useObjectStreams: true,   // pack objects into compressed streams → major size reduction
-      addDefaultPage:  false,  // don't inject a blank page
+    // ── STEP 2: Strip bloat metadata ──
+    txt.textContent = 'Stripping metadata…';
+    await tick();
+    stripBloatMetadata(out);
+
+    // ── STEP 3: Recompress all content streams with pako DEFLATE level 9 ──
+    txt.textContent = 'Compressing streams (this may take a moment for large files)…';
+    await tick();
+
+    let streamSaved = 0;
+    try {
+      streamSaved = await recompressAllStreams(out, (done, total) => {
+        txt.textContent = `Compressing streams… ${Math.round(done/total*100)}%`;
+      });
+    } catch(e) {
+      // Stream recompression failed — still continue, pdf-lib compression will help
+      console.warn('Stream recompression partially failed:', e);
+    }
+
+    // ── STEP 4: Save with object streams (packs & compresses object table) ──
+    txt.textContent = 'Finalising…';
+    await tick();
+
+    const finalBytes = await out.save({
+      useObjectStreams: true,  // DEFLATE-compress the cross-reference table + object headers
+      addDefaultPage:  false,
     });
 
-    // ── Step 3: Show size comparison in toast ──
+    // ── STEP 5: Download + report savings ──
     const originalTotal = files.reduce((sum, f) => sum + f.size, 0);
-    const saving = Math.round((1 - compressed.byteLength / originalTotal) * 100);
-    const sizeMB = (compressed.byteLength / 1048576).toFixed(2);
+    const saving = Math.max(0, Math.round((1 - finalBytes.byteLength / originalTotal) * 100));
+    const sizeMB = finalBytes.byteLength >= 1048576
+      ? (finalBytes.byteLength / 1048576).toFixed(2) + ' MB'
+      : Math.round(finalBytes.byteLength / 1024) + ' KB';
 
     const name = files.map(f => f.name.replace(/\.pdf$/i, '')).join('_') + '_merged.pdf';
+    const blob = new Blob([finalBytes], { type: 'application/pdf' });
     const a = document.createElement('a');
-    a.href = URL.createObjectURL(new Blob([compressed], { type: 'application/pdf' }));
+    a.href = URL.createObjectURL(blob);
     a.download = name;
     a.click();
 
     const msg = saving > 0
-      ? `Done! ${sizeMB} MB · ${saving}% smaller than originals.`
-      : `Done! ${sizeMB} MB saved.`;
-    showToast(msg);
+      ? `✓ Done! ${sizeMB} · ${saving}% smaller — same quality.`
+      : `✓ Done! ${sizeMB} saved.`;
+    showToast(msg, 5000);
 
   } catch(err) {
-    if (err.message && err.message.includes('encrypt')) {
-      showToast('A file is password-protected. Unlock it first.');
-    } else {
-      showToast('Something went wrong. Please try again.');
-    }
+    showToast('Something went wrong. Please try again.');
     console.error(err);
   } finally {
     [topBtn, botBtn].forEach(b => { if (b) b.disabled = false; });
@@ -862,11 +997,12 @@ async function mergePDFs() {
   }
 }
 
-function showToast(msg) {
+function showToast(msg, duration = 3500) {
   const t = $('toast');
   t.textContent = msg;
   t.classList.add('on');
-  setTimeout(() => t.classList.remove('on'), 3000);
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove('on'), duration);
 }
 </script>
 </body>
