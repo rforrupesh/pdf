@@ -3,14 +3,21 @@ layout: default
 title: Blog
 ---
 
-<h1>Blog</h1>
+<h1 class="page-title">Blog</h1>
 
-<ul class="post-list">
+<div class="cards">
   {% raw %}{% for post in site.posts %}{% endraw %}
-    <li>
-      <a href="{% raw %}{{ site.baseurl }}{{ post.url }}{% endraw %}">
-        {% raw %}{{ post.title }}{% endraw %}
-      </a>
-    </li>
+    
+    <a class="card blog-card" href="{% raw %}{{ post.url | relative_url }}{% endraw %}">
+      
+      <img 
+        src="{% raw %}{{ post.thumbnail | default: 'https://instafonts.in/wp-content/uploads/2024/10/Font-for-Subtitles.webp' }}{% endraw %}" 
+        alt="{% raw %}{{ post.title }}{% endraw %}"
+      >
+
+      <h3>{% raw %}{{ post.title }}{% endraw %}</h3>
+
+    </a>
+
   {% raw %}{% endfor %}{% endraw %}
-</ul>
+</div>
