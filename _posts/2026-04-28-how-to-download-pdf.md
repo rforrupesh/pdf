@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "How to Download PDF"
+thumbnail: /assets/img/Fancy-Text-Style.png
 ---
 
 <h1>How to Download PDF</h1>
