@@ -807,21 +807,54 @@ async function mergePDFs() {
   try {
     const { PDFDocument } = PDFLib;
     const out = await PDFDocument.create();
+
+    // ── Step 1: Load & copy pages ──
     for (let i = 0; i < files.length; i++) {
-      txt.textContent = `Processing ${i+1} of ${files.length}…`;
-      const doc = await PDFDocument.load(await files[i].arrayBuffer());
-      const pages = await out.copyPages(doc, doc.getPageIndices());
-      pages.forEach(p => out.addPage(p));
+      txt.textContent = `Reading file ${i+1} of ${files.length}…`;
+      // Load with ignoreEncryption:false so protected files surface an error clearly
+      const bytes = await files[i].arrayBuffer();
+      const doc = await PDFDocument.load(bytes, { ignoreEncryption: false });
+      const pageIndices = doc.getPageIndices();
+      const copied = await out.copyPages(doc, pageIndices);
+      copied.forEach(p => out.addPage(p));
+      // Yield to keep UI responsive between large files
+      await new Promise(r => setTimeout(r, 0));
     }
-    txt.textContent = 'Saving file…';
-    const bytes = await out.save();
-    const name = files.map(f => f.name.replace(/\.pdf$/i,'')).join('_') + '.pdf';
+
+    // ── Step 2: Save with max compression flags ──
+    // useObjectStreams: packs multiple PDF objects into compressed ObjStm streams (biggest win)
+    // addDefaultPage: false keeps the doc clean
+    // objectsPerTick: higher = faster but blocks UI less if we yield manually
+    txt.textContent = 'Compressing & saving…';
+    await new Promise(r => setTimeout(r, 0)); // let the text render before heavy work
+
+    const compressed = await out.save({
+      useObjectStreams: true,   // pack objects into compressed streams → major size reduction
+      addDefaultPage:  false,  // don't inject a blank page
+    });
+
+    // ── Step 3: Show size comparison in toast ──
+    const originalTotal = files.reduce((sum, f) => sum + f.size, 0);
+    const saving = Math.round((1 - compressed.byteLength / originalTotal) * 100);
+    const sizeMB = (compressed.byteLength / 1048576).toFixed(2);
+
+    const name = files.map(f => f.name.replace(/\.pdf$/i, '')).join('_') + '_merged.pdf';
     const a = document.createElement('a');
-    a.href = URL.createObjectURL(new Blob([bytes], { type: 'application/pdf' }));
-    a.download = name; a.click();
-    showToast('Done! Downloading now.');
+    a.href = URL.createObjectURL(new Blob([compressed], { type: 'application/pdf' }));
+    a.download = name;
+    a.click();
+
+    const msg = saving > 0
+      ? `Done! ${sizeMB} MB · ${saving}% smaller than originals.`
+      : `Done! ${sizeMB} MB saved.`;
+    showToast(msg);
+
   } catch(err) {
-    showToast('Something went wrong. Please try again.');
+    if (err.message && err.message.includes('encrypt')) {
+      showToast('A file is password-protected. Unlock it first.');
+    } else {
+      showToast('Something went wrong. Please try again.');
+    }
     console.error(err);
   } finally {
     [topBtn, botBtn].forEach(b => { if (b) b.disabled = false; });
