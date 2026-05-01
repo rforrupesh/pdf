@@ -208,154 +208,196 @@ nav {
 /* =========================
    CONTENT BASE
 ========================= */
-.post-content {
-  font-size: clamp(15px, 1.5vw, 18px);
-  line-height: 1.8;
-  color: #333;
-  word-wrap: break-word;
+.post-container {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: 1fr 280px; /* Content | Sidebar */
+  gap: 50px;
+  align-items: start;
+}
+
+/* Responsive Layout */
+@media (max-width: 992px) {
+  .post-container {
+    grid-template-columns: 1fr; /* Stack sidebar on tablet/mobile */
+    margin: 20px auto;
+    gap: 30px;
+  }
 }
 
 /* =========================
-   LINKS
+   TYPOGRAPHY & CONTENT
 ========================= */
-.post-content a {
-  color: #2563eb;
-  text-decoration: none;
-  border-bottom: 1px solid rgba(37, 99, 235, 0.3);
-  transition: all 0.2s ease;
+.post-main {
+  min-width: 0; /* Prevents overflow in grid items */
 }
 
-.post-content a:hover {
-  border-bottom-color: #2563eb;
+.post-title {
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 20px;
+  color: #111;
 }
 
-/* External link icon */
-.post-content a[href^="http"]::after {
-  content: " ↗";
-  font-size: 0.75em;
-  color: #888;
-}
-
-/* =========================
-   IMAGES
-========================= */
-.post-content img {
-  max-width: 100%;
+.post-thumb {
+  width: 100%;
   height: auto;
-  border-radius: 8px;
-  margin: 16px 0;
-  display: block;
+  border-radius: 12px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+.post-content {
+  font-size: clamp(16px, 1.1vw, 18px);
+  line-height: 1.8;
+  color: #374151; /* Slightly softer than pure black */
+}
+
+.post-content h2 {
+  font-size: 1.6em;
+  margin: 40px 0 16px;
+  color: #111;
+}
+
+.post-content h3 {
+  font-size: 1.3em;
+  margin: 30px 0 12px;
+}
+
+.post-content p {
+  margin-bottom: 20px;
 }
 
 /* =========================
-   TABLE (Improved)
+   SIDEBAR & TOC
 ========================= */
-.post-content .table-wrapper {
+.post-sidebar {
+  position: sticky;
+  top: 20px; /* Keeps TOC visible while scrolling */
+}
+
+.toc-box {
+  background: #f8fafc;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+}
+
+.toc-box h4 {
+  margin-bottom: 12px;
+  font-size: 18px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #64748b;
+}
+
+#toc {
+  list-style: none;
+  padding: 0;
+}
+
+#toc li {
+  margin-bottom: 10px;
+}
+
+#toc a {
+  text-decoration: none;
+  color: #4b5563;
+  font-size: 15px;
+  transition: color 0.2s;
+  display: block;
+  line-height: 1.4;
+}
+
+#toc a:hover {
+  color: #2563eb;
+}
+
+/* =========================
+   ENHANCED ELEMENTS
+========================= */
+
+/* Better Tables */
+.table-wrapper {
   overflow-x: auto;
-  margin: 20px 0;
+  border-radius: 8px;
+  border: 1px solid #eee;
+  margin: 30px 0;
 }
 
 .post-content table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 500px; /* prevents squishing */
-}
-
-.post-content th,
-.post-content td {
-  border: 1px solid #eee;
-  padding: 10px;
-  text-align: left;
 }
 
 .post-content th {
-  background: #f9f9f9;
+  background: #f3f4f6;
+  padding: 12px;
   font-weight: 600;
 }
 
-/* =========================
-   LISTS
-========================= */
-.post-content ul,
-.post-content ol {
-  padding-left: 20px;
-  margin: 15px 0;
+.post-content td {
+  padding: 12px;
+  border-top: 1px solid #eee;
 }
 
-.post-content li {
-  margin: 6px 0;
-}
-
-/* =========================
-   CODE BLOCK
-========================= */
+/* Better Code Blocks */
 .post-content pre {
-  background: #111;
-  color: #eee;
-  padding: 14px;
+  background: #1e293b;
+  color: #f8fafc;
+  padding: 20px;
   border-radius: 8px;
   overflow-x: auto;
-  margin: 20px 0;
-  font-size: clamp(12px, 1.2vw, 14px);
-}
-
-.post-content code {
-  font-family: monospace;
-}
-
-/* Inline code */
-.post-content p code {
-  background: #f3f3f3;
-  padding: 2px 6px;
-  border-radius: 4px;
-  color: #d6336c;
-}
-
-/* =========================
-   VIDEO / IFRAME (Responsive Fix)
-========================= */
-.post-content .video-wrapper {
+  font-family: 'Courier New', Courier, monospace;
   position: relative;
-  width: 100%;
-  padding-top: 56.25%; /* 16:9 ratio */
-  margin: 20px 0;
 }
 
-.post-content .video-wrapper iframe {
+/* Responsive Video Fix */
+.video-wrapper {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 */
+  height: 0;
+  overflow: hidden;
+  margin: 30px 0;
+  border-radius: 12px;
+}
+
+.video-wrapper iframe {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border: 0;
-  border-radius: 8px;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
 }
 
-/* =========================
-   MOBILE RESPONSIVE
-========================= */
-@media (max-width: 768px) {
-  .post-content {
-    line-height: 1.7;
-  }
-
-  .post-content ul,
-  .post-content ol {
-    padding-left: 18px;
-  }
+/* Breadcrumb */
+.post-breadcrumb {
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: #666;
 }
 
-@media (max-width: 480px) {
-  .post-content {
-    font-size: 15px;
-  }
+.post-breadcrumb a {
+  color: #2563eb;
+  text-decoration: none;
+}
 
-  .post-content pre {
-    padding: 10px;
-  }
+/* Related Posts */
+.related {
+  margin-top: 50px;
+  padding-top: 30px;
+  border-top: 1px solid #eee;
+}
 
-  .post-content th,
-  .post-content td {
-    padding: 8px;
-  }
+.related-list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+@media (max-width: 600px) {
+  .related-list { grid-template-columns: 1fr; }
 }
