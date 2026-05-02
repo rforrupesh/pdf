@@ -210,19 +210,32 @@ nav {
 ========================= */
 .post-container {
   max-width: 1100px;
-  margin: 40px auto;
+  margin: 32px auto;
   padding: 0 20px;
   display: grid;
   grid-template-columns: 1fr 260px;
-  grid-template-rows: auto 1fr;
   gap: 0 50px;
   align-items: start;
 }
 
-/* Breadcrumb spans full width above both columns */
+/* Main content — column 1 */
+.post-main {
+  min-width: 0;
+  grid-column: 1;
+}
+
+/* Sidebar — column 2 */
+.post-sidebar {
+  grid-column: 2;
+  position: sticky;
+  top: 24px;
+}
+
+/* =========================
+   BREADCRUMB
+========================= */
 .post-breadcrumb {
-  grid-column: 1 / -1;
-  margin-bottom: 16px;
+  margin-bottom: 10px;
   font-size: 13px;
   color: #94a3b8;
   display: flex;
@@ -239,19 +252,6 @@ nav {
 
 .post-breadcrumb a:hover {
   color: #1d4ed8;
-}
-
-/* Main content — column 1 */
-.post-main {
-  min-width: 0;
-  grid-column: 1;
-}
-
-/* Sidebar — column 2 */
-.post-sidebar {
-  grid-column: 2;
-  position: sticky;
-  top: 24px;
 }
 
 /* =========================
@@ -274,6 +274,7 @@ nav {
   margin-bottom: 32px;
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.09);
   display: block;
+  loading: lazy;
 }
 
 /* =========================
@@ -385,7 +386,6 @@ nav {
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.07);
-  /* mobile scroll */
   display: block;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
@@ -431,6 +431,7 @@ nav {
   line-height: 1.65;
   margin: 24px 0;
   -webkit-overflow-scrolling: touch;
+  position: relative;
 }
 
 .post-content code {
@@ -589,12 +590,12 @@ nav {
     margin: 24px auto;
   }
 
-  /* Correct order: breadcrumb → sidebar TOC → content */
+  /* Order: breadcrumb → main content → sidebar TOC */
   .post-breadcrumb { order: 1; }
-  .post-sidebar    { order: 2; grid-column: 1; position: static; }
-  .post-main       { order: 3; }
+  .post-main       { order: 2; grid-column: 1; }
+  .post-sidebar    { order: 3; grid-column: 1; position: static; }
 
-  /* TOC becomes pill strip on tablet/mobile */
+  /* TOC becomes pill strip */
   #toc {
     display: flex;
     flex-wrap: wrap;
@@ -615,6 +616,15 @@ nav {
   #toc a.active {
     background: #dbeafe;
     color: #2563eb;
+    padding-left: 14px;
+  }
+
+  /* Hide h3 arrow on mobile pills */
+  .toc-h3 > a::before {
+    content: "";
+  }
+
+  .toc-h3 > a {
     padding-left: 14px;
   }
 }
@@ -643,25 +653,3 @@ nav {
   }
 }
 
-/* Breadcrumb no longer a grid item — remove full-width span */
-.post-breadcrumb {
-  grid-column: unset;
-  margin-bottom: 10px;
-  font-size: 13px;
-  color: #94a3b8;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  flex-wrap: wrap;
-}
-
-/* Container — single row, no row gap needed */
-.post-container {
-  max-width: 1100px;
-  margin: 32px auto;
-  padding: 0 20px;
-  display: grid;
-  grid-template-columns: 1fr 260px;
-  gap: 0 50px;
-  align-items: start;
-}
