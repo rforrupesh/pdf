@@ -3,4 +3,4 @@ theme: null
 markdown: kramdown
 kramdown:
   auto_ids: true
-  auto_id_stripping: true
+  auto_id_stripping: false
