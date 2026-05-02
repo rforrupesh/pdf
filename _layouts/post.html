@@ -40,46 +40,64 @@
 
   </main>
 
-  <!-- SIDEBAR TOC — rendered server-side, visible to Google -->
-<aside class="post-sidebar">
-  <div class="toc-box">
-    <h4>Contents</h4>
-    <ul id="toc">
-      {% assign headers = content | split: '<h' %}
-      {% for block in headers %}
-        {% assign level = block | slice: 0, 1 %}
-        {% if level == '2' or level == '3' %}
-          {% if block contains '</h' %}
-            {% assign text_part = block | split: '>' | slice: 1, 99 | join: '>' | split: '</h' | first %}
-            {% assign text_clean = text_part | strip_html | strip %}
-            {% assign id = text_clean | downcase | replace: ' ', '_' | remove: '?' | remove: '!' | remove: ',' | remove: ':' | remove: "'" | remove: '"' | remove: '(' | remove: ')' %}
-            <li class="toc-h{{ level }}">
-              <a href="#{{ id }}">{{ text_clean }}</a>
-            </li>
+  <!-- SIDEBAR TOC — server-side, visible to Google -->
+  <aside class="post-sidebar">
+    <div class="toc-box">
+      <h4>Contents</h4>
+      <ul id="toc">
+        {% assign headers = content | split: '<h' %}
+        {% for block in headers %}
+          {% assign level = block | slice: 0, 1 %}
+          {% if level == '2' or level == '3' %}
+            {% if block contains '</h' %}
+              {% assign text_part = block | split: '>' | slice: 1, 99 | join: '>' | split: '</h' | first %}
+              {% assign text_clean = text_part | strip_html | strip %}
+              {% assign id = text_clean
+                | downcase
+                | replace: ' ', '_'
+                | remove: '.'
+                | remove: '?'
+                | remove: '!'
+                | remove: ','
+                | remove: ':'
+                | remove: "'"
+                | remove: '"'
+                | remove: '('
+                | remove: ')'
+                | remove: '-'
+                | remove: '/'
+                | remove: '#'
+                | remove: '@'
+                | remove: '&'
+                | remove: '%'
+                | remove: '+'
+                | remove: '='
+              %}
+              <li class="toc-h{{ level }}">
+                <a href="#{{ id }}">{{ text_clean }}</a>
+              </li>
+            {% endif %}
           {% endif %}
-        {% endif %}
-      {% endfor %}
-    </ul>
-  </div>
-</aside>
+        {% endfor %}
+      </ul>
+    </div>
+  </aside>
 
-  
 </div>
 
 {% include footer.html %}
 
-<!-- TOC active highlight on scroll only — no DOM building needed -->
 <script>
 (function () {
   const content = document.getElementById("postContent");
   const headings = content.querySelectorAll("h2, h3");
   const tocLinks = document.querySelectorAll("#toc a");
 
-  // Set correct IDs on headings to match Liquid-generated TOC links
+  // Set IDs on headings — must match Liquid logic exactly
   headings.forEach(function (h) {
     const id = h.textContent.trim()
       .toLowerCase()
-      .replace(/[^a-z0-9\s]/g, "")
+      .replace(/[^a-z0-9\s]/g, "")  // removes . ! ? , : # - / @ & % + = ( ) etc
       .trim()
       .replace(/\s+/g, "_");
     h.id = id;
