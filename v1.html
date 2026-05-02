@@ -8,59 +8,14 @@
   <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <link rel="stylesheet" href="https://rforrupesh.github.io/pdf/assets/css/style.css">
+  <link rel="stylesheet" href="https://rforrupesh.github.io/pdf/assets/css/toolblog.css">
+
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    :root {
-      --bg: #fff;
-      --border: #e5e5e2;
-      --primary: #2563eb;
-      --primary-dark: #1d4ed8;
-      --danger: #ef4444;
-      --text: #1a1a1a;
-      --muted: #888;
-      --surface: #f9f9f7;
-      --radius: 10px;
-    }
 
-    body {
-      font-family: 'Inter', sans-serif;
-      background: #fff;
-      color: var(--text);
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    /* ─── NAV ─── */
-    nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 24px;
-      height: 52px;
-      border-bottom: 1px solid var(--border);
-      background: #fff;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-    .logo img { height: 32px; display: block; }
-    .menu { display: flex; gap: 20px; }
-    .menu a { font-size: 13px; color: var(--text); text-decoration: none; font-weight: 500; }
-    .menu a:hover { color: var(--primary); }
-    .icon-btn { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
-    .icon-btn .line { width: 20px; height: 2px; background: var(--text); border-radius: 2px; }
-
-    /* ─── MAIN ─── */
-    main {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 40px 20px 80px;
-    }
-
-    /* ─── PDF TOOL WRAPPER ─── */
     .pdf-tool-wrap { width: 100%; position: relative; }
 
-    /* ─── LANDING ─── */
     #pt-landing {
       display: flex;
       flex-direction: column;
@@ -111,30 +66,15 @@
       justify-content: center;
       margin: 0 auto 14px;
     }
-    .pt-upload-icon-wrap svg {
-      width: 22px;
-      height: 22px;
-      fill: #555;
-    }
+    .pt-upload-icon-wrap svg { width: 22px; height: 22px; fill: #555; }
 
-    .pt-upload-container h2 {
-      font-size: 16px;
-      font-weight: 600;
-      margin-bottom: 6px;
-    }
-    .pt-upload-container p {
-      font-size: 13px;
-      color: #999;
-      margin-bottom: 20px;
-    }
+    .pt-upload-container h2 { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+    .pt-upload-container p { font-size: 13px; color: #999; margin-bottom: 20px; }
 
     #pt-fIn {
       position: absolute;
-      width: 1px;
-      height: 1px;
-      overflow: hidden;
-      opacity: 0;
-      pointer-events: none;
+      width: 1px; height: 1px;
+      overflow: hidden; opacity: 0; pointer-events: none;
     }
 
     .pt-btn-upload {
@@ -157,7 +97,6 @@
 
     .pt-upload-note { margin-top: 12px; color: #bbb; font-size: 12px; }
 
-    /* ─── TOOL VIEW ─── */
     #pt-tool { display: none; }
 
     .pt-layout {
@@ -167,7 +106,6 @@
       margin-top: 14px;
     }
 
-    /* ─── SIDEBAR ─── */
     .pt-sidebar {
       width: 268px;
       flex-shrink: 0;
@@ -197,21 +135,8 @@
       font-weight: 600;
       color: var(--primary);
     }
-
-    .pt-toggle-left svg {
-      width: 16px !important;
-      height: 16px !important;
-      flex-shrink: 0;
-      fill: var(--primary);
-    }
-
-    .pt-toggle-chevron {
-      width: 18px !important;
-      height: 18px !important;
-      flex-shrink: 0;
-      fill: #aaa;
-      transition: transform .25s;
-    }
+    .pt-toggle-left svg { width: 16px !important; height: 16px !important; flex-shrink: 0; fill: var(--primary); }
+    .pt-toggle-chevron { width: 18px !important; height: 18px !important; flex-shrink: 0; fill: #aaa; transition: transform .25s; }
     .pt-toggle-chevron.open { transform: rotate(180deg); }
 
     .pt-sidebar-body {
@@ -220,12 +145,8 @@
       transition: max-height .3s ease;
       padding: 0 14px;
     }
-    .pt-sidebar-body.open {
-      max-height: 9999px;
-      padding: 14px;
-    }
+    .pt-sidebar-body.open { max-height: 9999px; padding: 14px; }
 
-    /* ─── TABS ─── */
     .pt-tab-group {
       display: flex;
       background: #f3f3f0;
@@ -247,13 +168,8 @@
       cursor: pointer;
       transition: background .15s, color .15s;
     }
-    .pt-tab.active {
-      background: #fff;
-      color: var(--primary);
-      box-shadow: 0 1px 4px rgba(0,0,0,.08);
-    }
+    .pt-tab.active { background: #fff; color: var(--primary); box-shadow: 0 1px 4px rgba(0,0,0,.08); }
 
-    /* ─── LABELS / INPUTS ─── */
     .pt-label {
       font-size: 11px;
       font-weight: 600;
@@ -282,24 +198,16 @@
     .pt-sidebar-body input[type="number"]:focus,
     .pt-sidebar-body textarea:focus { border-color: var(--primary); }
 
-    .pt-range-row {
-      display: flex;
-      gap: 7px;
-      align-items: center;
-      margin-bottom: 6px;
-    }
+    .pt-range-row { display: flex; gap: 7px; align-items: center; margin-bottom: 6px; }
     .pt-range-row input { margin-bottom: 0; flex: 1; }
 
     .pt-btn-icon {
-      width: 34px;
-      height: 34px;
+      width: 34px; height: 34px;
       border-radius: 7px;
       border: 1px solid var(--border);
       background: #fff;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       font-size: 16px;
       color: var(--danger);
       flex-shrink: 0;
@@ -334,7 +242,6 @@
     }
     .pt-info-box b { font-weight: 600; }
 
-    /* ─── CUSTOM DROPDOWN ─── */
     .pt-cs-wrap { position: relative; margin-bottom: 10px; }
     .pt-cs-trigger {
       width: 100%;
@@ -354,17 +261,8 @@
     }
     .pt-cs-trigger:hover,
     .pt-cs-trigger.open { border-color: var(--primary); }
-
-    .pt-cs-arrow {
-      width: 16px !important;
-      height: 16px !important;
-      flex-shrink: 0;
-      fill: var(--muted);
-      transition: transform .2s;
-      pointer-events: none;
-    }
+    .pt-cs-arrow { width: 16px !important; height: 16px !important; flex-shrink: 0; fill: var(--muted); transition: transform .2s; pointer-events: none; }
     .pt-cs-trigger.open .pt-cs-arrow { transform: rotate(180deg); }
-
     .pt-cs-dropdown {
       display: none;
       position: absolute;
@@ -398,13 +296,7 @@
       flex-shrink: 0;
     }
 
-    /* ─── ACTION BUTTONS ─── */
-    .pt-action-area {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      margin-top: 14px;
-    }
+    .pt-action-area { display: flex; flex-direction: column; gap: 8px; margin-top: 14px; }
     .pt-btn-exec {
       background: var(--primary);
       color: #fff;
@@ -419,14 +311,9 @@
     }
     .pt-btn-exec:hover { background: var(--primary-dark); }
     .pt-btn-exec:disabled { background: #93aedd; cursor: default; }
-    .pt-btn-share {
-      background: #fff;
-      color: var(--primary);
-      border: 1px solid #c7d7f7;
-    }
+    .pt-btn-share { background: #fff; color: var(--primary); border: 1px solid #c7d7f7; }
     .pt-btn-share:hover { background: #EEF3FD; }
 
-    /* ─── PAGE GRID ─── */
     #pt-grid {
       flex: 1;
       min-width: 0;
@@ -441,7 +328,6 @@
       min-height: 200px;
     }
 
-    /* ─── PAGE CARDS ─── */
     .pt-pg-item {
       background: #fff;
       border: 1px solid var(--border);
@@ -459,53 +345,30 @@
       border-radius: 4px;
       display: block;
     }
-    .pt-pg-num {
-      margin-top: 7px;
-      font-size: 11px;
-      font-weight: 500;
-      text-align: center;
-      color: var(--muted);
-    }
-    .pt-pg-tools {
-      position: absolute;
-      top: 6px;
-      right: 6px;
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      z-index: 5;
-    }
+    .pt-pg-num { margin-top: 7px; font-size: 11px; font-weight: 500; text-align: center; color: var(--muted); }
+    .pt-pg-tools { position: absolute; top: 6px; right: 6px; display: flex; flex-direction: column; gap: 5px; z-index: 5; }
 
     .pt-tool-btn {
-      width: 30px;
-      height: 30px;
+      width: 30px; height: 30px;
       border-radius: 6px;
       border: 1px solid var(--border);
       background: #fff;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       color: var(--muted);
       transition: background .15s, color .15s;
     }
     .pt-tool-btn:hover { background: #f3f3f0; color: #444; }
     .pt-tool-btn.del { color: var(--danger); }
     .pt-tool-btn.del:hover { background: #fef2f2; }
-    .pt-tool-btn svg {
-      width: 14px !important;
-      height: 14px !important;
-      fill: currentColor;
-    }
+    .pt-tool-btn svg { width: 14px !important; height: 14px !important; fill: currentColor; }
 
     .pt-pg-item.selected { border: 2px solid var(--primary); background: #EEF3FD; }
     .pt-pg-item.to-remove { border: 1.5px solid var(--danger); opacity: .4; }
     .pt-pg-item.to-remove img { filter: grayscale(1); }
 
-    /* ─── HIDDEN UTILITY ─── */
     .pt-hidden { display: none !important; }
 
-    /* ─── STATUS OVERLAY ─── */
     #pt-status {
       position: fixed;
       inset: 0;
@@ -517,8 +380,7 @@
       z-index: 9100;
     }
     .pt-spinner {
-      width: 34px;
-      height: 34px;
+      width: 34px; height: 34px;
       border: 3px solid var(--border);
       border-top-color: var(--primary);
       border-radius: 50%;
@@ -527,7 +389,6 @@
     @keyframes ptSpin { to { transform: rotate(360deg); } }
     #pt-status-msg { margin-top: 14px; font-size: 13px; font-weight: 500; color: var(--muted); }
 
-    /* ─── ZOOM OVERLAY ─── */
     #pt-zoom {
       position: fixed;
       inset: 0;
@@ -544,7 +405,6 @@
     .pt-zoom-actions { margin-top: 16px; display: flex; gap: 12px; width: 100%; max-width: 320px; }
     .pt-zoom-actions .pt-btn-exec { flex: 1; }
 
-    /* ─── RESULT MODAL ─── */
     #pt-result-modal {
       display: none;
       position: fixed;
@@ -565,13 +425,7 @@
       text-align: center;
       position: relative;
     }
-    .pt-modal-close {
-      position: absolute;
-      top: 12px; right: 14px;
-      border: none; background: none;
-      cursor: pointer; color: #aaa;
-      font-size: 22px; line-height: 1;
-    }
+    .pt-modal-close { position: absolute; top: 12px; right: 14px; border: none; background: none; cursor: pointer; color: #aaa; font-size: 22px; line-height: 1; }
     .pt-modal-icon {
       width: 52px; height: 52px;
       border-radius: 50%;
@@ -598,7 +452,6 @@
     .pt-modal-btns svg { width: 14px; height: 14px; fill: currentColor; flex-shrink: 0; }
     .pt-modal-continue { width: 100%; margin-top: 8px; background: none; border: none; color: var(--muted); font-size: 12px; cursor: pointer; padding: 6px; font-family: 'Inter', sans-serif; }
 
-    /* ─── MOBILE BOTTOM BAR ─── */
     .pt-mobile-bar {
       display: none;
       position: sticky;
@@ -612,55 +465,29 @@
     }
     .pt-mobile-bar .pt-btn-exec { flex: 1; }
 
-    /* ═══════════════════════════════════════════════
-       MOBILE — SCROLL BUG FIXES
-       Three root causes fixed:
-       1. .pt-layout align-items: flex-start was not
-          overridden, so #pt-grid never stretched to
-          full width and had nothing to scroll within.
-       2. #pt-grid lacked an explicit width, letting it
-          grow with content instead of being clamped.
-       3. touch-action was missing, so iOS/Android
-          browsers sometimes swallowed the gesture.
-    ═══════════════════════════════════════════════ */
     @media (max-width: 767px) {
-      /* FIX 1: stretch children to fill full column width */
-      .pt-layout {
-        flex-direction: column;
-        align-items: stretch;
-      }
-
+      .pt-layout { flex-direction: column; align-items: stretch; }
       .pt-sidebar { width: 100%; position: static; }
       .pt-sidebar-body { max-height: 0; padding: 0 14px; }
       .pt-sidebar-body.open { max-height: 55vh; overflow-y: auto; padding: 14px; }
-
-      /* FIX 2 & 3: explicit width + touch-action */
       #pt-grid {
         display: flex !important;
         flex-direction: row;
         flex-wrap: nowrap;
-        width: 100%;          /* clamp to viewport so overflow-x kicks in */
+        width: 100%;
         max-width: 100%;
-        min-height: unset;    /* remove desktop min-height causing dead space */
+        min-height: unset;
         overflow-x: auto;
         overflow-y: hidden;
         padding: 12px;
         gap: 10px;
-        touch-action: pan-x;  /* tell browser: horizontal swipe = scroll */
+        touch-action: pan-x;
         -webkit-overflow-scrolling: touch;
         grid-template-columns: none;
       }
-
       #pt-grid::-webkit-scrollbar { height: 3px; }
       #pt-grid::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
-
-      /* FIX: cards must not shrink and allow tap without blocking scroll */
-      .pt-pg-item {
-        flex-shrink: 0;
-        width: 110px;
-        touch-action: manipulation;
-      }
-
+      .pt-pg-item { flex-shrink: 0; width: 110px; touch-action: manipulation; }
       .pt-action-area { display: none !important; }
       .pt-mobile-bar { display: flex; }
       .menu { display: none; }
@@ -671,44 +498,47 @@
       .pt-pg-item { width: 96px; }
     }
 
-    /* ─── FOOTER ─── */
-    footer {
-      text-align: center;
-      padding: 20px;
-      font-size: 12px;
-      color: #bbb;
-      border-top: 1px solid var(--border);
-    }
   </style>
 </head>
 <body>
 
-<nav>
-  <a href="#" class="logo">
-    <img src="https://instafonts.in/wp-content/uploads/2024/08/cropped-logofonts-1.webp" alt="PDF Tools">
+<nav aria-label="Main Navigation">
+  
+  <!-- LOGO -->
+  <a href="https://rforrupesh.github.io/pdf/" class="logo">
+    <img src="https://instafonts.in/wp-content/uploads/2024/08/cropped-logofonts-1.webp" alt="PDF Tools Logo">
   </a>
-  <div class="menu">
-    <a href="#">Merge PDF</a>
-    <a href="#">Split PDF</a>
+
+  <!-- MENU -->
+  <div class="menu" id="menu">
+
+    <a href="https://rforrupesh.github.io/pdf/merge/">Merge PDF</a>
+    <a href="https://rforrupesh.github.io/pdf/split/">Split PDF</a>
     <a href="#">Organize</a>
     <a href="#">Remove Pages</a>
     <a href="#">Compress</a>
     <a href="#">Convert PDF</a>
     <a href="#">Unlock PDF</a>
     <a href="#">Protect PDF</a>
-    <a href="#">Blog</a>
+        <a href="https://rforrupesh.github.io/pdf/blog/">Blog</a>
+
+  
   </div>
-  <button class="icon-btn" id="menuBtn" aria-label="Open menu">
+
+  <!-- HAMBURGER -->
+  <button class="icon-btn" id="btn" aria-label="Open menu">
     <span class="line"></span>
     <span class="line"></span>
     <span class="line"></span>
   </button>
+
 </nav>
+
+<div class="overlay" id="overlay"></div>
 
 <main>
   <div class="pdf-tool-wrap">
 
-    <!-- ── LANDING ── -->
     <div id="pt-landing">
       <h1 class="pt-hero-h1">Professional PDF Tools</h1>
       <p class="pt-hero-sub">Split, rotate, and manage PDF pages — right in your browser.</p>
@@ -716,9 +546,7 @@
       <div class="pt-upload-container" id="pt-drop-zone"
            onclick="document.getElementById('pt-fIn').click()">
         <div class="pt-upload-icon-wrap">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.89 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
-          </svg>
+          <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.89 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
         </div>
         <h2>Choose PDF File</h2>
         <p>or drag and drop here</p>
@@ -732,17 +560,12 @@
       <p class="pt-upload-note">🔒 Your files never leave your device.</p>
     </div>
 
-    <!-- ── TOOL VIEW ── -->
     <div id="pt-tool">
       <div class="pt-layout">
-
-        <!-- SIDEBAR -->
         <aside class="pt-sidebar">
           <div class="pt-sidebar-toggle" id="pt-sidebar-toggle" onclick="ptToggleSidebar()">
             <span class="pt-toggle-left">
-              <svg width="16" height="16" viewBox="0 0 24 24">
-                <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
-              </svg>
+              <svg width="16" height="16" viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
               Split Settings
             </span>
             <svg class="pt-toggle-chevron open" id="pt-chevron" width="18" height="18" viewBox="0 0 24 24">
@@ -757,7 +580,6 @@
               <button id="pt-tab-remove" class="pt-tab"        onclick="ptSetMode('remove')">Skip</button>
             </div>
 
-            <!-- Range panel -->
             <div id="pt-panel-range">
               <div class="pt-label">Splitting Mode</div>
               <select id="pt-range-mode" class="pt-hidden" onchange="ptToggleRangeUI()">
@@ -768,9 +590,7 @@
               <div class="pt-cs-wrap" id="pt-cs-wrap">
                 <div class="pt-cs-trigger" id="pt-cs-trigger" onclick="ptToggleCS()">
                   <span id="pt-cs-label">Single Range</span>
-                  <svg class="pt-cs-arrow" width="16" height="16" viewBox="0 0 24 24">
-                    <path d="M7 10l5 5 5-5z"/>
-                  </svg>
+                  <svg class="pt-cs-arrow" width="16" height="16" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
                 </div>
                 <div class="pt-cs-dropdown" id="pt-cs-dropdown">
                   <div class="pt-cs-option selected" data-value="single" onclick="ptSelectCS(this)">Single Range</div>
@@ -791,39 +611,34 @@
               <div id="pt-range-info" class="pt-info-box"></div>
             </div>
 
-            <!-- Manual panel -->
             <div id="pt-panel-manual" class="pt-hidden">
               <p id="pt-manual-count" style="font-weight:600; color:var(--primary); margin:0 0 10px; font-size:13px;">Selected: 0</p>
             </div>
 
-            <!-- Skip panel -->
             <div id="pt-panel-remove" class="pt-hidden">
               <div class="pt-label">Skip Pages</div>
               <textarea id="pt-skip-input" placeholder="e.g. 1, 3, 5-10" rows="3" oninput="ptBuildDebounced()"></textarea>
             </div>
 
             <div class="pt-action-area">
-              <button class="pt-btn-exec" onclick="ptProcess('download')">Download Result</button>
-              <button class="pt-btn-exec pt-btn-share" onclick="ptProcess('share')">Share Result</button>
+              <button class="pt-btn-exec" id="pt-btn-dl" onclick="ptProcess('download')">Download Result</button>
+              <button class="pt-btn-exec pt-btn-share" id="pt-btn-sh" onclick="ptProcess('share')">Share Result</button>
             </div>
           </div>
         </aside>
 
-        <!-- PAGE GRID -->
         <div id="pt-grid"></div>
       </div>
 
-      <!-- Mobile bottom bar -->
       <div class="pt-mobile-bar">
-        <button class="pt-btn-exec" onclick="ptProcess('download')">Download</button>
-        <button class="pt-btn-exec pt-btn-share" onclick="ptProcess('share')">Share</button>
+        <button class="pt-btn-exec" id="pt-btn-dl-mob" onclick="ptProcess('download')">Download</button>
+        <button class="pt-btn-exec pt-btn-share" id="pt-btn-sh-mob" onclick="ptProcess('share')">Share</button>
       </div>
     </div>
 
-  </div><!-- /.pdf-tool-wrap -->
+  </div>
 </main>
 
-<!-- Zoom overlay -->
 <div id="pt-zoom">
   <button class="pt-close-zoom" onclick="ptCloseZoom()">×</button>
   <canvas id="pt-zoom-canvas"></canvas>
@@ -833,13 +648,11 @@
   </div>
 </div>
 
-<!-- Status overlay -->
 <div id="pt-status">
   <div class="pt-spinner"></div>
   <p id="pt-status-msg">Processing…</p>
 </div>
 
-<!-- Result modal -->
 <div id="pt-result-modal">
   <div class="pt-modal-box">
     <button class="pt-modal-close" onclick="ptCloseModal()">×</button>
@@ -863,9 +676,7 @@
   </div>
 </div>
 
-<footer>
-  <p>© PDF Tools</p>
-</footer>
+<footer><p>© PDF Tools</p></footer>
 
 <script>
 (function () {
@@ -873,7 +684,7 @@
 
   const _PDFLib = window.PDFLib;
   if (!_PDFLib) { console.error('pdf-lib not loaded'); return; }
-  const _degrees = _PDFLib.degrees ?? _PDFLib.PDFLib?.degrees ?? (angle => ({ type: "degrees", angle }));
+  const _degrees = _PDFLib.degrees ?? _PDFLib.PDFLib?.degrees ?? (angle => ({ type: 'degrees', angle }));
   pdfjsLib.GlobalWorkerOptions.workerSrc =
     'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
 
@@ -897,7 +708,6 @@
     if (e.dataTransfer.files.length) ptHandleFile(e.dataTransfer.files[0]);
   });
 
-  /* ── Close custom dropdown on outside click ── */
   document.addEventListener('click', e => {
     const wrap = document.getElementById('pt-cs-wrap');
     if (wrap && !wrap.contains(e.target)) {
@@ -906,7 +716,6 @@
     }
   });
 
-  /* ── Sidebar toggle ── */
   let sidebarOpen = true;
   window.ptToggleSidebar = function () {
     sidebarOpen = !sidebarOpen;
@@ -914,7 +723,6 @@
     document.getElementById('pt-chevron').classList.toggle('open', sidebarOpen);
   };
 
-  /* ── File handler ── */
   async function ptHandleFile(file) {
     if (!file || file.type !== 'application/pdf') { alert('Please upload a PDF.'); return; }
     if (!window.PDFLib || !window.pdfjsLib) { alert('PDF libraries are still loading, please try again in a moment.'); return; }
@@ -941,14 +749,12 @@
 
   function tick(ms = 20) { return new Promise(r => setTimeout(r, ms)); }
 
-  /* ── Status ── */
   function ptShowStatus(msg) {
     document.getElementById('pt-status-msg').textContent = msg;
     document.getElementById('pt-status').style.display = 'flex';
   }
   function ptHideStatus() { document.getElementById('pt-status').style.display = 'none'; }
 
-  /* ── Range UI ── */
   function ptInitRangeUI() {
     document.getElementById('pt-range-rows').innerHTML = '';
     ptAddRangeRow(1, pageCount);
@@ -1003,7 +809,6 @@
     }
   };
 
-  /* ── Tabs ── */
   window.ptSetMode = function (m) {
     ptMode = m;
     ['range', 'manual', 'remove'].forEach(k => {
@@ -1013,7 +818,6 @@
     ptBuildDebounced(0);
   };
 
-  /* ── Custom select ── */
   window.ptToggleCS = function () {
     const t = document.getElementById('pt-cs-trigger');
     const d = document.getElementById('pt-cs-dropdown');
@@ -1034,7 +838,6 @@
     ptToggleRangeUI();
   };
 
-  /* ── Page actions ── */
   function ptRotate(num) {
     rotations[num] = ((rotations[num] || 0) + 90) % 360;
     const img = document.getElementById(`pt-img-${num}`);
@@ -1068,7 +871,6 @@
     await page.render({ canvasContext: canvas.getContext('2d'), viewport: vp }).promise;
   }
 
-  /* ── Render queue ── */
   function ptFlushQueue() {
     while (renderActive < MAX_CONCURRENT && renderQueue.length) {
       const task = renderQueue.shift();
@@ -1106,7 +908,6 @@
     ptFlushQueue();
   }
 
-  /* ── Build grid ── */
   window.ptBuildDebounced = function (delay) {
     if (buildTimer) clearTimeout(buildTimer);
     buildTimer = setTimeout(ptBuildGrid, delay != null ? delay : (window.innerWidth < 768 ? 400 : 150));
@@ -1198,7 +999,6 @@
     });
   }
 
-  /* ── Parse ranges ── */
   function ptParseRanges(str) {
     const set = new Set();
     str.replace(/,/g, ' ').split(/\s+/).forEach(p => {
@@ -1211,9 +1011,28 @@
     return set;
   }
 
-  /* ── Process ── */
+  /* ── FIXED: Download trigger using a proper anchor with revokeObjectURL cleanup ── */
+  function ptTriggerDL(blob, name) {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = name;
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    /* Delay revoke so browser has time to start the download */
+    setTimeout(() => {
+      URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    }, 5000);
+  }
+
+  /* ── FIXED: ptProcess — hide status BEFORE triggering download so the
+     spinner overlay doesn't suppress the browser's save dialog on some
+     browsers. Modal is shown AFTER the download is initiated. ── */
   window.ptProcess = async function (action) {
     ptShowStatus('Compiling your PDF…');
+    await tick();
     try {
       const pdfDoc = await _PDFLib.PDFDocument.load(rawBuffer.slice(), { ignoreEncryption: true });
       const rangeMode = document.getElementById('pt-range-mode').value;
@@ -1247,7 +1066,7 @@
         if (allPages.length) batches.push({ name: `${originalFileName}_cleaned.pdf`, pages: allPages });
       }
 
-      if (!batches.length) throw new Error('No pages to process.');
+      if (!batches.length) throw new Error('No pages to process. Please adjust your selection.');
 
       let finalBlob, finalName;
       if (batches.length === 1) {
@@ -1281,25 +1100,38 @@
         finalName = `${originalFileName}_${Math.min(...allPg)}-${Math.max(...allPg)}.zip`;
       }
 
-      lastBlob = finalBlob; lastName = finalName;
-      ptHideStatus();
-      if (action === 'download') { ptTriggerDL(finalBlob, finalName); ptShowModal(finalName, finalBlob); }
-      else ptShare(finalBlob, finalName);
-    } catch (e) { alert(e.message); ptHideStatus(); }
-  };
+      lastBlob = finalBlob;
+      lastName = finalName;
 
-  function ptTriggerDL(blob, name) {
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob); a.download = name; a.click();
-  }
+      /* Hide spinner FIRST before any download/share action */
+      ptHideStatus();
+
+      if (action === 'download') {
+        ptTriggerDL(finalBlob, finalName);
+        /* Small delay so browser registers the download click before modal appears */
+        setTimeout(() => ptShowModal(finalName, finalBlob), 300);
+      } else {
+        ptShare(finalBlob, finalName);
+      }
+
+    } catch (e) {
+      ptHideStatus();
+      alert('Error: ' + e.message);
+    }
+  };
 
   function ptShare(blob, name) {
     const file = new File([blob], name, { type: blob.type });
-    if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] }))
-      navigator.share({ files: [file], title: name });
-    else if (navigator.share)
-      navigator.share({ title: name, url: URL.createObjectURL(blob) });
-    else { ptTriggerDL(blob, name); alert('Share not supported — downloaded instead.'); }
+    if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+      navigator.share({ files: [file], title: name }).catch(() => {});
+    } else if (navigator.share) {
+      const url = URL.createObjectURL(blob);
+      navigator.share({ title: name, url }).catch(() => {});
+      setTimeout(() => URL.revokeObjectURL(url), 10000);
+    } else {
+      ptTriggerDL(blob, name);
+      alert('Sharing is not supported in this browser — the file has been downloaded instead.');
+    }
   }
 
   function ptShowModal(name, blob) {
@@ -1316,6 +1148,7 @@
 
 })();
 </script>
+<script src="https://rforrupesh.github.io/pdf/assets/js/script.js"></script>
 
 </body>
 </html>
