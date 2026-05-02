@@ -44,9 +44,26 @@
 <aside class="post-sidebar">
   <div class="toc-box">
     <h4>Contents</h4>
-    <ul id="toc"></ul>
+    <ul id="toc">
+      {% assign headers = content | split: '<h' %}
+      {% for block in headers %}
+        {% assign level = block | slice: 0, 1 %}
+        {% if level == '2' or level == '3' %}
+          {% if block contains '</h' %}
+            {% assign text_part = block | split: '>' | slice: 1, 99 | join: '>' | split: '</h' | first %}
+            {% assign text_clean = text_part | strip_html | strip %}
+            {% assign id = text_clean | downcase | replace: ' ', '_' | remove: '?' | remove: '!' | remove: ',' | remove: ':' | remove: "'" | remove: '"' | remove: '(' | remove: ')' %}
+            <li class="toc-h{{ level }}">
+              <a href="#{{ id }}">{{ text_clean }}</a>
+            </li>
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+    </ul>
   </div>
 </aside>
+
+  
 </div>
 
 {% include footer.html %}
