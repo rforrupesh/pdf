@@ -6,10 +6,9 @@
 
 <div class="post-container">
 
-  <!-- MAIN CONTENT -->
   <main class="post-main">
 
-    <!-- Breadcrumb INSIDE main -->
+    <!-- Breadcrumb -->
     <div class="post-breadcrumb">
       <a href="{{ '/' | relative_url }}">Home</a> /
       <a href="{{ '/blog/' | relative_url }}">Blog</a>
@@ -32,9 +31,7 @@
         {% for post in site.posts limit:5 %}
           {% if post.url != page.url %}
             <li>
-              <a href="{{ post.url | relative_url }}">
-                {{ post.title }}
-              </a>
+              <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
             </li>
           {% endif %}
         {% endfor %}
@@ -43,11 +40,26 @@
 
   </main>
 
-  <!-- SIDEBAR TOC -->
+  <!-- SIDEBAR TOC — rendered server-side, visible to Google -->
   <aside class="post-sidebar">
     <div class="toc-box">
       <h4>Contents</h4>
-      <ul id="toc"></ul>
+      <ul id="toc">
+        {% assign headers = content | split: '<h' %}
+        {% for block in headers %}
+          {% if block contains 'id="' %}
+            {% assign level = block | slice: 0, 1 %}
+            {% if level == '2' or level == '3' %}
+              {% assign id_part = block | split: 'id="' | last | split: '"' | first %}
+              {% assign text_part = block | split: '>' | slice: 1, 99 | join: '>' | split: '</h' | first %}
+              {% assign text_clean = text_part | strip_html | strip %}
+              <li class="toc-h{{ level }}">
+                <a href="#{{ id_part }}">{{ text_clean }}</a>
+              </li>
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+      </ul>
     </div>
   </aside>
 
@@ -55,28 +67,24 @@
 
 {% include footer.html %}
 
-<!-- TOC SCRIPT -->
+<!-- TOC active highlight on scroll only — no DOM building needed -->
 <script>
-const toc = document.getElementById("toc");
-const headings = document.querySelectorAll("#postContent h2");
+(function () {
+  const tocLinks = document.querySelectorAll("#toc a");
+  const headings = document.querySelectorAll("#postContent h2, #postContent h3");
 
-function slugify(text) {
-  return text.toLowerCase()
-    .replace(/[^a-z0-9\s]/g, '')
-    .trim()
-    .replace(/\s+/g, '-');
-}
+  if (!headings.length || !tocLinks.length) return;
 
-headings.forEach((h) => {
-  let id = h.id || slugify(h.textContent);
-  h.id = id;
-  const li = document.createElement("li");
-  const a = document.createElement("a");
-  a.href = "#" + id;
-  a.textContent = h.textContent;
-  li.appendChild(a);
-  toc.appendChild(li);
-});
+  window.addEventListener("scroll", function () {
+    let current = "";
+    headings.forEach(function (h) {
+      if (window.scrollY >= h.offsetTop - 120) current = h.id;
+    });
+    tocLinks.forEach(function (a) {
+      a.classList.toggle("active", a.getAttribute("href") === "#" + current);
+    });
+  });
+})();
 </script>
 
 </body>
