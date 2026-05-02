@@ -206,7 +206,7 @@ nav {
 }
 
 /* =========================
-   CONTENT BASE
+   POST LAYOUT
 ========================= */
 .post-container {
   max-width: 1100px;
@@ -214,26 +214,14 @@ nav {
   padding: 0 20px;
   display: grid;
   grid-template-columns: 1fr 260px;
-  gap: 50px;
+  grid-template-rows: auto 1fr;
+  gap: 0 50px;
   align-items: start;
 }
 
-@media (max-width: 992px) {
-  .post-container {
-    grid-template-columns: 1fr;
-    margin: 20px auto;
-    gap: 30px;
-  }
-  /* Move sidebar above related posts on mobile */
-  .post-sidebar {
-    order: -1;
-  }
-}
-
-/* =========================
-   BREADCRUMB
-========================= */
+/* Breadcrumb spans full width above both columns */
 .post-breadcrumb {
+  grid-column: 1 / -1;
   margin-bottom: 16px;
   font-size: 13px;
   color: #94a3b8;
@@ -253,13 +241,22 @@ nav {
   color: #1d4ed8;
 }
 
-/* =========================
-   POST MAIN
-========================= */
+/* Main content — column 1 */
 .post-main {
   min-width: 0;
+  grid-column: 1;
 }
 
+/* Sidebar — column 2 */
+.post-sidebar {
+  grid-column: 2;
+  position: sticky;
+  top: 24px;
+}
+
+/* =========================
+   TITLE & THUMBNAIL
+========================= */
 .post-title {
   font-size: clamp(24px, 4vw, 40px);
   font-weight: 700;
@@ -271,7 +268,8 @@ nav {
 
 .post-thumb {
   width: 100%;
-  height: auto;
+  aspect-ratio: 16 / 7;
+  object-fit: cover;
   border-radius: 14px;
   margin-bottom: 32px;
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.09);
@@ -303,6 +301,13 @@ nav {
   color: #1e293b;
 }
 
+.post-content h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 20px 0 8px;
+  color: #1e293b;
+}
+
 .post-content p {
   margin-bottom: 20px;
 }
@@ -324,6 +329,30 @@ nav {
   margin: 36px 0;
 }
 
+.post-content strong {
+  color: #0f172a;
+  font-weight: 600;
+}
+
+.post-content em {
+  color: #4b5563;
+}
+
+.post-content blockquote {
+  border-left: 3px solid #2563eb;
+  background: #eff6ff;
+  color: #1e40af;
+  margin: 24px 0;
+  padding: 14px 18px;
+  border-radius: 0 10px 10px 0;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.post-content blockquote p {
+  margin: 0;
+}
+
 /* Lists */
 .post-content ol,
 .post-content ul {
@@ -336,6 +365,15 @@ nav {
   line-height: 1.7;
 }
 
+/* Images inside content */
+.post-content img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  margin: 20px 0;
+  display: block;
+}
+
 /* =========================
    TABLES
 ========================= */
@@ -346,7 +384,17 @@ nav {
   margin: 28px 0;
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.07);
+  /* mobile scroll */
+  display: block;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (min-width: 640px) {
+  .post-content table {
+    display: table;
+  }
 }
 
 .post-content th {
@@ -356,6 +404,7 @@ nav {
   text-align: left;
   color: #1e293b;
   border-bottom: 2px solid #e2e8f0;
+  white-space: nowrap;
 }
 
 .post-content td {
@@ -368,21 +417,8 @@ nav {
   background: #f8fafc;
 }
 
-/* Horizontal scroll for tables on small screens */
-.post-content table {
-  display: block;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-@media (min-width: 600px) {
-  .post-content table {
-    display: table;
-  }
-}
-
 /* =========================
-   CODE BLOCKS
+   CODE
 ========================= */
 .post-content pre {
   background: #0f172a;
@@ -411,49 +447,25 @@ nav {
   color: inherit;
   padding: 0;
   font-size: inherit;
+  border-radius: 0;
 }
 
 /* =========================
-   VIDEO EMBED
+   VIDEO / IFRAME
 ========================= */
 .post-content iframe {
   width: 100%;
+  aspect-ratio: 16 / 9;
+  height: auto;
   border-radius: 12px;
   margin: 28px 0;
   display: block;
-  aspect-ratio: 16 / 9;
-  height: auto;
-  min-height: 220px;
   border: none;
 }
 
-@supports not (aspect-ratio: 16/9) {
-  /* Fallback for older browsers */
-  .video-wrapper {
-    position: relative;
-    padding-bottom: 56.25%;
-    height: 0;
-    overflow: hidden;
-    margin: 28px 0;
-    border-radius: 12px;
-  }
-  .video-wrapper iframe {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    margin: 0;
-    border-radius: 0;
-  }
-}
-
 /* =========================
-   SIDEBAR & TOC
+   TOC SIDEBAR
 ========================= */
-.post-sidebar {
-  position: sticky;
-  top: 24px;
-}
-
 .toc-box {
   background: #f8fafc;
   padding: 20px 22px;
@@ -477,66 +489,31 @@ nav {
 }
 
 #toc li {
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 }
 
 #toc a {
-  text-decoration: none;
-  color: #4b5563;
-  font-size: 14px;
-  transition: color 0.2s, padding-left 0.2s;
   display: block;
-  padding: 5px 8px;
-  border-radius: 6px;
+  padding: 6px 10px;
+  border-radius: 7px;
+  font-size: 14px;
+  color: #4b5563;
+  text-decoration: none;
   line-height: 1.4;
+  transition: color 0.2s, background 0.2s, padding-left 0.2s;
 }
 
 #toc a:hover {
   color: #2563eb;
   background: #eff6ff;
-  padding-left: 12px;
+  padding-left: 14px;
 }
 
-/* Active TOC link (optional — add via JS scroll listener) */
 #toc a.active {
   color: #2563eb;
   font-weight: 600;
   background: #eff6ff;
-  padding-left: 12px;
-}
-
-/* On mobile, TOC becomes a horizontal scrollable strip */
-@media (max-width: 992px) {
-  .post-sidebar {
-    position: static;
-  }
-
-  .toc-box {
-    padding: 14px 16px;
-  }
-
-  #toc {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  #toc li {
-    margin: 0;
-  }
-
-  #toc a {
-    background: #e2e8f0;
-    border-radius: 20px;
-    padding: 5px 12px;
-    font-size: 13px;
-    white-space: nowrap;
-  }
-
-  #toc a:hover {
-    background: #dbeafe;
-    padding-left: 12px;
-  }
+  padding-left: 14px;
 }
 
 /* =========================
@@ -571,10 +548,10 @@ nav {
   border-radius: 10px;
   text-decoration: none;
   color: #1e293b;
-  font-size: 14.5px;
+  font-size: 14px;
   font-weight: 500;
-  transition: background 0.2s, border-color 0.2s, transform 0.15s;
   line-height: 1.5;
+  transition: background 0.2s, border-color 0.2s, transform 0.15s;
 }
 
 .related-list li a:hover {
@@ -583,8 +560,67 @@ nav {
   transform: translateY(-2px);
 }
 
+/* =========================
+   RESPONSIVE
+========================= */
+@media (max-width: 992px) {
+  .post-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    gap: 24px;
+    margin: 24px auto;
+  }
+
+  /* Correct order: breadcrumb → sidebar TOC → content */
+  .post-breadcrumb { order: 1; }
+  .post-sidebar    { order: 2; grid-column: 1; position: static; }
+  .post-main       { order: 3; }
+
+  /* TOC becomes pill strip on tablet/mobile */
+  #toc {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  #toc li { margin: 0; }
+
+  #toc a {
+    background: #e2e8f0;
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 13px;
+    white-space: nowrap;
+  }
+
+  #toc a:hover,
+  #toc a.active {
+    background: #dbeafe;
+    color: #2563eb;
+    padding-left: 14px;
+  }
+}
+
 @media (max-width: 600px) {
+  .post-container {
+    padding: 0 14px;
+    margin: 16px auto;
+  }
+
+  .post-title {
+    font-size: clamp(22px, 6vw, 32px);
+  }
+
+  .post-thumb {
+    border-radius: 10px;
+    margin-bottom: 24px;
+  }
+
   .related-list {
     grid-template-columns: 1fr;
+  }
+
+  .toc-box {
+    padding: 14px 16px;
   }
 }
