@@ -71,39 +71,21 @@
 <!-- TOC active highlight on scroll only — no DOM building needed -->
 <script>
 (function () {
-  const tocList = document.getElementById("toc");
   const content = document.getElementById("postContent");
   const headings = content.querySelectorAll("h2, h3");
+  const tocLinks = document.querySelectorAll("#toc a");
 
-  if (!headings.length) return;
-
+  // Set correct IDs on headings to match Liquid-generated TOC links
   headings.forEach(function (h) {
-    // Take FULL text → lowercase → replace spaces with _ → remove special chars
-    const fullText = h.textContent.trim();
-    const id = fullText
+    const id = h.textContent.trim()
       .toLowerCase()
-      .replace(/[^a-z0-9\s]/g, "")   // remove special chars
+      .replace(/[^a-z0-9\s]/g, "")
       .trim()
-      .replace(/\s+/g, "_");          // spaces → underscore
-
-    // Set the ID on the heading in the page
+      .replace(/\s+/g, "_");
     h.id = id;
-
-    // Build TOC link
-    const li = document.createElement("li");
-    li.className = h.tagName === "H3" ? "toc-h3" : "toc-h2";
-
-    const a = document.createElement("a");
-    a.href = "#" + id;
-    a.textContent = fullText;
-
-    li.appendChild(a);
-    tocList.appendChild(li);
   });
 
   // Active highlight on scroll
-  const tocLinks = document.querySelectorAll("#toc a");
-
   window.addEventListener("scroll", function () {
     let current = "";
     headings.forEach(function (h) {
