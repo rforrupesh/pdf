@@ -1,0 +1,496 @@
+---
+layout: default
+title: Convert JPG to PDF
+description: Combine multiple PDF files into one. Drag to reorder, then hit Merge. private.
+permalink: /jpg-to-pdf/
+---
+<!-- Floating ghost that follows the pointer -->
+<div id="dragGhost">
+  <div class="ghost-icon">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+      <polyline points="14 2 14 8 20 8"/>
+    </svg>
+  </div>
+  <span id="dragGhostName"></span>
+</div>
+
+<main class="container">
+
+  <!-- Floating drag ghost -->
+  <div id="dragGhost">
+    <div class="ghost-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
+        <polyline points="21 15 16 10 5 21"/>
+      </svg>
+    </div>
+    <span id="dragGhostName"></span>
+  </div>
+
+  <main>
+    <h1 class="page-title">JPG to PDF</h1>
+    <p class="page-sub">Convert images into a single PDF. Drag to reorder, then hit Convert.</p>
+
+    <!-- ── UPLOAD STATE ── -->
+    <div id="uploadState">
+      <div class="upload-box" id="dropZone">
+        <div class="icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
+            <polyline points="21 15 16 10 5 21"/>
+          </svg>
+        </div>
+        <h2>Drop images here</h2>
+        <p>JPG, PNG, WebP, GIF, BMP — all welcome</p>
+        <button class="btn-black" id="browseBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
+          </svg>
+          Select Images
+        </button>
+        <p class="upload-note">Images processed locally in your browser · never uploaded</p>
+      </div>
+      <input type="file" id="fileInput" multiple accept="image/*" hidden>
+    </div>
+
+    <!-- ── UPLOADED STATE ── -->
+    <div id="uploadedState">
+      <div class="toolbar">
+        <div class="toolbar-left">
+          <span class="toolbar-title">Images to convert</span>
+          <span class="file-count" id="fileCount">0</span>
+          <button class="btn-sm" onclick="sortFiles('asc')">
+            <svg viewBox="0 0 12 12" fill="none" stroke-width="1.6" stroke-linecap="round">
+              <path d="M1 3h10M3 6h6M5 9h2"/>
+            </svg>A–Z
+          </button>
+          <button class="btn-sm" onclick="sortFiles('desc')">
+            <svg viewBox="0 0 12 12" fill="none" stroke-width="1.6" stroke-linecap="round">
+              <path d="M1 9h10M3 6h6M5 3h2"/>
+            </svg>Z–A
+          </button>
+        </div>
+        <button class="btn-merge-top" id="convertBtnTop" onclick="convertToPDF()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/>
+          </svg>
+          Convert to PDF
+        </button>
+      </div>
+
+      <div class="file-list-wrap" id="fileList"></div>
+
+      <div class="progress-wrap" id="progressWrap">
+        <div class="spinner"></div>
+        <span class="progress-text" id="progressText">Converting…</span>
+      </div>
+    </div>
+
+    <input type="file" id="moreInput" multiple accept="image/*" hidden>
+
+    <!-- ── INFO SECTION ── -->
+    <div id="infoContent">
+      <hr class="divider">
+      <h2 class="section-title">How to convert images to PDF</h2>
+      <p class="section-body">Turning a stack of photos or scanned images into a single PDF is useful for sharing documents, portfolios, or scanned receipts. This tool converts everything locally in your browser — your images are never sent anywhere.</p>
+      <hr class="divider">
+      <h2 class="section-title">Other ways to do it</h2>
+      <div class="cards">
+        <div class="card">
+          <h3>Online Tools</h3>
+          <ul><li>Upload from any browser</li><li>Arrange image order</li><li>Download the PDF</li></ul>
+          <div class="tags"><span class="tag g">No install</span><span class="tag r">Needs internet</span><span class="tag r">Privacy risk</span></div>
+        </div>
+        <div class="card">
+          <h3>macOS / iOS</h3>
+          <ul><li>Select images in Photos or Finder</li><li>Right-click → Create PDF</li><li>Built into the OS</li></ul>
+          <div class="tags"><span class="tag g">Free &amp; built-in</span><span class="tag r">Mac/iOS only</span></div>
+        </div>
+        <div class="card">
+          <h3>Desktop Software</h3>
+          <ul><li>Adobe Acrobat, GIMP, IrfanView</li><li>Full control over compression</li><li>Works completely offline</li></ul>
+          <div class="tags"><span class="tag g">Offline</span><span class="tag r">Sometimes paid</span></div>
+        </div>
+        <div class="card">
+          <h3>Command Line</h3>
+          <ul><li>ImageMagick: convert *.jpg out.pdf</li><li>Scriptable and batchable</li><li>Fast for hundreds of images</li></ul>
+          <div class="tags"><span class="tag g">Free</span><span class="tag r">Technical</span></div>
+        </div>
+      </div>
+      <hr class="divider">
+      <h2 class="section-title">A few tips</h2>
+      <div class="tips">
+        <div class="tip"><span class="tip-n">01</span> Drag rows to set the page order before converting — each image becomes one page in the PDF.</div>
+        <div class="tip"><span class="tip-n">02</span> All common formats are supported: JPG, PNG, WebP, GIF, BMP. They are all normalised to JPEG inside the PDF.</div>
+        <div class="tip"><span class="tip-n">03</span> Each page is sized to match the image's natural pixel dimensions, so nothing gets cropped or stretched.</div>
+        <div class="tip"><span class="tip-n">04</span> PNG images with a transparent background will be rendered on a white background in the PDF output.</div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ── MOBILE BOTTOM BAR ── -->
+
+
+
+<div class="bottom-bar" id="bottomBar" style="display:none;">
+  <button class="add-btn" onclick="document.getElementById('moreInput').click()">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round">
+      <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+    </svg>Add
+  </button>
+  <button class="btn-merge-full" id="mergeBtnBottom" onclick="mergePDFs()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <path d="M8 6H5a2 2 0 00-2 2v8a2 2 0 002 2h3M16 6h3a2 2 0 012 2v8a2 2 0 01-2 2h-3M12 3v18"/>
+    </svg>Merge PDF
+  </button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.0/pako.min.js"></script>
+
+<script>
+/* ─────────────────────────────────────────
+   STATE  –  each entry: { file, thumbUrl, w, h }
+───────────────────────────────────────── */
+let files = [];
+function $(id) { return document.getElementById(id); }
+const isMobile = () => window.innerWidth <= 600;
+
+/* ─────────────────────────────────────────
+   FILE LOADING
+───────────────────────────────────────── */
+$('browseBtn').addEventListener('click', e => { e.stopPropagation(); $('fileInput').click(); });
+$('dropZone').addEventListener('click', () => $('fileInput').click());
+$('fileInput').addEventListener('change', e => { load(e.target.files); $('fileInput').value = ''; });
+$('moreInput').addEventListener('change', e => { load(e.target.files); $('moreInput').value = ''; });
+$('dropZone').addEventListener('dragover', e => { e.preventDefault(); $('dropZone').classList.add('dragover'); });
+$('dropZone').addEventListener('dragleave', () => $('dropZone').classList.remove('dragover'));
+$('dropZone').addEventListener('drop', e => {
+  e.preventDefault(); $('dropZone').classList.remove('dragover');
+  load(e.dataTransfer.files);
+});
+
+async function load(raw) {
+  const imgs = [...raw].filter(f => f.type.startsWith('image/'));
+  if (!imgs.length) { showToast('No image files found.'); return; }
+
+  showToast('Loading images…', 99999);
+
+  for (const f of imgs) {
+    const thumbUrl = URL.createObjectURL(f);
+    const dims = await getImageDims(f);
+    files.push({ file: f, thumbUrl, w: dims.w, h: dims.h });
+  }
+
+  hideToast();
+  $('uploadState').style.display   = 'none';
+  $('uploadedState').style.display = 'block';
+  $('infoContent').style.display   = 'none';
+  showBottomBar(true);
+  render();
+}
+
+function getImageDims(file) {
+  return new Promise(resolve => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => { resolve({ w: img.naturalWidth, h: img.naturalHeight }); URL.revokeObjectURL(url); };
+    img.onerror = () => { resolve({ w: 0, h: 0 }); URL.revokeObjectURL(url); };
+    img.src = url;
+  });
+}
+
+function showBottomBar(on) {
+  const bar = $('bottomBar');
+  bar.style.display = (on && isMobile()) ? 'flex' : 'none';
+}
+window.addEventListener('resize', () => { if (files.length) showBottomBar(true); });
+
+function fmtSize(b) {
+  return b >= 1048576 ? (b / 1048576).toFixed(1) + ' MB' : Math.round(b / 1024) + ' KB';
+}
+
+/* ─────────────────────────────────────────
+   RENDER
+───────────────────────────────────────── */
+function render() {
+  const list = $('fileList');
+  list.innerHTML = '';
+  $('fileCount').textContent = files.length + ' image' + (files.length !== 1 ? 's' : '');
+
+  files.forEach((entry, i) => {
+    const { file: f, thumbUrl, w, h } = entry;
+    const row = document.createElement('div');
+    row.className = 'file-row';
+    row.dataset.i = i;
+
+    // Use row-icon for thumbnail, row-dims for dimensions
+    row.innerHTML = `
+      <div class="drag-handle" data-handle="1" title="Drag to reorder">
+        <span></span><span></span><span></span><span></span><span></span><span></span>
+      </div>
+      <div class="row-num">${i + 1}</div>
+      <div class="row-icon" style="overflow:hidden;padding:0;">
+        <img class="row-thumb" src="${thumbUrl}" alt="${f.name}">
+      </div>
+      <div class="row-name" title="${f.name}">${f.name}</div>
+      <div class="row-dims">${w && h ? w + '×' + h : fmtSize(f.size)}</div>
+      <button class="row-del" data-i="${i}" title="Remove">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>`;
+
+    row.querySelector('.row-del').addEventListener('click', e => {
+      e.stopPropagation();
+      const idx = +e.currentTarget.dataset.i;
+      URL.revokeObjectURL(files[idx].thumbUrl);
+      files.splice(idx, 1);
+      if (!files.length) {
+        $('uploadState').style.display   = 'block';
+        $('uploadedState').style.display = 'none';
+        $('infoContent').style.display   = 'block';
+        showBottomBar(false);
+      } else render();
+    });
+
+    const handle = row.querySelector('.drag-handle');
+    handle.addEventListener('pointerdown', onDragStart, { passive: false });
+
+    list.appendChild(row);
+  });
+
+  // Add more row
+  const addBtn = document.createElement('button');
+  addBtn.className = 'add-row-btn';
+  addBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add more images`;
+  addBtn.onclick = () => $('moreInput').click();
+  list.appendChild(addBtn);
+}
+
+function sortFiles(dir) {
+  files.sort((a, b) => dir === 'asc'
+    ? a.file.name.localeCompare(b.file.name)
+    : b.file.name.localeCompare(a.file.name));
+  render();
+}
+
+/* ─────────────────────────────────────────
+   DRAG & DROP — Pointer Events
+───────────────────────────────────────── */
+const ghost     = $('dragGhost');
+const ghostName = $('dragGhostName');
+let dragState   = null;
+let autoScrollRAF = null;
+
+function autoScroll(clientY) {
+  stopAutoScroll();
+  const ZONE = 80, MAX = 14;
+  function frame() {
+    const vh = window.innerHeight;
+    let spd = 0;
+    if (clientY < ZONE)           spd = -MAX * (1 - clientY / ZONE);
+    else if (clientY > vh - ZONE) spd =  MAX * (1 - (vh - clientY) / ZONE);
+    if (spd !== 0) window.scrollBy(0, spd);
+    autoScrollRAF = requestAnimationFrame(frame);
+  }
+  autoScrollRAF = requestAnimationFrame(frame);
+}
+function updateAutoScroll(clientY) {
+  const ZONE = 80, vh = window.innerHeight;
+  if (clientY < ZONE || clientY > vh - ZONE) { stopAutoScroll(); autoScroll(clientY); }
+  else stopAutoScroll();
+}
+function stopAutoScroll() {
+  if (autoScrollRAF) { cancelAnimationFrame(autoScrollRAF); autoScrollRAF = null; }
+}
+function rowAtPoint(x, y) {
+  ghost.style.display = 'none';
+  const el = document.elementFromPoint(x, y);
+  ghost.style.display = 'flex';
+  return el ? el.closest('.file-row[data-i]') : null;
+}
+
+function onDragStart(e) {
+  if (e.button !== undefined && e.button !== 0) return;
+  const row = e.currentTarget.closest('.file-row');
+  if (!row) return;
+  const srcIdx = +row.dataset.i;
+  e.preventDefault();
+  e.currentTarget.setPointerCapture(e.pointerId);
+  ghostName.textContent = files[srcIdx].file.name;
+  ghost.style.display = 'flex';
+  ghost.style.left = e.clientX + 'px';
+  ghost.style.top  = e.clientY + 'px';
+  row.classList.add('is-source');
+  dragState = { srcIdx, srcRow: row, lastTarget: null };
+  document.addEventListener('pointermove', onDragMove, { passive: false });
+  document.addEventListener('pointerup',   onDragEnd);
+  document.addEventListener('pointercancel', onDragCancel);
+}
+function onDragMove(e) {
+  if (!dragState) return;
+  e.preventDefault();
+  ghost.style.left = e.clientX + 'px';
+  ghost.style.top  = e.clientY + 'px';
+  updateAutoScroll(e.clientY);
+  const target = rowAtPoint(e.clientX, e.clientY);
+  clearDropIndicators();
+  if (target && target !== dragState.srcRow) {
+    const rect = target.getBoundingClientRect();
+    const toIdx = +target.dataset.i;
+    if (e.clientY < rect.top + rect.height / 2) {
+      target.classList.add('drop-above');
+      dragState.lastTarget = { row: target, position: 'above', toIdx };
+    } else {
+      target.classList.add('drop-below');
+      dragState.lastTarget = { row: target, position: 'below', toIdx };
+    }
+  } else { dragState.lastTarget = null; }
+}
+function onDragEnd()    { cleanupDrag(); }
+function onDragCancel() { cleanupDrag(); }
+function cleanupDrag() {
+  stopAutoScroll();
+  const target = dragState && dragState.lastTarget;
+  const srcIdx = dragState && dragState.srcIdx;
+  clearDropIndicators();
+  if (dragState && dragState.srcRow) dragState.srcRow.classList.remove('is-source');
+  ghost.style.display = 'none';
+  document.removeEventListener('pointermove', onDragMove);
+  document.removeEventListener('pointerup',   onDragEnd);
+  document.removeEventListener('pointercancel', onDragCancel);
+  if (target && srcIdx !== null && srcIdx !== undefined) {
+    let toIdx = target.toIdx;
+    if (target.position === 'below') toIdx += 1;
+    toIdx = Math.max(0, Math.min(toIdx, files.length));
+    if (toIdx !== srcIdx && toIdx !== srcIdx + 1) {
+      const moved = files.splice(srcIdx, 1)[0];
+      files.splice(toIdx > srcIdx ? toIdx - 1 : toIdx, 0, moved);
+      render();
+    }
+  }
+  dragState = null;
+}
+function clearDropIndicators() {
+  document.querySelectorAll('.drop-above,.drop-below').forEach(r => {
+    r.classList.remove('drop-above', 'drop-below');
+  });
+}
+
+/* ─────────────────────────────────────────
+   IMAGE → JPEG BYTES  (normalises all formats)
+───────────────────────────────────────── */
+function fileToJpegBytes(file, w, h) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width  = img.naturalWidth  || w;
+      canvas.height = img.naturalHeight || h;
+      const ctx = canvas.getContext('2d');
+      // White background so transparent PNGs look clean
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(img, 0, 0);
+      URL.revokeObjectURL(url);
+      canvas.toBlob(async blob => {
+        try { resolve(new Uint8Array(await blob.arrayBuffer())); }
+        catch(err) { reject(err); }
+      }, 'image/jpeg', 0.93);
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('Failed to load ' + file.name)); };
+    img.src = url;
+  });
+}
+
+/* ─────────────────────────────────────────
+   CONVERT TO PDF
+───────────────────────────────────────── */
+const tick = () => new Promise(r => setTimeout(r, 0));
+
+async function convertToPDF() {
+  if (!files.length) { showToast('Add at least one image.'); return; }
+
+  const topBtn = $('convertBtnTop'), botBtn = $('convertBtnBottom');
+  const prog   = $('progressWrap'),  txt   = $('progressText');
+  [topBtn, botBtn].forEach(b => { if (b) b.disabled = true; });
+  prog.classList.add('show');
+
+  try {
+    const { PDFDocument } = PDFLib;
+    const pdfDoc = await PDFDocument.create();
+
+    for (let i = 0; i < files.length; i++) {
+      const { file: f, w, h } = files[i];
+      txt.textContent = `Converting image ${i + 1} of ${files.length}…`;
+      await tick();
+
+      let jpegBytes;
+      try { jpegBytes = await fileToJpegBytes(f, w, h); }
+      catch(e) { showToast(`"${f.name}" could not be read. Skipped.`); continue; }
+
+      let img;
+      try { img = await pdfDoc.embedJpg(jpegBytes); }
+      catch(e) { showToast(`"${f.name}" could not be embedded. Skipped.`); continue; }
+
+      // Page sized to the image's natural pixel dimensions
+      const pageW = img.width  || w || 595;
+      const pageH = img.height || h || 842;
+      const page  = pdfDoc.addPage([pageW, pageH]);
+      page.drawImage(img, { x: 0, y: 0, width: pageW, height: pageH });
+      await tick();
+    }
+
+    if (pdfDoc.getPageCount() === 0) { showToast('No images were converted. Check your files.'); return; }
+
+    txt.textContent = 'Saving PDF…'; await tick();
+    const finalBytes = await pdfDoc.save({ useObjectStreams: true });
+    const sizeMB = finalBytes.byteLength >= 1048576
+      ? (finalBytes.byteLength / 1048576).toFixed(2) + ' MB'
+      : Math.round(finalBytes.byteLength / 1024) + ' KB';
+
+    // Build filename from first image name
+    const baseName = files[0].file.name.replace(/\.[^.]+$/, '');
+    const outName  = (files.length === 1 ? baseName : baseName + `_+${files.length - 1}`) + '.pdf';
+
+    const blob = new Blob([finalBytes], { type: 'application/pdf' });
+    const a    = document.createElement('a');
+    a.href     = URL.createObjectURL(blob);
+    a.download = outName;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 10000);
+
+    showToast(`✓ Done! ${pdfDoc.getPageCount()} pages · ${sizeMB}`, 5000);
+
+  } catch(err) {
+    showToast('Something went wrong. Please try again.');
+    console.error(err);
+  } finally {
+    [topBtn, botBtn].forEach(b => { if (b) b.disabled = false; });
+    prog.classList.remove('show');
+  }
+}
+
+/* ─────────────────────────────────────────
+   TOAST
+───────────────────────────────────────── */
+function showToast(msg, duration = 3500) {
+  const t = $('toast');
+  t.textContent = msg;
+  t.classList.add('on');
+  clearTimeout(t._timer);
+  if (duration < 99999) t._timer = setTimeout(() => t.classList.remove('on'), duration);
+}
+function hideToast() {
+  const t = $('toast');
+  clearTimeout(t._timer);
+  t.classList.remove('on');
+}
+</script>
