@@ -41,28 +41,12 @@
   </main>
 
   <!-- SIDEBAR TOC — rendered server-side, visible to Google -->
-  <aside class="post-sidebar">
-    <div class="toc-box">
-      <h4>Contents</h4>
-      <ul id="toc">
-        {% assign headers = content | split: '<h' %}
-        {% for block in headers %}
-          {% if block contains 'id="' %}
-            {% assign level = block | slice: 0, 1 %}
-            {% if level == '2' or level == '3' %}
-              {% assign id_part = block | split: 'id="' | last | split: '"' | first %}
-              {% assign text_part = block | split: '>' | slice: 1, 99 | join: '>' | split: '</h' | first %}
-              {% assign text_clean = text_part | strip_html | strip %}
-              <li class="toc-h{{ level }}">
-                <a href="#{{ id_part }}">{{ text_clean }}</a>
-              </li>
-            {% endif %}
-          {% endif %}
-        {% endfor %}
-      </ul>
-    </div>
-  </aside>
-
+<aside class="post-sidebar">
+  <div class="toc-box">
+    <h4>Contents</h4>
+    <ul id="toc"></ul>
+  </div>
+</aside>
 </div>
 
 {% include footer.html %}
@@ -70,10 +54,38 @@
 <!-- TOC active highlight on scroll only — no DOM building needed -->
 <script>
 (function () {
-  const tocLinks = document.querySelectorAll("#toc a");
-  const headings = document.querySelectorAll("#postContent h2, #postContent h3");
+  const tocList = document.getElementById("toc");
+  const content = document.getElementById("postContent");
+  const headings = content.querySelectorAll("h2, h3");
 
-  if (!headings.length || !tocLinks.length) return;
+  if (!headings.length) return;
+
+  headings.forEach(function (h) {
+    // Take FULL text → lowercase → replace spaces with _ → remove special chars
+    const fullText = h.textContent.trim();
+    const id = fullText
+      .toLowerCase()
+      .replace(/[^a-z0-9\s]/g, "")   // remove special chars
+      .trim()
+      .replace(/\s+/g, "_");          // spaces → underscore
+
+    // Set the ID on the heading in the page
+    h.id = id;
+
+    // Build TOC link
+    const li = document.createElement("li");
+    li.className = h.tagName === "H3" ? "toc-h3" : "toc-h2";
+
+    const a = document.createElement("a");
+    a.href = "#" + id;
+    a.textContent = fullText;
+
+    li.appendChild(a);
+    tocList.appendChild(li);
+  });
+
+  // Active highlight on scroll
+  const tocLinks = document.querySelectorAll("#toc a");
 
   window.addEventListener("scroll", function () {
     let current = "";
@@ -81,9 +93,13 @@
       if (window.scrollY >= h.offsetTop - 120) current = h.id;
     });
     tocLinks.forEach(function (a) {
-      a.classList.toggle("active", a.getAttribute("href") === "#" + current);
+      a.classList.toggle(
+        "active",
+        a.getAttribute("href") === "#" + current
+      );
     });
   });
+
 })();
 </script>
 
