@@ -55,27 +55,44 @@
               {% assign id = text_clean
                 | downcase
                 | replace: ' ', '_'
-                | remove: '.'
-                | remove: '?'
-                | remove: '!'
-                | remove: ','
-                | remove: ':'
-                | remove: "'"
-                | remove: '"'
-                | remove: '('
-                | remove: ')'
-                | remove: '-'
-                | remove: '/'
-                | remove: '#'
-                | remove: '@'
-                | remove: '&'
-                | remove: '%'
-                | remove: '+'
-                | remove: '='
+                | replace: '-', '_'
+                | replace: '.', ''
+                | replace: '?', ''
+                | replace: '!', ''
+                | replace: ',', ''
+                | replace: ':', ''
+                | replace: ';', ''
+                | replace: "'", ''
+                | replace: '"', ''
+                | replace: '(', ''
+                | replace: ')', ''
+                | replace: '[', ''
+                | replace: ']', ''
+                | replace: '{', ''
+                | replace: '}', ''
+                | replace: '/', ''
+                | replace: '#', ''
+                | replace: '@', ''
+                | replace: '&', ''
+                | replace: '%', ''
+                | replace: '+', ''
+                | replace: '=', ''
+                | replace: '<', ''
+                | replace: '>', ''
+                | replace: '`', ''
+                | replace: '~', ''
+                | replace: '^', ''
+                | replace: '*', ''
+                | replace: '|', ''
+                | replace: '$', ''
+                | replace: '__', '_'
+                | replace: '__', '_'
               %}
-              <li class="toc-h{{ level }}">
-                <a href="#{{ id }}">{{ text_clean }}</a>
-              </li>
+              {% if text_clean != '' and id != '' %}
+                <li class="toc-h{{ level }}">
+                  <a href="#{{ id }}">{{ text_clean }}</a>
+                </li>
+              {% endif %}
             {% endif %}
           {% endif %}
         {% endfor %}
@@ -89,31 +106,53 @@
 
 <script>
 (function () {
-  const content = document.getElementById("postContent");
-  const headings = content.querySelectorAll("h2, h3");
-  const tocLinks = document.querySelectorAll("#toc a");
+  var content = document.getElementById("postContent");
+  if (!content) return;
 
-  // Set IDs on headings — must match Liquid logic exactly
-  headings.forEach(function (h) {
-    const id = h.textContent.trim()
-      .toLowerCase()
-      .replace(/[^a-z0-9\s]/g, "")  // removes . ! ? , : # - / @ & % + = ( ) etc
+  var headings = content.querySelectorAll("h2, h3");
+  if (!headings.length) return;
+
+  var tocLinks = document.querySelectorAll("#toc a");
+
+  function makeId(text) {
+    return text
       .trim()
-      .replace(/\s+/g, "_");
-    h.id = id;
+      .toLowerCase()
+      .replace(/[^a-z0-9\s]/g, "")
+      .trim()
+      .replace(/\s+/g, "_")
+      .replace(/_+/g, "_")
+      .replace(/^_|_$/g, "");
+  }
+
+  // Set IDs on headings + handle duplicates
+  var idCount = {};
+  headings.forEach(function (h) {
+    var baseId = makeId(h.textContent);
+    if (!baseId) baseId = "section";
+    if (idCount[baseId] === undefined) {
+      idCount[baseId] = 0;
+    } else {
+      idCount[baseId]++;
+      baseId = baseId + "_" + (idCount[baseId] + 1);
+    }
+    h.id = baseId;
   });
 
-  // Active highlight on scroll
+  // Scroll highlight
   window.addEventListener("scroll", function () {
-    let current = "";
+    var current = "";
     headings.forEach(function (h) {
-      if (window.scrollY >= h.offsetTop - 120) current = h.id;
+      if (window.scrollY >= h.offsetTop - 130) {
+        current = h.id;
+      }
     });
     tocLinks.forEach(function (a) {
-      a.classList.toggle(
-        "active",
-        a.getAttribute("href") === "#" + current
-      );
+      if (a.getAttribute("href") === "#" + current) {
+        a.classList.add("active");
+      } else {
+        a.classList.remove("active");
+      }
     });
   });
 
