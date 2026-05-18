@@ -2,9 +2,9 @@
 layout: null
 ---
 <?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="/pdf/sitemap.xsl"?>
 
-<urlset
-xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <!-- Homepage -->
 <url>
@@ -14,9 +14,19 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <!-- Pages -->
 {% for page in site.pages %}
-{% if page.url contains '.html' %}
+
+{% unless page.url contains '.xml' %}
+{% unless page.url contains '404' %}
 {% unless page.url contains '/assets/' %}
-{% unless page.url contains '/images/' %}
+{% unless page.url contains '.css' %}
+{% unless page.url contains '.js' %}
+{% unless page.url contains '.json' %}
+{% unless page.url contains '.txt' %}
+{% unless page.url contains '.png' %}
+{% unless page.url contains '.jpg' %}
+{% unless page.url contains '.jpeg' %}
+{% unless page.url contains '.webp' %}
+{% unless page.url contains '.svg' %}
 {% unless page.sitemap == false %}
 
 <url>
@@ -27,7 +37,16 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 {% endunless %}
 {% endunless %}
 {% endunless %}
-{% endif %}
+{% endunless %}
+{% endunless %}
+{% endunless %}
+{% endunless %}
+{% endunless %}
+{% endunless %}
+{% endunless %}
+{% endunless %}
+{% endunless %}
+
 {% endfor %}
 
 <!-- Posts -->
