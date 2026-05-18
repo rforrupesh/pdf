@@ -10,12 +10,3 @@ title: My Website
 url: "https://rforrupesh.github.io"
 baseurl: "/pdf"
 
-plugins:
-  - jekyll-sitemap
-exclude:
-  - README.md
-  - node_modules/
-  - vendor/
-  - /assets/img/
-
-
