@@ -4,3 +4,11 @@ markdown: kramdown
 kramdown:
   auto_ids: true
   auto_id_stripping: false
+
+title: My Website
+
+url: "https://rforrupesh.github.io/"
+baseurl: "/pdf"
+
+plugins:
+  - jekyll-sitemap
