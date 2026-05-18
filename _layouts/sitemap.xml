@@ -1,0 +1,39 @@
+---
+layout: null
+permalink: /sitemap.xml
+---
+
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+{% for page in site.pages %}
+  {% unless page.sitemap == false %}
+  {% if page.url contains '.xml' or page.url contains '/assets/' %}
+  {% continue %}
+  {% endif %}
+
+  <url>
+    <loc>{{ site.url }}{{ page.url | replace:'index.html','' }}</loc>
+    <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
+
+    {% if page.url == '/' %}
+    <priority>1.0</priority>
+    {% else %}
+    <priority>0.9</priority>
+    {% endif %}
+
+  </url>
+  {% endunless %}
+{% endfor %}
+
+{% for post in site.posts %}
+  {% unless post.sitemap == false %}
+  <url>
+    <loc>{{ site.url }}{{ post.url }}</loc>
+    <lastmod>{{ post.date | date_to_xmlschema }}</lastmod>
+    <priority>0.8</priority>
+  </url>
+  {% endunless %}
+{% endfor %}
+
+</urlset>
