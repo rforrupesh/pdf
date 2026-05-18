@@ -7,7 +7,7 @@ kramdown:
 
 title: My Website
 
-url: "https://rforrupesh.github.io/"
+url: "https://rforrupesh.github.io"
 baseurl: "/pdf"
 
 plugins:
