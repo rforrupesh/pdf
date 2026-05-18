@@ -36,9 +36,18 @@
 
   <!-- Font -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-{% if page.css %}
+
+  {% if page.css %}
 <link rel="stylesheet" href="{{ '/assets/css/' | append: page.css | append: '.css' | relative_url }}">
 {% endif %}
+
+{% if page.styles %}
+  {% for style in page.styles %}
+    <link rel="stylesheet" href="{{ style }}">
+  {% endfor %}
+{% endif %}
+
+{{ page.head_style }}
 
 {% if page.scripts %}
   {% for script in page.scripts %}
