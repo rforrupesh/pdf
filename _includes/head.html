@@ -41,13 +41,14 @@
 <link rel="stylesheet" href="{{ '/assets/css/' | append: page.css | append: '.css' | relative_url }}">
 {% endif %}
 
-{% if page.styles %}
-  {% for style in page.styles %}
-    <link rel="stylesheet" href="{{ style }}">
-  {% endfor %}
-{% endif %}
 
 {{ page.head_style }}
+
+{% if page.head_style %}
+  <style>
+    {{ page.head_style }}
+  </style>
+{% endif %}
 
 {% if page.scripts %}
   {% for script in page.scripts %}
