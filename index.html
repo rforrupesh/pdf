@@ -2,7 +2,7 @@
 layout: default
 title: Combina tus archivos PDF en uno gratis — Unir PDF Online​
 description:  Sube y organiza tus PDF fácilmente, y descarga un único archivo combinado. Rápido y sin límites. Una herramienta en línea gratuita e ilimitada para Unir PDF.
-head_style: |   
+head_style:
   <style>
 #infoContent {
   max-width: 1120px;
@@ -280,12 +280,11 @@ main {
 }
 </style>
 
+scripts:
+    - https://unpkg.com/pdf-lib/dist/pdf-lib.min.js
+    - https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.0/pako.min.js
 
 ---
-
-
-
-
 
 <!-- Floating ghost -->
 <div id="dragGhost">
@@ -427,8 +426,6 @@ main {
 
 <div class="toast" id="toast"></div>
 
-<script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.0/pako.min.js"></script>
 <script>
 let files = [];
 function $(id) { return document.getElementById(id); }
