@@ -49,6 +49,12 @@
 
 {{ page.head_style }}
 
+{% if page.head_style %}
+  <style>
+    {{ page.head_style }}
+  </style>
+{% endif %}
+
 {% if page.scripts %}
   {% for script in page.scripts %}
     {% if script contains 'http' %}
