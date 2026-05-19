@@ -47,12 +47,7 @@
   {% endfor %}
 {% endif %}
 
-{% if page.head_style %}
-  <style>
-    {{ page.head_style }}
-  </style>
-{% endif %}
-
+{{ page.head_style }}
 
 {% if page.scripts %}
   {% for script in page.scripts %}
