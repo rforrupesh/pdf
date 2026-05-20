@@ -796,13 +796,19 @@ if (menuBtn) {
 <h2 class="section-title">More PDF Tools</h2>
 
 <div class="relatedbloganywhere-grid">
-  {% for post in site.posts limit:5 %}
+
+  {% assign filtered_posts = site.posts | where_exp:"post", 
+  "post.category == 'mergepdf' 
+  or post.category == 'seo'" %}
+
+  {% for post in filtered_posts limit:5 %}
   
-  <a href="{{ post.url }}" class="relatedbloganywhere-card">
+  <a href="{{ post.url | relative_url }}" class="relatedbloganywhere-card">
 
     <div class="relatedbloganywhere-thumb">
+
       <img 
-        src="{{ post.thumbnail | default:'/pdf/assets/default-tool.webp' }}" 
+        src="{{ post.thumbnail | relative_url | default:'/assets/default-tool.webp' }}"
         alt="{{ post.title }}"
         loading="lazy">
 
@@ -811,6 +817,7 @@ if (menuBtn) {
         {{ post.category }}
       </span>
       {% endif %}
+
     </div>
 
     <div class="relatedbloganywhere-content">
@@ -820,4 +827,5 @@ if (menuBtn) {
   </a>
 
   {% endfor %}
+
 </div>
