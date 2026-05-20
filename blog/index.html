@@ -38,19 +38,3 @@ title: Blog
 
 </div>
 
-<div class="cards">
-  {% for post in site.posts %}
-    
-    <a class="card blog-card" href="{{ post.url | relative_url }}">
-      
-      <img 
-        src="{{ post.thumbnail | default: 'https://instafonts.in/wp-content/uploads/2024/10/Font-for-Subtitles.webp' }}" 
-        alt="{{ post.title }}"
-      >
-
-      <h3>{{ post.title }}</h3>
-
-    </a>
-
-  {% endfor %}
-</div>
