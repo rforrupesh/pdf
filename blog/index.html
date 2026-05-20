@@ -3,38 +3,54 @@ layout: default
 title: Blog
 ---
 
-<h1 class="page-title">Blog</h1>
+<div class="blogpage-wrap">
 
-<div class="relatedbloganywhere-grid post-content">
+  <div class="blogpage-hero">
+    <h1>Blog</h1>
+    <p>Latest articles, guides, SEO tips, and PDF tools.</p>
+  </div>
 
-  {% for post in site.posts %}
+  <div class="blogpage-grid">
 
-    <a 
-      class="relatedbloganywhere-card" 
-      href="{{ post.url | relative_url }}">
+    {% for post in site.posts %}
 
-      <div class="relatedbloganywhere-thumb">
+      <article class="blogpage-card">
 
-        <img 
-          src="{{ post.thumbnail | default:'/assets/default-tool.webp' | relative_url }}" 
-          alt="{{ post.title }}"
-          loading="lazy">
+        <a href="{{ post.url | relative_url }}" class="blogpage-thumb">
 
-        {% if post.category %}
-        <span class="relatedbloganywhere-category">
-          {{ post.category }}
-        </span>
-        {% endif %}
+          <img 
+            src="{{ post.thumbnail | default:'/assets/default-tool.webp' | relative_url }}"
+            alt="{{ post.title }}"
+            loading="lazy">
 
-      </div>
+          {% if post.category %}
+          <span class="blogpage-category">
+            {{ post.category }}
+          </span>
+          {% endif %}
 
-      <div class="relatedbloganywhere-content">
-        <h3>{{ post.title }}</h3>
-      </div>
+        </a>
 
-    </a>
+        <div class="blogpage-content">
 
-  {% endfor %}
+          <h2>
+            <a href="{{ post.url | relative_url }}">
+              {{ post.title }}
+            </a>
+          </h2>
+
+          {% if post.description %}
+          <p>
+            {{ post.description | strip_html | truncate: 120 }}
+          </p>
+          {% endif %}
+
+        </div>
+
+      </article>
+
+    {% endfor %}
+
+  </div>
 
 </div>
-
