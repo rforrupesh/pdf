@@ -406,6 +406,54 @@ scripts:
       <div class="tip"><span class="tip-n">03</span> This tool doesn't touch your originals. The merge creates a brand-new file and downloads it.</div>
       <div class="tip"><span class="tip-n">04</span> Password-protected PDFs won't merge. Unlock them first using the Unlock PDF tool in the nav.</div>
     </div>
+
+    
+<!-- ── RELATED BLOGS / TOOLS ── -->
+
+{% assign seo_posts = site.posts | where:"category","seo" %}
+
+<div class="relatedbloganywhere-grid post-content">
+
+  {% if seo_posts.size > 0 %}
+    {% assign posts_to_show = seo_posts %}
+  {% else %}
+    {% assign posts_to_show = site.posts %}
+  {% endif %}
+
+  {% for post in posts_to_show %}
+
+    <a 
+      class="relatedbloganywhere-card" 
+      href="{{ post.url | relative_url }}">
+
+      <div class="relatedbloganywhere-thumb">
+
+        <img 
+          src="{{ post.thumbnail | default:'/assets/default-tool.webp' | relative_url }}" 
+          alt="{{ post.title }}"
+          loading="lazy">
+
+        {% if post.category %}
+        <span class="relatedbloganywhere-category">
+          {{ post.category }}
+        </span>
+        {% endif %}
+
+      </div>
+
+      <div class="relatedbloganywhere-content">
+        <h3>{{ post.title }}</h3>
+      </div>
+
+    </a>
+
+  {% endfor %}
+
+</div>
+
+
+
+    
   </div>
 </main>
 
@@ -789,46 +837,3 @@ if (menuBtn) {
   });
 }
 </script>
-
-<!-- ── RELATED BLOGS / TOOLS ── -->
-
-{% assign seo_posts = site.posts | where:"category","seo" %}
-
-<div class="relatedbloganywhere-grid post-content">
-
-  {% if seo_posts.size > 0 %}
-    {% assign posts_to_show = seo_posts %}
-  {% else %}
-    {% assign posts_to_show = site.posts %}
-  {% endif %}
-
-  {% for post in posts_to_show %}
-
-    <a 
-      class="relatedbloganywhere-card" 
-      href="{{ post.url | relative_url }}">
-
-      <div class="relatedbloganywhere-thumb">
-
-        <img 
-          src="{{ post.thumbnail | default:'/assets/default-tool.webp' | relative_url }}" 
-          alt="{{ post.title }}"
-          loading="lazy">
-
-        {% if post.category %}
-        <span class="relatedbloganywhere-category">
-          {{ post.category }}
-        </span>
-        {% endif %}
-
-      </div>
-
-      <div class="relatedbloganywhere-content">
-        <h3>{{ post.title }}</h3>
-      </div>
-
-    </a>
-
-  {% endfor %}
-
-</div>
