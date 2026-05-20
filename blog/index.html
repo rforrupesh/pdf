@@ -16,6 +16,8 @@ title: Blog
 
       <article class="blogpage-card">
 
+        <!-- IMAGE -->
+
         <a href="{{ post.url | relative_url }}" class="blogpage-thumb">
 
           <img 
@@ -23,13 +25,9 @@ title: Blog
             alt="{{ post.title }}"
             loading="lazy">
 
-          {% if post.category %}
-          <span class="blogpage-category">
-            {{ post.category }}
-          </span>
-          {% endif %}
-
         </a>
+
+        <!-- CONTENT -->
 
         <div class="blogpage-content">
 
@@ -38,6 +36,20 @@ title: Blog
               {{ post.title }}
             </a>
           </h2>
+
+          <!-- CATEGORY -->
+
+          {% if post.category %}
+          <a 
+            href="{{ '/category/' | append: post.category | append: '/' | relative_url }}"
+            class="blogpage-category-link">
+
+            {{ post.category }}
+
+          </a>
+          {% endif %}
+
+          <!-- DESCRIPTION -->
 
           {% if post.description %}
           <p>
