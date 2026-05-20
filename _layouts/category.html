@@ -1,0 +1,66 @@
+---
+layout: default
+---
+
+<div class="blogpage-wrap">
+
+  <div class="blogpage-hero">
+
+    <h1>{{ page.category_name | capitalize }}</h1>
+
+    <p>
+      All articles from {{ page.category_name }} category.
+    </p>
+
+  </div>
+
+  {% assign posts = site.posts | where:"category", page.category_name %}
+
+  <div class="blogpage-grid">
+
+    {% for post in posts %}
+
+      <article class="blogpage-card">
+
+        <a href="{{ post.url | relative_url }}" class="blogpage-thumb">
+
+          <img 
+            src="{{ post.thumbnail | default:'/assets/default-tool.webp' | relative_url }}"
+            alt="{{ post.title }}"
+            loading="lazy">
+
+        </a>
+
+        <div class="blogpage-content">
+
+          <h2>
+            <a href="{{ post.url | relative_url }}">
+              {{ post.title }}
+            </a>
+          </h2>
+
+          {% if post.category %}
+          <a 
+            href="{{ '/category/' | append: post.category | append: '/' | relative_url }}"
+            class="blogpage-category-link">
+
+            {{ post.category }}
+
+          </a>
+          {% endif %}
+
+          {% if post.description %}
+          <p>
+            {{ post.description | strip_html | truncate: 120 }}
+          </p>
+          {% endif %}
+
+        </div>
+
+      </article>
+
+    {% endfor %}
+
+  </div>
+
+</div>
