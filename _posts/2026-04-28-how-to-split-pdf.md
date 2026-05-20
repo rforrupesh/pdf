@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "post 1"
-thumbnail: /assets/img/Fancy-Text-Style.png
+thumbnail: /assets/img/Stylish-Name.png
 ---
 
 This is a complete guide to split PDF files online.
