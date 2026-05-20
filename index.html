@@ -790,13 +790,34 @@ if (menuBtn) {
 }
 </script>
 
-<div class="post-grid">
+<!-- ── RELATED BLOGS / TOOLS ── -->
+<hr class="divider">
+
+<h2 class="section-title">More PDF Tools</h2>
+
+<div class="relatedbloganywhere-grid">
   {% for post in site.posts limit:5 %}
-    <div class="post-card">
-      <a href="{{ post.url }}">
-        <img src="{{ post.thumbnail }}" alt="{{ post.title }}">
-        <h2>{{ post.title }}</h2>
-      </a>
+  
+  <a href="{{ post.url }}" class="relatedbloganywhere-card">
+
+    <div class="relatedbloganywhere-thumb">
+      <img 
+        src="{{ post.thumbnail | default:'/assets/default-tool.webp' }}" 
+        alt="{{ post.title }}"
+        loading="lazy">
+
+      {% if post.category %}
+      <span class="relatedbloganywhere-category">
+        {{ post.category }}
+      </span>
+      {% endif %}
     </div>
+
+    <div class="relatedbloganywhere-content">
+      <h3>{{ post.title }}</h3>
+    </div>
+
+  </a>
+
   {% endfor %}
 </div>
