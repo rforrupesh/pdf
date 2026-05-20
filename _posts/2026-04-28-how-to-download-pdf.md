@@ -2,6 +2,7 @@
 layout: post
 title: "How to Download PDF (Complete Guide)"
 thumbnail: /assets/img/Fancy-Text-Style.png
+category: mergepdf
 ---
 
 Downloading PDFs is simple once you understand the process. This guide will walk you through everything step-by-step.
