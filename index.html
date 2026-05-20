@@ -792,11 +792,17 @@ if (menuBtn) {
 
 <!-- ── RELATED BLOGS / TOOLS ── -->
 
+{% assign seo_posts = site.posts | where:"category","seo" %}
+
 <div class="relatedbloganywhere-grid post-content">
 
-  {% assign seo_posts = site.posts | where:"category","seo" %}
+  {% if seo_posts.size > 0 %}
+    {% assign posts_to_show = seo_posts %}
+  {% else %}
+    {% assign posts_to_show = site.posts %}
+  {% endif %}
 
-  {% for post in seo_posts %}
+  {% for post in posts_to_show %}
 
     <a 
       class="relatedbloganywhere-card" 
@@ -809,9 +815,11 @@ if (menuBtn) {
           alt="{{ post.title }}"
           loading="lazy">
 
+        {% if post.category %}
         <span class="relatedbloganywhere-category">
           {{ post.category }}
         </span>
+        {% endif %}
 
       </div>
 
