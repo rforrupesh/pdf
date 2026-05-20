@@ -791,3 +791,36 @@ if (menuBtn) {
 </script>
 
 <!-- ── RELATED BLOGS / TOOLS ── -->
+
+<div class="relatedbloganywhere-grid post-content">
+
+  {% assign seo_posts = site.posts | where:"category","seo" %}
+
+  {% for post in seo_posts %}
+
+    <a 
+      class="relatedbloganywhere-card" 
+      href="{{ post.url | relative_url }}">
+
+      <div class="relatedbloganywhere-thumb">
+
+        <img 
+          src="{{ post.thumbnail | default:'/assets/default-tool.webp' | relative_url }}" 
+          alt="{{ post.title }}"
+          loading="lazy">
+
+        <span class="relatedbloganywhere-category">
+          {{ post.category }}
+        </span>
+
+      </div>
+
+      <div class="relatedbloganywhere-content">
+        <h3>{{ post.title }}</h3>
+      </div>
+
+    </a>
+
+  {% endfor %}
+
+</div>
