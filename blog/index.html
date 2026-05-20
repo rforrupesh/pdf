@@ -5,6 +5,39 @@ title: Blog
 
 <h1 class="page-title">Blog</h1>
 
+<div class="relatedbloganywhere-grid">
+
+  {% for post in site.posts %}
+
+    <a 
+      class="relatedbloganywhere-card" 
+      href="{{ post.url | relative_url }}">
+
+      <div class="relatedbloganywhere-thumb">
+
+        <img 
+          src="{{ post.thumbnail | default:'/assets/default-tool.webp' | relative_url }}" 
+          alt="{{ post.title }}"
+          loading="lazy">
+
+        {% if post.category %}
+        <span class="relatedbloganywhere-category">
+          {{ post.category }}
+        </span>
+        {% endif %}
+
+      </div>
+
+      <div class="relatedbloganywhere-content">
+        <h3>{{ post.title }}</h3>
+      </div>
+
+    </a>
+
+  {% endfor %}
+
+</div>
+
 <div class="cards">
   {% for post in site.posts %}
     
