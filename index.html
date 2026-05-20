@@ -784,3 +784,14 @@ if (menuBtn) {
   });
 }
 </script>
+
+<div class="post-grid">
+  {% for post in site.posts limit:5 %}
+    <div class="post-card">
+      <a href="{{ post.url }}">
+        <img src="{{ post.thumbnail }}" alt="{{ post.title }}">
+        <h2>{{ post.title }}</h2>
+      </a>
+    </div>
+  {% endfor %}
+</div>
