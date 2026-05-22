@@ -23,7 +23,7 @@ permalink: /category/
 
           <h2>
             <a href="{{ '/category/' | append: category | append: '/' | relative_url }}">
-              {{ category | capitalize }}
+              
             </a>
           </h2>
 
