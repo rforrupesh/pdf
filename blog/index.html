@@ -17,6 +17,7 @@ title: Blog
       <article class="blogpage-card">
 
         <!-- IMAGE -->
+
         <a href="{{ post.url | relative_url }}" class="blogpage-thumb">
 
           <img 
@@ -27,9 +28,9 @@ title: Blog
         </a>
 
         <!-- CONTENT -->
+
         <div class="blogpage-content">
 
-          <!-- TITLE -->
           <h2>
             <a href="{{ post.url | relative_url }}">
               {{ post.title }}
@@ -37,9 +38,10 @@ title: Blog
           </h2>
 
           <!-- CATEGORY -->
+
           {% if post.category %}
           <a 
-            href="{{ '/category/' | append: post.category | slugify | append: '/' | relative_url }}"
+            href="{{ '/category/' | append: post.category | append: '/' | relative_url }}"
             class="blogpage-category-link">
 
             {{ post.category }}
@@ -48,6 +50,7 @@ title: Blog
           {% endif %}
 
           <!-- DESCRIPTION -->
+
           {% if post.description %}
           <p>
             {{ post.description | strip_html | truncate: 120 }}
