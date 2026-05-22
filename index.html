@@ -438,7 +438,7 @@ scripts:
         {% if post.category %}
         <a 
           class="relatedbloganywhere-category"
-          href="{{ '/category/' | append: post.category | slugify | relative_url }}">
+          href="{{ '/category/' | append: post.category | slugify | append:'/' | relative_url }}">
           {{ post.category }}
         </a>
         {% endif %}
