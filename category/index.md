@@ -17,13 +17,15 @@ permalink: /category/
 
     {% for category in categories %}
 
+      {% assign category_name = category | replace: '-', ' ' %}
+
       <article class="blogpage-card">
 
         <div class="blogpage-content">
 
           <h2>
             <a href="{{ '/category/' | append: category | append: '/' | relative_url }}">
-              {{ category | capitalize }}
+              {{ category_name | capitalize }}
             </a>
           </h2>
 
