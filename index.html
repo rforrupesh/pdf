@@ -410,6 +410,9 @@ scripts:
     
 <!-- ── RELATED BLOGS / TOOLS ── -->
 
+
+<!-- ── RELATED BLOGS / TOOLS ── -->
+
 {% assign seo_posts = site.posts | where:"category","seo" %}
 
 <div class="relatedbloganywhere-grid post-content">
@@ -435,7 +438,9 @@ scripts:
 
         {% if post.category %}
         <span class="relatedbloganywhere-category">
-          {{ post.category }}
+          <a href="/category/{{ post.category | slugify }}/">
+            {{ post.category }}
+          </a>
         </span>
         {% endif %}
 
@@ -450,8 +455,6 @@ scripts:
   {% endfor %}
 
 </div>
-
-
 
     
   </div>
