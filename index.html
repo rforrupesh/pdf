@@ -409,7 +409,6 @@ scripts:
 
     
 <!-- ── RELATED BLOGS / TOOLS ── -->
-
 <!-- ── RELATED BLOGS / TOOLS ── -->
 
 {% assign seo_posts = site.posts | where:"category","seo" %}
@@ -424,36 +423,41 @@ scripts:
 
   {% for post in posts_to_show %}
 
-    <a 
-      class="relatedbloganywhere-card" 
-      href="{{ post.url | relative_url }}">
+    <div class="relatedbloganywhere-card">
 
-      <div class="relatedbloganywhere-thumb">
+      <a href="{{ post.url | relative_url }}">
 
-        <img 
-          src="{{ post.thumbnail | default:'/assets/default-tool.webp' | relative_url }}" 
-          alt="{{ post.title }}"
-          loading="lazy">
+        <div class="relatedbloganywhere-thumb">
 
-        {% if post.category %}
-        <a 
-          class="relatedbloganywhere-category"
-          href="{{ '/category/' | append: post.category | slugify | append:'/' | relative_url }}">
-          {{ post.category }}
-        </a>
-        {% endif %}
+          <img 
+            src="{{ post.thumbnail | default:'/assets/default-tool.webp' | relative_url }}" 
+            alt="{{ post.title }}"
+            loading="lazy">
 
-      </div>
+        </div>
+
+      </a>
+
+      {% if post.category %}
+      <a 
+        class="relatedbloganywhere-category"
+        href="{{ site.baseurl }}/category/{{ post.category | slugify }}/">
+        {{ post.category }}
+      </a>
+      {% endif %}
 
       <div class="relatedbloganywhere-content">
-        <h3>{{ post.title }}</h3>
+        <a href="{{ post.url | relative_url }}">
+          <h3>{{ post.title }}</h3>
+        </a>
       </div>
 
-    </a>
+    </div>
 
   {% endfor %}
 
 </div>
+
 
     
   </div>
