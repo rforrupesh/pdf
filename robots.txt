@@ -1,0 +1,8 @@
+---
+layout: none
+permalink: /robots.txt
+---
+User-agent: *
+Allow: /
+
+Sitemap: https://rforrupesh.github.io/pdf/sitemap.xml
