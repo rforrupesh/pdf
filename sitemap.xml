@@ -1,25 +1,12 @@
----
-layout: none
-permalink: /sitemap.xml
----
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-
-  <!-- HOME -->
-  <url>
-    <loc>{{ site.url }}{{ site.baseurl }}/</loc>
-    <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>1.0</priority>
-  </url>
-
-  <!-- TOOL PAGES + CATEGORY PAGES (exclude noindex, 404, sitemap, /category/ index) -->
-  {% for page in site.pages %}
+{% for page in site.pages %}
     {% unless page.robots == 'noindex'
         or page.url == '/sitemap.xml'
         or page.url == '/404.html'
         or page.url == '/category/'
-        or page.url == '/' %}
+        or page.url == '/'
+        or page.url contains '.json'
+        or page.url contains '.xml'
+        or page.url contains '.txt' %}
     <url>
       <loc>{{ site.url }}{{ site.baseurl }}{{ page.url }}</loc>
       <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
@@ -28,17 +15,3 @@ permalink: /sitemap.xml
     </url>
     {% endunless %}
   {% endfor %}
-
-  <!-- POSTS / ARTICLES -->
-  {% for post in site.posts %}
-    {% unless post.robots == 'noindex' %}
-    <url>
-      <loc>{{ site.url }}{{ site.baseurl }}{{ post.url }}</loc>
-      <lastmod>{{ post.last_modified_at | default: post.date | date_to_xmlschema }}</lastmod>
-      <changefreq>monthly</changefreq>
-      <priority>0.7</priority>
-    </url>
-    {% endunless %}
-  {% endfor %}
-
-</urlset>
