@@ -3,6 +3,7 @@ layout: post
 title: "Why Download PDF Files? (Complete Guide)"
 description: "Faster Access Once downloaded, PDFs open instantly without needing internet access. Easy Printing"
 thumbnail: /assets/img/Stylish-Name.png
+category: mergepdf
 ---
 
 ```markdown
