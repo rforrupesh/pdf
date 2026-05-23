@@ -1,5 +1,0 @@
----
----
-{% capture _content %}{{ content }}{% endcapture %}{% assign _p = _content | split: '<pre' %}{% for _i in _p %}{% if forloop.first %}{{ _i | split: '</pre>' | last | replace: '  ', ' ' | replace: '  ', ' ' | replace: '
-', '' | replace: '	', '' | strip }}{% else %}{% assign _s = _i | split: '</pre>' %}{% if _s.size == 2 %}<pre{{ _s.first }}</pre>{{ _s.last | replace: '  ', ' ' | replace: '  ', ' ' | replace: '
-', '' | replace: '	', '' | strip }}{% else %}<pre{{ _i }}{% endif %}{% endif %}{% endfor %}
