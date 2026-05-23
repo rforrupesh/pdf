@@ -409,53 +409,40 @@ scripts:
 
     
 <!-- ── RELATED BLOGS / TOOLS ── -->
-
 {% assign seo_posts = site.posts | where:"category","seo" %}
-
 <div class="relatedbloganywhere-grid post-content">
-
   {% if seo_posts.size > 0 %}
     {% assign posts_to_show = seo_posts %}
   {% else %}
     {% assign posts_to_show = site.posts %}
   {% endif %}
-
   {% for post in posts_to_show %}
-
     <div class="relatedbloganywhere-card">
-
       <a href="{{ post.url | relative_url }}">
-
         <div class="relatedbloganywhere-thumb">
-
           <img 
             src="{{ post.thumbnail | default:'/assets/default-tool.webp' | relative_url }}" 
             alt="{{ post.title }}"
             loading="lazy">
-
         </div>
-
       </a>
-
       {% if post.category %}
-        <a 
-          href="{{ '/category/' | append: post.category | slugify | append: '/' | relative_url }}"
-          class="relatedbloganywhere-category">
-          {{ post.category }}
-        </a>
+      {% assign category_slug = post.category | downcase | replace: ' ', '-' %}
+      <a 
+        class="relatedbloganywhere-category"
+        href="{{ site.baseurl }}/category/{{ category_slug }}/">
+        {{ post.category }}
+      </a>
       {% endif %}
-
       <div class="relatedbloganywhere-content">
         <a href="{{ post.url | relative_url }}">
           <h3>{{ post.title }}</h3>
         </a>
       </div>
-
     </div>
-
   {% endfor %}
-
 </div>
+
 
 
 
