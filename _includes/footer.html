@@ -2,6 +2,165 @@
   <p>
     © <a href="/">Unificar PDF</a> - Tu editor de PDF · Made with Love
   </p>
+
+<!-- ── FAB GROUP (Share + Back to Top) ── -->
+<style>
+.fab-group {
+  position: fixed;
+  bottom: 28px;
+  right: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  z-index: 500;
+}
+.fab-btn {
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border);
+  background: #fff;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text);
+  transition: all .18s;
+  box-shadow: 0 2px 10px rgba(0,0,0,.1);
+}
+.fab-btn:hover { background: var(--blue-light); border-color: #93c5fd; color: var(--blue); }
+.fab-btn svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.fab-btn.share-fab { background: var(--blue); border-color: var(--blue); color: #fff; }
+.fab-btn.share-fab:hover { background: var(--blue-hover); }
+.fab-btn.share-fab svg { stroke: #fff; }
+#backTopBtn { display: none; }
+
+/* Share Modal */
+.share-overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.3);
+  z-index: 600;
+  align-items: flex-end;
+  justify-content: center;
+}
+.share-overlay.active { display: flex; }
+.share-modal {
+  background: #fff;
+  border-radius: 16px 16px 0 0;
+  width: 100%; max-width: 480px;
+  padding: 0 0 24px;
+  animation: shareSlideUp .28s cubic-bezier(0.32,0.72,0,1);
+}
+@keyframes shareSlideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+.share-handle { width: 36px; height: 4px; background: #ddd; border-radius: 2px; margin: 12px auto 14px; }
+.share-header { display: flex; align-items: center; justify-content: space-between; padding: 0 18px 14px; border-bottom: 1px solid var(--border); }
+.share-header h3 { font-size: 15px; font-weight: 600; color: var(--text); }
+.share-close { width: 28px; height: 28px; border-radius: 50%; background: #f0f0f0; border: none; cursor: pointer; font-size: 14px; color: #555; display: flex; align-items: center; justify-content: center; }
+.share-close:hover { background: #e5e7eb; }
+.share-url-row { display: flex; align-items: center; gap: 8px; padding: 14px 18px; border-bottom: 1px solid var(--border); }
+.share-url-input { flex: 1; background: #f4f5f7; border: 1px solid var(--border); border-radius: 7px; padding: 8px 10px; font-size: 12px; color: var(--text-muted); font-family: inherit; outline: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.share-copy-btn { flex-shrink: 0; background: var(--blue); color: #fff; border: none; border-radius: 7px; padding: 8px 14px; font-size: 12px; font-weight: 500; cursor: pointer; font-family: inherit; transition: background .15s; }
+.share-copy-btn:hover { background: var(--blue-hover); }
+.share-copy-btn.copied { background: #16a34a; }
+.share-social-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; padding: 14px 18px 0; }
+.share-social-btn { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 12px 6px; border: 1px solid var(--border); border-radius: 10px; cursor: pointer; background: #fff; transition: all .15s; text-decoration: none; }
+.share-social-btn:hover { border-color: #93c5fd; background: var(--blue-light); }
+.share-social-btn span { font-size: 11px; font-weight: 500; color: var(--text-muted); }
+.share-social-btn:hover span { color: var(--blue); }
+.share-social-btn svg { width: 22px; height: 22px; }
+@media (max-width: 700px) {
+  .fab-group { bottom: 80px; right: 16px; }
+}
+</style>
+
+<!-- Floating Buttons -->
+<div class="fab-group">
+  <button class="fab-btn" id="backTopBtn" title="Back to top" aria-label="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+    <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+  </button>
+  <button class="fab-btn share-fab" title="Share this page" aria-label="Share this page" onclick="openShareModal()">
+    <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+  </button>
+</div>
+
+<!-- Share Modal -->
+<div class="share-overlay" id="shareOverlay" onclick="if(event.target===this)closeShareModal()">
+  <div class="share-modal">
+    <div class="share-handle"></div>
+    <div class="share-header">
+      <h3>Share this page</h3>
+      <button class="share-close" onclick="closeShareModal()" aria-label="Close">✕</button>
+    </div>
+    <div class="share-url-row">
+      <input class="share-url-input" id="shareUrlInput" readonly>
+      <button class="share-copy-btn" id="shareCopyBtn" onclick="copyShareUrl()">Copy link</button>
+    </div>
+    <div class="share-social-grid">
+      <a class="share-social-btn" href="#" onclick="doSocialShare('fb',event)" title="Facebook">
+        <svg viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="5" fill="#1877F2"/><path d="M16 8h-2a1 1 0 00-1 1v2h3l-.5 3H13v7h-3v-7H8v-3h2V9a4 4 0 014-4h2v3z" fill="#fff"/></svg>
+        <span>Facebook</span>
+      </a>
+      <a class="share-social-btn" href="#" onclick="doSocialShare('x',event)" title="X">
+        <svg viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="5" fill="#000"/><path d="M17.5 4h2.5l-5.5 6.3L21 20h-5l-3.6-4.7L8 20H5.5l5.9-6.7L4 4h5.2l3.2 4.2L17.5 4zm-.9 14.4h1.4L7.5 5.4H6l10.6 13z" fill="#fff"/></svg>
+        <span>X</span>
+      </a>
+      <a class="share-social-btn" href="#" onclick="doSocialShare('linkedin',event)" title="LinkedIn">
+        <svg viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="5" fill="#0A66C2"/><path d="M7 9h2v9H7V9zm1-1.5a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5zM11 9h2v1.3c.4-.7 1.3-1.5 2.7-1.5C17.7 8.8 18 10.5 18 12v6h-2v-5.5c0-1.3-.5-2-1.5-2s-1.5.7-1.5 2V18h-2V9z" fill="#fff"/></svg>
+        <span>LinkedIn</span>
+      </a>
+      <a class="share-social-btn" href="#" onclick="doSocialShare('whatsapp',event)" title="WhatsApp">
+        <svg viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="5" fill="#25D366"/><path d="M12 4a8 8 0 00-6.8 12.2L4 20l3.9-1.2A8 8 0 1012 4zm4.4 10.9c-.2.5-1 .9-1.4 1-.4 0-.8.1-2.6-.5-2.2-.8-3.6-3-3.7-3.2-.1-.1-.9-1.2-.9-2.3 0-1.1.6-1.6.8-1.8.2-.2.5-.3.7-.3h.5c.2 0 .4.1.5.4l.8 2c.1.2 0 .4-.1.5l-.4.5c-.1.1-.2.3-.1.5.3.5.7 1 1.1 1.4.5.4 1 .7 1.5.9.2.1.4 0 .5-.1l.4-.5c.1-.2.3-.2.5-.1l2 .9c.2.1.3.2.3.4 0 .4-.2.8-.4.8z" fill="#fff"/></svg>
+        <span>WhatsApp</span>
+      </a>
+      <a class="share-social-btn" href="#" onclick="doSocialShare('pinterest',event)" title="Pinterest">
+        <svg viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="5" fill="#E60023"/><path d="M12 3C7 3 3 7 3 12c0 3.9 2.4 7.3 5.9 8.7-.1-.7-.1-1.8.1-2.6.2-.7 1.4-5.8 1.4-5.8s-.4-.7-.4-1.8c0-1.7 1-2.9 2.2-2.9 1 0 1.5.8 1.5 1.7 0 1-.7 2.6-1 4 0 1.7 1.2 3 2.9 3 3.5 0 5.9-4.5 5.9-9.7 0-4-2.7-6.8-6.6-6.8-4.5 0-7.2 3.4-7.2 6.9 0 1.4.5 2.8 1.3 3.6.1.1.2.3.1.5l-.5 1.8c-.1.2-.3.3-.5.2C6.1 15.6 5 14 5 12.2c0-4.9 3.6-9.5 10.2-9.5 5.4 0 9.5 3.8 9.5 8.9 0 5.3-3.3 9.6-7.9 9.6-1.6 0-3-.8-3.5-1.8l-.9 3.5c-.3 1.2-1.2 2.7-1.8 3.6.7.2 1.3.3 2 .3 4.9 0 9-4 9-9S17 3 12 3z" fill="#fff"/></svg>
+        <span>Pinterest</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ── SHARE MODAL ── */
+function openShareModal() {
+  document.getElementById('shareUrlInput').value = window.location.href;
+  document.getElementById('shareOverlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeShareModal() {
+  document.getElementById('shareOverlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+function copyShareUrl() {
+  navigator.clipboard.writeText(window.location.href).catch(() => {
+    const inp = document.getElementById('shareUrlInput');
+    inp.select(); document.execCommand('copy');
+  });
+  const btn = document.getElementById('shareCopyBtn');
+  btn.textContent = 'Copied!';
+  btn.classList.add('copied');
+  setTimeout(() => { btn.textContent = 'Copy link'; btn.classList.remove('copied'); }, 2000);
+}
+function doSocialShare(platform, e) {
+  e.preventDefault();
+  const url = encodeURIComponent(window.location.href);
+  const title = encodeURIComponent(document.title);
+  const urls = {
+    fb: `https://www.facebook.com/sharer/sharer.php?u=${url}`,
+    x: `https://twitter.com/intent/tweet?url=${url}&text=${title}`,
+    linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${url}`,
+    whatsapp: `https://wa.me/?text=${title}%20${url}`,
+    pinterest: `https://pinterest.com/pin/create/button/?url=${url}&description=${title}`
+  };
+  window.open(urls[platform], '_blank', 'width=600,height=500');
+  closeShareModal();
+}
+
+/* ── BACK TO TOP ── */
+window.addEventListener('scroll', () => {
+  document.getElementById('backTopBtn').style.display = window.scrollY > 300 ? 'flex' : 'none';
+});
+</script>
+  
 </footer>
 
 <script src="https://rforrupesh.github.io/pdf/assets/js/script.js"></script>
