@@ -409,7 +409,7 @@ scripts:
 
     
 <!-- ── RELATED BLOGS / TOOLS ── -->
-{% assign seo_posts = site.posts | where:"category","seo" %}
+{% assign seo_posts = site.posts | where:"category","mergepdf" %}
 <div class="relatedbloganywhere-grid post-content">
   {% if seo_posts.size > 0 %}
     {% assign posts_to_show = seo_posts %}
@@ -427,12 +427,12 @@ scripts:
         </div>
       </a>
       {% if post.category %}
-      {% assign category_slug = post.category | downcase | replace: ' ', '-' %}
-      <a 
-        class="relatedbloganywhere-category"
-        href="{{ site.baseurl }}/category/{{ category_slug }}/">
-        {{ post.category }}
-      </a>
+        {% assign cat_page = site.pages | where:"category_name", post.category | first %}
+        <a 
+          class="relatedbloganywhere-category"
+          href="{{ site.baseurl }}/category/{{ post.category }}/">
+          {{ cat_page.title | default: post.category }}
+        </a>
       {% endif %}
       <div class="relatedbloganywhere-content">
         <a href="{{ post.url | relative_url }}">
