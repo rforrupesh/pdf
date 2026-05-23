@@ -3,10 +3,6 @@
     © <a href="/">Unificar PDF</a> - Tu editor de PDF · Made with Love
   </p>
 
-  <!-- ═══════════════════════════════════════════
-     SHARE SYSTEM — Full Responsive
-     FAB group + Three-dot panel + Share modal
-     ═══════════════════════════════════════════ -->
 
 <style>
 /* ── Variables ── */
@@ -16,8 +12,6 @@
   --blue-light: #eff6ff;
   --border: rgba(0,0,0,.12);
   --bg: #fff;
-  --bg2: #f4f5f7;
-  --text: #111;
   --muted: #6b7280;
   --radius-md: 8px;
   --radius-lg: 12px;
@@ -63,59 +57,6 @@
 /* Back to top */
 .fab-top { display: none; }
 
-/* Three-dot dots */
-.fab-dots svg circle { fill: var(--muted); stroke: none; transition: fill .18s; }
-.fab-dots:hover svg circle,
-.fab-dots.active svg circle { fill: var(--blue); }
-.fab-dots.active { background: var(--blue-light); border-color: #93c5fd; }
-
-/* ── Dots panel ── */
-.fab-dots-wrap { position: relative; }
-
-.dp {
-  position: absolute;
-  bottom: 54px; right: 0;
-  width: 234px;
-  background: var(--bg);
-  border: 1px solid rgba(0,0,0,.1);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  opacity: 0; pointer-events: none;
-  transform: scale(.94) translateY(6px);
-  transform-origin: bottom right;
-  transition: opacity .17s, transform .17s;
-  z-index: 600;
-  box-shadow: 0 4px 20px rgba(0,0,0,.12);
-}
-.dp.open { opacity: 1; pointer-events: auto; transform: scale(1) translateY(0); }
-
-.dp-sec { padding: 5px 0; }
-.dp-sec + .dp-sec { border-top: 1px solid rgba(0,0,0,.07); }
-.dp-lbl {
-  font-size: 10px; font-weight: 600;
-  color: var(--muted);
-  padding: 5px 14px 3px;
-  letter-spacing: .05em;
-  text-transform: uppercase;
-}
-.dp-row {
-  display: flex; align-items: center; gap: 10px;
-  padding: 9px 14px;
-  text-decoration: none;
-  cursor: pointer;
-  transition: background .12s;
-}
-.dp-row:hover { background: #f8f9fb; }
-.dp-ico {
-  width: 30px; height: 30px;
-  border-radius: 8px;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-}
-.dp-ico svg { width: 15px; height: 15px; }
-.dp-name { font-size: 13px; color: var(--text); }
-.dp-sub { font-size: 11px; color: var(--muted); }
-
 /* ── Overlay ── */
 .s-overlay {
   display: none;
@@ -148,7 +89,7 @@
   padding: 0 18px 13px;
   border-bottom: 1px solid rgba(0,0,0,.08);
 }
-.s-head h3 { font-size: 15px; font-weight: 600; color: var(--text); margin: 0; }
+.s-head h3 { font-size: 15px; font-weight: 600; color: #111; margin: 0; }
 .s-x {
   width: 28px; height: 28px; border-radius: 50%;
   background: #f0f0f0; border: none; cursor: pointer;
@@ -217,7 +158,6 @@
     animation: fadeIn .2s cubic-bezier(.32,.72,0,1) forwards;
   }
   .s-handle { display: none; }
-  .dp { width: 244px; }
 }
 
 /* ── Mobile ≤ 480px ── */
@@ -228,8 +168,6 @@
   .s-grid { grid-template-columns: repeat(5, 1fr); gap: 5px; padding: 12px 14px 18px; }
   .s-item { padding: 10px 3px; }
   .s-item span { font-size: 9px; }
-  .dp { width: 214px; }
-  .dp-name { font-size: 12px; }
 }
 
 /* ── Very small ≤ 360px: 4 columns, hide labels ── */
@@ -250,123 +188,6 @@
     <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
   </button>
 
-  <!-- Three-dot + panel -->
-  <div class="fab-dots-wrap">
-    <div class="dp" id="dotsPanel">
-
-      <div class="dp-sec">
-        <div class="dp-lbl">Device</div>
-        <a class="dp-row" href="#" onclick="go('sms',event)">
-          <div class="dp-ico" style="background:#34c75918;">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#34c759" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
-            </svg>
-          </div>
-          <div><div class="dp-name">Messages</div><div class="dp-sub">SMS / iMessage</div></div>
-        </a>
-        <a class="dp-row" href="#" onclick="go('email',event)">
-          <div class="dp-ico" style="background:#007aff18;">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#007aff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="2" y="4" width="20" height="16" rx="2"/>
-              <polyline points="2,4 12,13 22,4"/>
-            </svg>
-          </div>
-          <div><div class="dp-name">Email</div><div class="dp-sub">Mail app</div></div>
-        </a>
-        <a class="dp-row" href="#" onclick="go('native',event)">
-          <div class="dp-ico" style="background:#ff950018;">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#ff9500" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
-              <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
-              <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
-            </svg>
-          </div>
-          <div><div class="dp-name">More options</div><div class="dp-sub">System share sheet</div></div>
-        </a>
-      </div>
-
-      <div class="dp-sec">
-        <div class="dp-lbl">Messaging</div>
-        <a class="dp-row" href="#" onclick="go('wa',event)">
-          <div class="dp-ico" style="background:#25d36618;">
-            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#25d366"/>
-              <path d="M16.4 14.9c-.2.5-1 .9-1.4 1-.4 0-.8.1-2.6-.5-2.2-.8-3.6-3-3.7-3.2-.1-.1-.9-1.2-.9-2.3 0-1.1.6-1.6.8-1.8.2-.2.5-.3.7-.3h.5c.2 0 .4.1.5.4l.8 2c.1.2 0 .4-.1.5l-.4.5c-.1.1-.2.3-.1.5.3.5.7 1 1.1 1.4.5.4 1 .7 1.5.9.2.1.4 0 .5-.1l.4-.5c.1-.2.3-.2.5-.1l2 .9c.2.1.3.2.3.4 0 .4-.2.8-.4.8z" fill="#fff"/>
-            </svg>
-          </div>
-          <div><div class="dp-name">WhatsApp</div></div>
-        </a>
-        <a class="dp-row" href="#" onclick="go('tg',event)">
-          <div class="dp-ico" style="background:#229ed918;">
-            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#229ed9"/>
-              <path d="M6 12l2 6 2.5-3L14 17l4-9-12 4z" fill="#fff"/>
-            </svg>
-          </div>
-          <div><div class="dp-name">Telegram</div></div>
-        </a>
-        <a class="dp-row" href="#" onclick="go('signal',event)">
-          <div class="dp-ico" style="background:#3a76f018;">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#3a76f0" stroke-width="2" stroke-linecap="round">
-              <circle cx="12" cy="12" r="9"/><path d="M8 12a4 4 0 008 0"/><circle cx="12" cy="12" r="1" fill="#3a76f0" stroke="none"/>
-            </svg>
-          </div>
-          <div><div class="dp-name">Signal</div></div>
-        </a>
-      </div>
-
-      <div class="dp-sec">
-        <div class="dp-lbl">Social</div>
-        <a class="dp-row" href="#" onclick="go('x',event)">
-          <div class="dp-ico" style="background:rgba(0,0,0,.06);">
-            <svg viewBox="0 0 24 24"><path d="M17.5 4h2.5l-5.5 6.3L21 20h-5l-3.6-4.7L8 20H5.5l5.9-6.7L4 4h5.2l3.2 4.2L17.5 4zm-.9 14.4h1.4L7.5 5.4H6l10.6 13z" fill="#000"/></svg>
-          </div>
-          <div><div class="dp-name">X (Twitter)</div></div>
-        </a>
-        <a class="dp-row" href="#" onclick="go('fb',event)">
-          <div class="dp-ico" style="background:#1877f218;">
-            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#1877f2"/>
-              <path d="M15 8h-1.5A.5.5 0 0013 8.5V10h2l-.3 2H13v6h-2v-6H9v-2h2V8.5A2.5 2.5 0 0113.5 6H15v2z" fill="#fff"/>
-            </svg>
-          </div>
-          <div><div class="dp-name">Facebook</div></div>
-        </a>
-        <a class="dp-row" href="#" onclick="go('li',event)">
-          <div class="dp-ico" style="background:#0a66c218;">
-            <svg viewBox="0 0 24 24"><rect width="24" height="24" rx="4" fill="#0a66c2"/>
-              <path d="M7 9h2v9H7V9zm1-1.5a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5zM11 9h2v1.3c.4-.7 1.3-1.5 2.7-1.5C17.7 8.8 18 10.5 18 12v6h-2v-5.5c0-1.3-.5-2-1.5-2s-1.5.7-1.5 2V18h-2V9z" fill="#fff"/>
-            </svg>
-          </div>
-          <div><div class="dp-name">LinkedIn</div></div>
-        </a>
-        <a class="dp-row" href="#" onclick="go('rd',event)">
-          <div class="dp-ico" style="background:#ff450018;">
-            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#ff4500"/>
-              <path d="M19 12a2 2 0 00-3.3-1.5c-.9-.6-2.1-.9-3.4-1l.5-2.6 1.9.4a1.3 1.3 0 101.3-1.3 1.3 1.3 0 00-1.2.9l-2.2-.5c-.2 0-.3.1-.4.3l-.6 2.9c-1.3.1-2.5.5-3.4 1.1A2 2 0 005 12a2 2 0 001 1.7v.5c0 2.4 2.7 4.3 6 4.3s6-1.9 6-4.3v-.5A2 2 0 0019 12zm-10.5 1a1 1 0 110-2 1 1 0 010 2zm6.2 2.5c-.6.6-1.7.8-2.7.8s-2.1-.2-2.7-.8a.3.3 0 01.4-.4c.5.5 1.5.7 2.3.7s1.8-.2 2.3-.7a.3.3 0 01.4.4zm-.2-1.5a1 1 0 110-2 1 1 0 010 2z" fill="#fff"/>
-            </svg>
-          </div>
-          <div><div class="dp-name">Reddit</div></div>
-        </a>
-        <a class="dp-row" href="#" onclick="go('pin',event)">
-          <div class="dp-ico" style="background:#e6002318;">
-            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#e60023"/>
-              <path d="M12 4c-4.4 0-8 3.6-8 8 0 3.4 2.1 6.3 5.1 7.5 0-.6 0-1.6.2-2.3l1.2-5s-.3-.6-.3-1.5c0-1.5.9-2.5 1.9-2.5.9 0 1.3.7 1.3 1.5 0 .9-.6 2.3-.9 3.5-.2 1.5.8 2.6 2.5 2.6 3 0 5.1-3.9 5.1-8.4 0-3.5-2.4-5.9-5.7-5.9-3.9 0-6.2 2.9-6.2 5.9 0 1.2.4 2.4 1.1 3.1.1.1.1.2.1.4l-.4 1.6c-.1.2-.2.2-.4.2C6 13.4 5 11.8 5 10c0-4.2 3.1-8 8.9-8C18.4 2 22 5.3 22 9.7c0 4.6-2.9 8.3-6.8 8.3-1.4 0-2.6-.7-3-1.5l-.8 3c-.3 1-1 2.3-1.6 3.1.5.1 1.1.2 1.7.2 4.4 0 8-3.6 8-8s-3.6-8-8-8z" fill="#fff"/>
-            </svg>
-          </div>
-          <div><div class="dp-name">Pinterest</div></div>
-        </a>
-      </div>
-
-    </div>
-
-    <button class="fab fab-dots" id="fabDots"
-      aria-label="More share options" onclick="toggleDots()">
-      <svg viewBox="0 0 24 24" width="18" height="18">
-        <circle cx="12" cy="5"  r="1.6" fill="#6b7280" stroke="none"/>
-        <circle cx="12" cy="12" r="1.6" fill="#6b7280" stroke="none"/>
-        <circle cx="12" cy="19" r="1.6" fill="#6b7280" stroke="none"/>
-      </svg>
-    </button>
-  </div>
-
   <button class="fab fab-share" aria-label="Share this page" onclick="openModal()">
     <svg viewBox="0 0 24 24">
       <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
@@ -374,6 +195,7 @@
       <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
     </svg>
   </button>
+
 </div>
 
 
@@ -419,7 +241,7 @@
         <span>Reddit</span>
       </a>
       <a class="s-item" href="#" onclick="go('pin',event)" aria-label="Pinterest">
-        <svg viewBox="0 0 24 24"><rect width="24" height="24" rx="5" fill="#E60023"/><path d="M12 3C7 3 3 7 3 12c0 3.9 2.4 7.3 5.9 8.7-.1-.7-.1-1.8.1-2.6.2-.7 1.4-5.8 1.4-5.8s-.4-.7-.4-1.8c0-1.7 1-2.9 2.2-2.9 1 0 1.5.8 1.5 1.7 0 1-.7 2.6-1 4 0 1.7 1.2 3 2.9 3 3.5 0 5.9-4.5 5.9-9.7 0-4-2.7-6.8-6.6-6.8-4.5 0-7.2 3.4-7.2 6.9 0 1.4.5 2.8 1.3 3.6.1.1.2.3.1.5l-.5 1.8c-.1.2-.3.3-.5.2C6.1 15.6 5 14 5 12.2c0-4.9 3.6-9.5 10.2-9.5 5.4 0 9.5 3.8 9.5 8.9 0 5.3-3.3 9.6-7.9 9.6-1.6 0-3-.8-3.5-1.8l-.9 3.5c-.3 1.2-1.2 2.7-1.8 3.6.7.2 1.3.3 2 .3 4.9 0 9-4 9-9S17 3 12 3z" fill="#fff"/></svg>
+        <svg viewBox="0 0 24 24"><rect width="24" height="24" rx="5" fill="#E60023"/><path d="M12 3C7 3 3 7 3 12c0 3.9 2.4 7.3 5.9 8.7-.1-.7-.1-1.8.1-2.6.2-.7 1.4-5.8 1.4-5.8s-.4-.7-.4-1.5c0-1.5.9-2.5 1.9-2.5 1 0 1.5.8 1.5 1.7 0 1-.7 2.6-1 4 0 1.7 1.2 3 2.9 3 3.5 0 5.9-4.5 5.9-9.7 0-3.5-2.4-5.9-5.7-5.9-3.9 0-6.2 2.9-6.2 5.9 0 1.2.4 2.4 1.1 3.1.1.1.2.3.1.5l-.5 1.8c-.1.2-.3.3-.5.2C6.1 15.6 5 14 5 12.2c0-4.9 3.6-9.5 10.2-9.5C18.4 2 22 5.3 22 9.7c0 4.6-2.9 8.3-6.8 8.3-1.4 0-2.6-.7-3-1.5l-.9 3c-.3 1-1 2.3-1.6 3.1.7.2 1.3.3 2 .3 4.9 0 9-4 9-9S17 3 12 3z" fill="#fff"/></svg>
         <span>Pinterest</span>
       </a>
       <a class="s-item" href="#" onclick="go('email',event)" aria-label="Email">
@@ -441,79 +263,73 @@
 
 <script>
 (function(){
-  const map={
-    fb: u      => `https://www.facebook.com/sharer/sharer.php?u=${u}`,
-    x:  (u,t)  => `https://twitter.com/intent/tweet?url=${u}&text=${t}`,
-    wa: (u,t)  => `https://wa.me/?text=${t}%20${u}`,
-    tg: (u,t)  => `https://t.me/share/url?url=${u}&text=${t}`,
-    li: u      => `https://www.linkedin.com/sharing/share-offsite/?url=${u}`,
-    rd: (u,t)  => `https://reddit.com/submit?url=${u}&title=${t}`,
-    pin:(u,t)  => `https://pinterest.com/pin/create/button/?url=${u}&description=${t}`,
-    signal: u  => `https://signal.me`,
-    email:(u,t)=> `mailto:?subject=${t}&body=${u}`,
-    sms:  (u,t)=> `sms:?body=${t}%20${u}`
+  const map = {
+    fb:     u      => `https://www.facebook.com/sharer/sharer.php?u=${u}`,
+    x:      (u,t)  => `https://twitter.com/intent/tweet?url=${u}&text=${t}`,
+    wa:     (u,t)  => `https://wa.me/?text=${t}%20${u}`,
+    tg:     (u,t)  => `https://t.me/share/url?url=${u}&text=${t}`,
+    li:     u      => `https://www.linkedin.com/sharing/share-offsite/?url=${u}`,
+    rd:     (u,t)  => `https://reddit.com/submit?url=${u}&title=${t}`,
+    pin:    (u,t)  => `https://pinterest.com/pin/create/button/?url=${u}&description=${t}`,
+    signal: u      => `https://signal.me`,
+    email:  (u,t)  => `mailto:?subject=${t}&body=${u}`,
+    sms:    (u,t)  => `sms:?body=${t}%20${u}`
   };
 
-  window.go = function(p, e){
-    if(e) e.preventDefault();
+  window.go = function(p, e) {
+    if (e) e.preventDefault();
     const u = encodeURIComponent(window.location.href);
     const t = encodeURIComponent(document.title || 'Check this out');
-    if(p === 'native'){
-      if(navigator.share){
-        navigator.share({title: document.title, url: window.location.href}).catch(()=>{});
-      } else { openModal(); return; }
-    } else if(p === 'email' || p === 'sms'){
+    if (p === 'native') {
+      if (navigator.share) {
+        navigator.share({ title: document.title, url: window.location.href }).catch(() => {});
+      } else {
+        openModal();
+        return;
+      }
+    } else if (p === 'email' || p === 'sms') {
       window.location.href = map[p](u, t);
     } else {
       window.open(map[p](u, t), '_blank', 'width=640,height=520');
     }
-    closeDots(); closeModal();
+    closeModal();
   };
 
-  window.openModal = function(){
-    closeDots();
+  window.openModal = function() {
     document.getElementById('urlInp').value = window.location.href;
     document.getElementById('sOverlay').classList.add('on');
     document.body.style.overflow = 'hidden';
   };
-  window.closeModal = function(){
+
+  window.closeModal = function() {
     document.getElementById('sOverlay').classList.remove('on');
     document.body.style.overflow = '';
   };
-  window.doCopy = function(){
-    navigator.clipboard.writeText(window.location.href).catch(()=>{
-      const i = document.getElementById('urlInp'); i.select(); document.execCommand('copy');
+
+  window.doCopy = function() {
+    navigator.clipboard.writeText(window.location.href).catch(() => {
+      const i = document.getElementById('urlInp');
+      i.select();
+      document.execCommand('copy');
     });
     const b = document.getElementById('copyBtn');
-    b.textContent = 'Copied!'; b.classList.add('ok');
-    setTimeout(()=>{ b.textContent = 'Copy link'; b.classList.remove('ok'); }, 2200);
-  };
-  window.toggleDots = function(){
-    const p = document.getElementById('dotsPanel');
-    const b = document.getElementById('fabDots');
-    const open = !p.classList.contains('open');
-    p.classList.toggle('open', open);
-    b.classList.toggle('active', open);
-  };
-  window.closeDots = function(){
-    document.getElementById('dotsPanel').classList.remove('open');
-    document.getElementById('fabDots').classList.remove('active');
+    b.textContent = 'Copied!';
+    b.classList.add('ok');
+    setTimeout(() => { b.textContent = 'Copy link'; b.classList.remove('ok'); }, 2200);
   };
 
-  document.addEventListener('click', e => {
-    const p = document.getElementById('dotsPanel');
-    const b = document.getElementById('fabDots');
-    if(p.classList.contains('open') && !p.contains(e.target) && !b.contains(e.target)) closeDots();
-  });
   document.addEventListener('keydown', e => {
-    if(e.key === 'Escape'){ closeDots(); closeModal(); }
+    if (e.key === 'Escape') closeModal();
   });
-  window.addEventListener('scroll', ()=>{
+
+  window.addEventListener('scroll', () => {
     const t = document.getElementById('fabTop');
-    if(t) t.style.display = window.scrollY > 300 ? 'flex' : 'none';
+    if (t) t.style.display = window.scrollY > 300 ? 'flex' : 'none';
   });
 })();
 </script>
+
+
   
 </footer>
 
