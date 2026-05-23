@@ -2,6 +2,8 @@
 layout: default
 title: Categories
 permalink: /category/
+robots: noindex
+
 ---
 <div class="blogpage-wrap">
   <div class="blogpage-hero">
