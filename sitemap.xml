@@ -1,17 +1,73 @@
-{% for page in site.pages %}
+---
+layout: none
+permalink: /sitemap.xml
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- HOME -->
+  <url>
+    <loc>{{ site.url }}{{ site.baseurl }}/</loc>
+    <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- PAGES (tool pages, category pages, blog index etc) -->
+  {% for page in site.pages %}
     {% unless page.robots == 'noindex'
-        or page.url == '/sitemap.xml'
-        or page.url == '/404.html'
-        or page.url == '/category/'
+        or page.robots == 'noindex, nofollow'
+        or page.sitemap == false
+        or page.published == false
         or page.url == '/'
+        or page.url == '/sitemap.xml'
+        or page.url == '/sitemap/'
+        or page.url == '/feed.xml'
+        or page.url == '/feed/'
+        or page.url == '/404.html'
+        or page.url == '/404/'
+        or page.url == '/offline.html'
+        or page.url == '/offline/'
+        or page.url == '/category/'
+        or page.url == '/tag/'
+        or page.url == '/tags/'
+        or page.url == '/search/'
+        or page.url == '/page/'
         or page.url contains '.json'
         or page.url contains '.xml'
-        or page.url contains '.txt' %}
+        or page.url contains '.txt'
+        or page.url contains '.css'
+        or page.url contains '.js'
+        or page.url contains '/page/'
+        or page.url contains '/amp/'
+        or page.url contains '?'
+        or page.title == nil
+        or page.title == '' %}
     <url>
       <loc>{{ site.url }}{{ site.baseurl }}{{ page.url }}</loc>
-      <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
+      <lastmod>{{ page.last_modified_at | default: site.time | date_to_xmlschema }}</lastmod>
       <changefreq>weekly</changefreq>
       <priority>0.8</priority>
     </url>
     {% endunless %}
   {% endfor %}
+
+  <!-- POSTS / ARTICLES -->
+  {% for post in site.posts %}
+    {% unless post.robots == 'noindex'
+        or post.robots == 'noindex, nofollow'
+        or post.sitemap == false
+        or post.published == false
+        or post.draft == true
+        or post.title == nil
+        or post.title == '' %}
+    <url>
+      <loc>{{ site.url }}{{ site.baseurl }}{{ post.url }}</loc>
+      <lastmod>{{ post.last_modified_at | default: post.date | date_to_xmlschema }}</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.7</priority>
+    </url>
+    {% endunless %}
+  {% endfor %}
+
+</urlset>
