@@ -588,8 +588,6 @@ nav {
   }
 }
 
-
-/* ── RELATED BLOG ANYWHERE ── */
 /* ── RELATED BLOG ANYWHERE ── */
 
 .relatedbloganywhere-grid{
@@ -607,20 +605,25 @@ nav {
   border:1px solid #eceef3;
   border-radius:20px;
   overflow:hidden;
+  padding:0 !important;
 }
 
+/* hover = black border only */
 .relatedbloganywhere-card:hover{
-  border-color:#dbe7ff;
-  box-shadow:
-    0 14px 38px rgba(15,23,42,.08),
-    0 3px 10px rgba(15,23,42,.04);
+  border-color:#000;
+  box-shadow:none;
 }
 
+/* IMAGE AREA */
 .relatedbloganywhere-thumb{
   position:relative;
   overflow:hidden;
   aspect-ratio:16/10;
   background:#f5f7fb;
+
+  width:100%;
+  margin:0;
+  line-height:0;
 }
 
 .relatedbloganywhere-thumb::after{
@@ -636,12 +639,16 @@ nav {
 }
 
 .relatedbloganywhere-thumb img{
-  width:100%;
+  width:100% !important;
   height:100%;
   object-fit:cover;
-  display:block;
+  display:block !important;
+  margin:0;
+  padding:0;
+  border:0;
 }
 
+/* CATEGORY TAG */
 .relatedbloganywhere-category{
   position:absolute;
   top:12px;
@@ -654,10 +661,9 @@ nav {
   padding:6px 11px;
   border-radius:999px;
 
-  background:rgba(255,255,255,.92);
-  backdrop-filter:blur(8px);
+  background:#fff;
 
-  border:1px solid rgba(255,255,255,.9);
+  border:1px solid #fff;
 
   color:#2563eb;
   font-size:11px;
@@ -666,10 +672,21 @@ nav {
   text-transform:uppercase;
 
   box-shadow:0 4px 12px rgba(0,0,0,.06);
+
+  text-decoration:none;
 }
 
+/* category hover */
+.relatedbloganywhere-category:hover{
+  background:#fff;
+  color:#000;
+  border-color:#000;
+}
+
+/* CONTENT */
 .relatedbloganywhere-content{
   padding:16px 17px 18px;
+  margin-top:0;
 }
 
 .relatedbloganywhere-content h3{
@@ -686,14 +703,18 @@ nav {
   -webkit-line-clamp:2;
   -webkit-box-orient:vertical;
   overflow:hidden;
+
+  text-decoration:none;
 }
 
+/* title hover effect */
 .relatedbloganywhere-card:hover 
 .relatedbloganywhere-content h3{
   color:#2563eb;
+  text-decoration:underline;
 }
 
-/* subtle bottom accent */
+/* bottom accent */
 .relatedbloganywhere-card::before{
   content:'';
   position:absolute;
@@ -711,7 +732,7 @@ nav {
   opacity:1;
 }
 
-/* mobile */
+/* MOBILE */
 @media(max-width:700px){
 
   .relatedbloganywhere-grid{
