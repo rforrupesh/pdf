@@ -9,18 +9,18 @@ permalink: /category/
     <p>Browse all categories.</p>
   </div>
   <div class="blogpage-grid">
-    {% assign categories = site.posts | map: "category" | uniq %}
-    {% for category in categories %}
-      {% assign cat_page = site.pages | where:"category_name", category | first %}
-      <article class="blogpage-card">
-        <div class="blogpage-content">
-          <h2>
-            <a href="{{ site.baseurl }}/category/{{ category }}/">
-              {{ cat_page.title | default: category }}
-            </a>
-          </h2>
-        </div>
-      </article>
+    {% for cat_page in site.pages %}
+      {% if cat_page.category_name %}
+        <article class="blogpage-card">
+          <div class="blogpage-content">
+            <h2>
+              <a href="{{ site.baseurl }}/category/{{ cat_page.category_name }}/">
+                {{ cat_page.title }}
+              </a>
+            </h2>
+          </div>
+        </article>
+      {% endif %}
     {% endfor %}
   </div>
 </div>
