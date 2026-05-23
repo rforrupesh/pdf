@@ -2,67 +2,45 @@
 layout: default
 title: Blog
 ---
-
 <div class="blogpage-wrap">
-
   <div class="blogpage-hero">
     <h1>Blog</h1>
     <p>Latest articles, guides, SEO tips, and PDF tools.</p>
   </div>
-
   <div class="blogpage-grid">
-
     {% for post in site.posts %}
-
       <article class="blogpage-card">
-
         <!-- IMAGE -->
-
         <a href="{{ post.url | relative_url }}" class="blogpage-thumb">
-
           <img 
             src="{{ post.thumbnail | default:'/assets/default-tool.webp' | relative_url }}"
             alt="{{ post.title }}"
             loading="lazy">
-
         </a>
-
         <!-- CONTENT -->
-
         <div class="blogpage-content">
-
           <h2>
             <a href="{{ post.url | relative_url }}">
               {{ post.title }}
             </a>
           </h2>
-
           <!-- CATEGORY -->
-
           {% if post.category %}
-          <a 
-            href="{{ '/category/' | append: post.category | append: '/' | relative_url }}"
-            class="blogpage-category-link">
-
-            {{ post.category }}
-
-          </a>
+            {% assign cat_page = site.pages | where:"category_name", post.category | first %}
+            <a 
+              href="{{ site.baseurl }}/category/{{ post.category }}/"
+              class="blogpage-category-link">
+              {{ cat_page.title | default: post.category }}
+            </a>
           {% endif %}
-
           <!-- DESCRIPTION -->
-
           {% if post.description %}
           <p>
             {{ post.description | strip_html | truncate: 120 }}
           </p>
           {% endif %}
-
         </div>
-
       </article>
-
     {% endfor %}
-
   </div>
-
 </div>
