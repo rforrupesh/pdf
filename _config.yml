@@ -10,10 +10,3 @@ title: My Website
 url: "https://rforrupesh.github.io"
 baseurl: "/pdf"
 
-compress_html:
-  clippings: all
-  comments: all
-  endings: all
-  startings: all
-  blanklines: false
-  profile: false
