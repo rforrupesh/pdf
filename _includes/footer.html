@@ -3,25 +3,17 @@
     © <a href="/">Unificar PDF</a> - Tu editor de PDF · Made with Love
   </p>
 
-
 <style>
-/* ── Variables ── */
 :root {
-
+  --border: rgba(0,0,0,.12);
   --muted: #6b7280;
-  --radius-md: 8px;
-  --radius-lg: 12px;
 }
 
-/* ── FAB group ── */
 .fab-grp {
   position: fixed;
-  bottom: 28px;
-  right: 22px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 9px;
+  bottom: 28px; right: 22px;
+  display: flex; flex-direction: column;
+  align-items: center; gap: 9px;
   z-index: 500;
 }
 .fab {
@@ -35,36 +27,22 @@
   box-shadow: 0 2px 8px rgba(0,0,0,.1);
   flex-shrink: 0;
 }
-.fab svg {
-  width: 18px; height: 18px;
-  stroke: var(--muted); fill: none;
-  stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
-  transition: stroke .18s;
-}
+.fab svg { width: 18px; height: 18px; stroke: var(--muted); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: stroke .18s; }
 .fab:hover { background: var(--blue-light); border-color: #93c5fd; }
 .fab:hover svg { stroke: var(--blue); }
-
-/* Share FAB */
 .fab-share { background: var(--blue); border-color: var(--blue); }
 .fab-share svg { stroke: #fff; }
 .fab-share:hover { background: var(--blue-hover); border-color: var(--blue-hover); }
 .fab-share:hover svg { stroke: #fff; }
-
-/* Back to top */
 .fab-top { display: none; }
 
-/* ── Overlay ── */
 .s-overlay {
-  display: none;
-  position: fixed; inset: 0;
+  display: none; position: fixed; inset: 0;
   background: rgba(0,0,0,.38);
-  z-index: 700;
-  align-items: flex-end;
-  justify-content: center;
+  z-index: 700; align-items: flex-end; justify-content: center;
 }
 .s-overlay.on { display: flex; }
 
-/* ── Share modal (bottom-sheet on mobile) ── */
 .s-modal {
   background: var(--bg);
   border-radius: 18px 18px 0 0;
@@ -75,98 +53,38 @@
 @keyframes sheetUp { from { transform: translateY(100%) } to { transform: translateY(0) } }
 @keyframes fadeIn  { from { opacity: 0; transform: scale(.95) } to { opacity: 1; transform: scale(1) } }
 
-.s-handle {
-  width: 36px; height: 4px;
-  background: #ddd; border-radius: 2px;
-  margin: 12px auto 14px;
-}
-.s-head {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 18px 13px;
-  border-bottom: 1px solid rgba(0,0,0,.08);
-}
+.s-handle { width: 36px; height: 4px; background: #ddd; border-radius: 2px; margin: 12px auto 14px; }
+.s-head { display: flex; align-items: center; justify-content: space-between; padding: 0 18px 13px; border-bottom: 1px solid rgba(0,0,0,.08); }
 .s-head h3 { font-size: 15px; font-weight: 600; color: #111; margin: 0; }
-.s-x {
-  width: 28px; height: 28px; border-radius: 50%;
-  background: #f0f0f0; border: none; cursor: pointer;
-  font-size: 13px; color: #555;
-  display: flex; align-items: center; justify-content: center;
-}
+.s-x { width: 28px; height: 28px; border-radius: 50%; background: #f0f0f0; border: none; cursor: pointer; font-size: 13px; color: #555; display: flex; align-items: center; justify-content: center; }
 .s-x:hover { background: #e5e7eb; }
 
-.s-url {
-  display: flex; align-items: center; gap: 8px;
-  padding: 13px 18px;
-  border-bottom: 1px solid rgba(0,0,0,.08);
-}
-.s-url input {
-  flex: 1; min-width: 0;
-  background: #f4f5f7;
-  border: 1px solid rgba(0,0,0,.1);
-  border-radius: 8px; padding: 8px 10px;
-  font-size: 12px; color: var(--muted);
-  font-family: inherit; outline: none;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-}
-.s-copy {
-  flex-shrink: 0;
-  background: var(--blue); color: #fff;
-  border: none; border-radius: 8px;
-  padding: 8px 15px;
-  font-size: 13px; font-weight: 500;
-  cursor: pointer; font-family: inherit;
-  transition: background .14s;
-}
+.s-url { display: flex; align-items: center; gap: 8px; padding: 13px 18px; border-bottom: 1px solid rgba(0,0,0,.08); }
+.s-url input { flex: 1; min-width: 0; background: #f4f5f7; border: 1px solid rgba(0,0,0,.1); border-radius: 8px; padding: 8px 10px; font-size: 12px; color: var(--muted); font-family: inherit; outline: none; overflow: hidden; text-overflow: ellipsis; }
+.s-copy { flex-shrink: 0; background: var(--blue); color: #fff; border: none; border-radius: 8px; padding: 8px 15px; font-size: 13px; font-weight: 500; cursor: pointer; font-family: inherit; transition: background .14s; }
 .s-copy:hover { background: var(--blue-hover); }
 .s-copy.ok { background: #16a34a; }
 
-/* ── Social grid ── */
-.s-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 8px;
-  padding: 14px 18px 20px;
-}
-.s-item {
-  display: flex; flex-direction: column;
-  align-items: center; gap: 5px;
-  padding: 11px 4px;
-  border: 1px solid rgba(0,0,0,.1);
-  border-radius: 10px;
-  cursor: pointer; background: var(--bg);
-  transition: border-color .14s, background .14s;
-  text-decoration: none;
-}
+.s-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; padding: 14px 18px 20px; }
+.s-item { display: flex; flex-direction: column; align-items: center; gap: 5px; padding: 11px 4px; border: 1px solid rgba(0,0,0,.1); border-radius: 10px; cursor: pointer; background: var(--bg); transition: border-color .14s, background .14s; text-decoration: none; }
 .s-item:hover { border-color: #93c5fd; background: var(--blue-light); }
-.s-item svg { width: 22px; height: 22px; flex-shrink: 0; }
-.s-item span {
-  font-size: 10px; font-weight: 500;
-  color: var(--muted); text-align: center; line-height: 1.2;
-}
+.s-item svg { width: 26px; height: 26px; flex-shrink: 0; display: block; }
+.s-item span { font-size: 10px; font-weight: 500; color: var(--muted); text-align: center; line-height: 1.2; }
 .s-item:hover span { color: var(--blue); }
 
-/* ── Desktop: centered dialog ≥ 520px ── */
 @media (min-width: 520px) {
   .s-overlay { align-items: center; }
-  .s-modal {
-    border-radius: 16px;
-    max-width: 460px;
-    animation: fadeIn .2s cubic-bezier(.32,.72,0,1) forwards;
-  }
+  .s-modal { border-radius: 16px; max-width: 460px; animation: fadeIn .2s cubic-bezier(.32,.72,0,1) forwards; }
   .s-handle { display: none; }
 }
-
-/* ── Mobile ≤ 480px ── */
 @media (max-width: 480px) {
   .fab-grp { bottom: 80px; right: 14px; }
   .fab { width: 42px; height: 42px; }
   .fab svg { width: 16px; height: 16px; }
-  .s-grid { grid-template-columns: repeat(5, 1fr); gap: 5px; padding: 12px 14px 18px; }
+  .s-grid { gap: 5px; padding: 12px 14px 18px; }
   .s-item { padding: 10px 3px; }
   .s-item span { font-size: 9px; }
 }
-
-/* ── Very small ≤ 360px: 4 columns, hide labels ── */
 @media (max-width: 360px) {
   .s-grid { grid-template-columns: repeat(4, 1fr); }
   .s-item span { display: none; }
@@ -174,16 +92,10 @@
 }
 </style>
 
-
-<!-- ── FAB buttons ── -->
 <div class="fab-grp">
-
-  <button class="fab fab-top" id="fabTop"
-    aria-label="Back to top"
-    onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <button class="fab fab-top" id="fabTop" aria-label="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
     <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
   </button>
-
   <button class="fab fab-share" aria-label="Share this page" onclick="openModal()">
     <svg viewBox="0 0 24 24">
       <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
@@ -191,11 +103,8 @@
       <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
     </svg>
   </button>
-
 </div>
 
-
-<!-- ── Share Modal ── -->
 <div class="s-overlay" id="sOverlay" onclick="if(event.target===this)closeModal()">
   <div class="s-modal" role="dialog" aria-modal="true" aria-label="Share this page">
     <div class="s-handle"></div>
@@ -208,68 +117,126 @@
       <button class="s-copy" id="copyBtn" onclick="doCopy()">Copy link</button>
     </div>
     <div class="s-grid">
+
+      <!-- Facebook -->
       <a class="s-item" href="#" onclick="go('fb',event)" aria-label="Facebook">
-        <svg viewBox="0 0 24 24"><rect width="24" height="24" rx="5" fill="#1877F2"/><path d="M16 8h-2a1 1 0 00-1 1v2h3l-.5 3H13v7h-3v-7H8v-3h2V9a4 4 0 014-4h2v3z" fill="#fff"/></svg>
+        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+          <rect width="32" height="32" rx="6" fill="#1877F2"/>
+          <path d="M21.5 10H19a2 2 0 0 0-2 2v2h4l-.6 4H17v9h-4v-9h-3v-4h3v-2a5 5 0 0 1 5-5h3v3z" fill="#fff"/>
+        </svg>
         <span>Facebook</span>
       </a>
+
+      <!-- X / Twitter -->
       <a class="s-item" href="#" onclick="go('x',event)" aria-label="X">
-        <svg viewBox="0 0 24 24"><rect width="24" height="24" rx="5" fill="#000"/><path d="M17.5 4h2.5l-5.5 6.3L21 20h-5l-3.6-4.7L8 20H5.5l5.9-6.7L4 4h5.2l3.2 4.2L17.5 4zm-.9 14.4h1.4L7.5 5.4H6l10.6 13z" fill="#fff"/></svg>
+        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+          <rect width="32" height="32" rx="6" fill="#000"/>
+          <path d="M23 7h3l-6.5 7.5L27 25h-5.5l-4-5.2L13 25H10l7-8L9 7h5.5l3.6 4.7L23 7zm-1 16h1.5L10 8.5H8.5L22 23z" fill="#fff"/>
+        </svg>
         <span>X</span>
       </a>
+
+      <!-- WhatsApp -->
       <a class="s-item" href="#" onclick="go('wa',event)" aria-label="WhatsApp">
-        <svg viewBox="0 0 24 24"><rect width="24" height="24" rx="5" fill="#25D366"/><path d="M12 4a8 8 0 00-6.8 12.2L4 20l3.9-1.2A8 8 0 1012 4zm4.4 10.9c-.2.5-1 .9-1.4 1-.4 0-.8.1-2.6-.5-2.2-.8-3.6-3-3.7-3.2-.1-.1-.9-1.2-.9-2.3 0-1.1.6-1.6.8-1.8.2-.2.5-.3.7-.3h.5c.2 0 .4.1.5.4l.8 2c.1.2 0 .4-.1.5l-.4.5c-.1.1-.2.3-.1.5.3.5.7 1 1.1 1.4.5.4 1 .7 1.5.9.2.1.4 0 .5-.1l.4-.5c.1-.2.3-.2.5-.1l2 .9c.2.1.3.2.3.4 0 .4-.2.8-.4.8z" fill="#fff"/></svg>
+        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+          <rect width="32" height="32" rx="6" fill="#25D366"/>
+          <path d="M16 5C10 5 5 10 5 16c0 1.9.5 3.8 1.5 5.4L5 27l5.8-1.5A11 11 0 0 0 27 16c0-6-5-11-11-11zm5.4 14.9c-.3.7-1.4 1.3-2 1.4-.5 0-1.1.2-3.5-.7-3-1.1-4.8-4.1-5-4.3-.2-.2-1.2-1.6-1.2-3.1 0-1.5.8-2.2 1.1-2.5.3-.3.6-.4 1-.4h.6c.3 0 .5.1.7.6l1.1 2.7c.1.3 0 .6-.1.8l-.5.6c-.2.2-.3.4-.1.7.4.7 1 1.4 1.6 1.9.7.6 1.4 1 2.1 1.3.3.1.5 0 .7-.2l.6-.7c.2-.3.4-.3.7-.2l2.7 1.3c.3.1.4.3.4.5 0 .6-.2 1.1-.5 1.3z" fill="#fff"/>
+        </svg>
         <span>WhatsApp</span>
       </a>
+
+      <!-- Telegram -->
       <a class="s-item" href="#" onclick="go('tg',event)" aria-label="Telegram">
-        <svg viewBox="0 0 24 24"><rect width="24" height="24" rx="5" fill="#229ed9"/><path d="M5 12l2.2 6.5L10 15l4 3.5 4-12.5-13 6zm3.5 5.2L8 14l8.2-5.5-7.7 8.7z" fill="#fff"/></svg>
+        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+          <rect width="32" height="32" rx="6" fill="#229ED9"/>
+          <path d="M7 15.5l15.5-6c.7-.3 1.4.2 1.1 1.2l-2.6 12.3c-.2.8-.8 1-1.4.6l-3.8-2.8-1.8 1.7c-.2.2-.4.3-.8.3l.3-4 7.3-6.6c.3-.3 0-.4-.4-.2l-9 5.7-3.8-1.2c-.8-.3-.8-.8.5-1.2z" fill="#fff"/>
+        </svg>
         <span>Telegram</span>
       </a>
+
+      <!-- Signal -->
       <a class="s-item" href="#" onclick="go('signal',event)" aria-label="Signal">
-        <svg viewBox="0 0 24 24"><rect width="24" height="24" rx="5" fill="#3a76f0"/><circle cx="12" cy="12" r="7" stroke="#fff" stroke-width="1.5" fill="none"/><circle cx="12" cy="12" r="3" stroke="#fff" stroke-width="1.5" fill="none"/><circle cx="12" cy="12" r="1" fill="#fff"/></svg>
+        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+          <rect width="32" height="32" rx="6" fill="#3A76F0"/>
+          <path d="M16 6a10 10 0 1 0 0 20A10 10 0 0 0 16 6zm0 3a7 7 0 0 1 6.5 4.4l-1-.3a6 6 0 0 0-5.5-3.6 6 6 0 0 0-5.5 3.6l-1 .3A7 7 0 0 1 16 9zm0 14a7 7 0 0 1-6.5-4.4l1 .3a6 6 0 0 0 5.5 3.6 6 6 0 0 0 5.5-3.6l1-.3A7 7 0 0 1 16 23zm-8.4-5.6.9-.9a5 5 0 0 0 .2 1.1l-1.1-.2zm16.8 0-1.1.2a5 5 0 0 0 .2-1.1l.9.9zM16 19a3 3 0 1 1 0-6 3 3 0 0 1 0 6z" fill="#fff"/>
+        </svg>
         <span>Signal</span>
       </a>
+
+      <!-- LinkedIn -->
       <a class="s-item" href="#" onclick="go('li',event)" aria-label="LinkedIn">
-        <svg viewBox="0 0 24 24"><rect width="24" height="24" rx="5" fill="#0A66C2"/><path d="M7 9h2v9H7V9zm1-1.5a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5zM11 9h2v1.3c.4-.7 1.3-1.5 2.7-1.5C17.7 8.8 18 10.5 18 12v6h-2v-5.5c0-1.3-.5-2-1.5-2s-1.5.7-1.5 2V18h-2V9z" fill="#fff"/></svg>
+        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+          <rect width="32" height="32" rx="6" fill="#0A66C2"/>
+          <path d="M9 12h3v11H9V12zm1.5-1.5a1.75 1.75 0 1 1 0-3.5 1.75 1.75 0 0 1 0 3.5zM14 12h3v1.5c.5-1 1.7-1.7 3-1.7 2.7 0 3 1.8 3 4.2V23h-3v-6.5c0-1.6-.6-2.5-2-2.5s-2 1-2 2.5V23h-3V12z" fill="#fff"/>
+        </svg>
         <span>LinkedIn</span>
       </a>
+
+      <!-- Reddit -->
       <a class="s-item" href="#" onclick="go('rd',event)" aria-label="Reddit">
-        <svg viewBox="0 0 24 24"><rect width="24" height="24" rx="5" fill="#FF4500"/><path d="M19 12a2 2 0 00-3.3-1.5c-.9-.6-2.1-.9-3.4-1l.5-2.6 1.9.4a1.3 1.3 0 101.3-1.3 1.3 1.3 0 00-1.2.9l-2.2-.5c-.2 0-.3.1-.4.3l-.6 2.9c-1.3.1-2.5.5-3.4 1.1A2 2 0 005 12a2 2 0 001 1.7v.5c0 2.4 2.7 4.3 6 4.3s6-1.9 6-4.3v-.5A2 2 0 0019 12zm-10.5 1a1 1 0 110-2 1 1 0 010 2zm6.2 2.5c-.6.6-1.7.8-2.7.8s-2.1-.2-2.7-.8a.3.3 0 01.4-.4c.5.5 1.5.7 2.3.7s1.8-.2 2.3-.7a.3.3 0 01.4.4zm-.2-1.5a1 1 0 110-2 1 1 0 010 2z" fill="#fff"/></svg>
+        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+          <rect width="32" height="32" rx="6" fill="#FF4500"/>
+          <path d="M26 16a2.7 2.7 0 0 0-4.5-2c-1.2-.8-2.9-1.3-4.7-1.4l.8-3.6 2.6.6a1.8 1.8 0 1 0 1.8-1.8c-.7 0-1.3.4-1.6 1l-3-.6c-.3-.1-.5.1-.5.4l-.9 4c-1.8.1-3.4.6-4.7 1.4A2.7 2.7 0 1 0 8 18.4v.6C8 22.8 11.6 26 16 26s8-3.2 8-7v-.6c.6-.4 1-.9 1-1.6l1 .2zM12 18a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0zm8.5 3.5c-.8.8-2.3 1.2-4.5 1.2s-3.7-.4-4.5-1.2a.5.5 0 0 1 .7-.7c.7.6 2 .9 3.8.9s3.1-.3 3.8-.9a.5.5 0 0 1 .7.7zm-.5-2a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" fill="#fff"/>
+        </svg>
         <span>Reddit</span>
       </a>
+
+      <!-- Pinterest -->
       <a class="s-item" href="#" onclick="go('pin',event)" aria-label="Pinterest">
-        <svg viewBox="0 0 24 24"><rect width="24" height="24" rx="5" fill="#E60023"/><path d="M12 3C7 3 3 7 3 12c0 3.9 2.4 7.3 5.9 8.7-.1-.7-.1-1.8.1-2.6.2-.7 1.4-5.8 1.4-5.8s-.4-.7-.4-1.5c0-1.5.9-2.5 1.9-2.5 1 0 1.5.8 1.5 1.7 0 1-.7 2.6-1 4 0 1.7 1.2 3 2.9 3 3.5 0 5.9-4.5 5.9-9.7 0-3.5-2.4-5.9-5.7-5.9-3.9 0-6.2 2.9-6.2 5.9 0 1.2.4 2.4 1.1 3.1.1.1.2.3.1.5l-.5 1.8c-.1.2-.3.3-.5.2C6.1 15.6 5 14 5 12.2c0-4.9 3.6-9.5 10.2-9.5C18.4 2 22 5.3 22 9.7c0 4.6-2.9 8.3-6.8 8.3-1.4 0-2.6-.7-3-1.5l-.9 3c-.3 1-1 2.3-1.6 3.1.7.2 1.3.3 2 .3 4.9 0 9-4 9-9S17 3 12 3z" fill="#fff"/></svg>
+        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+          <rect width="32" height="32" rx="6" fill="#E60023"/>
+          <path d="M16 5C10 5 5 10 5 16a11 11 0 0 0 7.4 10.4c-.1-.9-.2-2.3.1-3.3l1.8-7.7s-.5-1-.5-2.4c0-2.3 1.3-4 3.2-4 1.5 0 2.2 1.1 2.2 2.5 0 1.5-.9 3.8-1.4 5.9-.4 1.8 1 3.2 2.9 3.2 3.4 0 5.8-4.4 5.8-9.6C26.5 8.5 22 5 16 5zm-.4 15.5c-.5 0-1-.2-1.3-.5l-1.2 4.6c-.4 1.5-1.5 3.3-2.2 4.4.6.2 1.3.2 2 .2 6 0 11-5 11-11 0-5.8-4.7-10.3-10.4-10.2" fill="#fff"/>
+        </svg>
         <span>Pinterest</span>
       </a>
+
+      <!-- Email -->
       <a class="s-item" href="#" onclick="go('email',event)" aria-label="Email">
-        <svg viewBox="0 0 24 24"><rect width="24" height="24" rx="5" fill="#007AFF"/><rect x="4" y="7" width="16" height="11" rx="1.5" stroke="#fff" stroke-width="1.5" fill="none"/><path d="M4 8l8 5 8-5" stroke="#fff" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+          <rect width="32" height="32" rx="6" fill="#007AFF"/>
+          <rect x="5" y="9" width="22" height="15" rx="2" fill="none" stroke="#fff" stroke-width="1.8"/>
+          <polyline points="5,10 16,18 27,10" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
         <span>Email</span>
       </a>
+
+      <!-- SMS -->
       <a class="s-item" href="#" onclick="go('sms',event)" aria-label="SMS">
-        <svg viewBox="0 0 24 24"><rect width="24" height="24" rx="5" fill="#34C759"/><path d="M5 5h14a1 1 0 011 1v9a1 1 0 01-1 1H8l-4 3V6a1 1 0 011-1z" fill="#fff"/></svg>
+        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+          <rect width="32" height="32" rx="6" fill="#34C759"/>
+          <path d="M6 7h20a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2h-9l-6 4v-4H6a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2z" fill="#fff"/>
+        </svg>
         <span>SMS</span>
       </a>
+
+      <!-- More -->
       <a class="s-item" href="#" onclick="go('native',event)" aria-label="More">
-        <svg viewBox="0 0 24 24"><rect width="24" height="24" rx="5" fill="#8e8e93"/><circle cx="8" cy="12" r="1.5" fill="#fff"/><circle cx="12" cy="12" r="1.5" fill="#fff"/><circle cx="16" cy="12" r="1.5" fill="#fff"/></svg>
+        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+          <rect width="32" height="32" rx="6" fill="#8E8E93"/>
+          <circle cx="10" cy="16" r="2.2" fill="#fff"/>
+          <circle cx="16" cy="16" r="2.2" fill="#fff"/>
+          <circle cx="22" cy="16" r="2.2" fill="#fff"/>
+        </svg>
         <span>More</span>
       </a>
+
     </div>
   </div>
 </div>
 
-
 <script>
 (function(){
   const map = {
-    fb:     u      => `https://www.facebook.com/sharer/sharer.php?u=${u}`,
-    x:      (u,t)  => `https://twitter.com/intent/tweet?url=${u}&text=${t}`,
-    wa:     (u,t)  => `https://wa.me/?text=${t}%20${u}`,
-    tg:     (u,t)  => `https://t.me/share/url?url=${u}&text=${t}`,
-    li:     u      => `https://www.linkedin.com/sharing/share-offsite/?url=${u}`,
-    rd:     (u,t)  => `https://reddit.com/submit?url=${u}&title=${t}`,
-    pin:    (u,t)  => `https://pinterest.com/pin/create/button/?url=${u}&description=${t}`,
-    signal: u      => `https://signal.me`,
-    email:  (u,t)  => `mailto:?subject=${t}&body=${u}`,
-    sms:    (u,t)  => `sms:?body=${t}%20${u}`
+    fb:     u     => `https://www.facebook.com/sharer/sharer.php?u=${u}`,
+    x:      (u,t) => `https://twitter.com/intent/tweet?url=${u}&text=${t}`,
+    wa:     (u,t) => `https://wa.me/?text=${t}%20${u}`,
+    tg:     (u,t) => `https://t.me/share/url?url=${u}&text=${t}`,
+    li:     u     => `https://www.linkedin.com/sharing/share-offsite/?url=${u}`,
+    rd:     (u,t) => `https://reddit.com/submit?url=${u}&title=${t}`,
+    pin:    (u,t) => `https://pinterest.com/pin/create/button/?url=${u}&description=${t}`,
+    signal: u     => `https://signal.me`,
+    email:  (u,t) => `mailto:?subject=${t}&body=${u}`,
+    sms:    (u,t) => `sms:?body=${t}%20${u}`
   };
 
   window.go = function(p, e) {
@@ -279,10 +246,7 @@
     if (p === 'native') {
       if (navigator.share) {
         navigator.share({ title: document.title, url: window.location.href }).catch(() => {});
-      } else {
-        openModal();
-        return;
-      }
+      } else { openModal(); return; }
     } else if (p === 'email' || p === 'sms') {
       window.location.href = map[p](u, t);
     } else {
@@ -304,19 +268,14 @@
 
   window.doCopy = function() {
     navigator.clipboard.writeText(window.location.href).catch(() => {
-      const i = document.getElementById('urlInp');
-      i.select();
-      document.execCommand('copy');
+      const i = document.getElementById('urlInp'); i.select(); document.execCommand('copy');
     });
     const b = document.getElementById('copyBtn');
-    b.textContent = 'Copied!';
-    b.classList.add('ok');
+    b.textContent = 'Copied!'; b.classList.add('ok');
     setTimeout(() => { b.textContent = 'Copy link'; b.classList.remove('ok'); }, 2200);
   };
 
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closeModal();
-  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
   window.addEventListener('scroll', () => {
     const t = document.getElementById('fabTop');
@@ -324,6 +283,8 @@
   });
 })();
 </script>
+
+
 
 
   
