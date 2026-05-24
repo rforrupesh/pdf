@@ -27,7 +27,9 @@
   <meta property="og:url" content="{{ page.url | absolute_url }}">
       <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-32x32.png">
   <meta property="og:image" content="{{ site.baseurl }}/assets/images/preview.png">
+<meta name="author" content="{{ page.author | default: site.author }}">
 
+<meta property="og:site_name" content="{{ page.og_site_name | default: site.og_site_name }}"/>
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{{ page.title | default: site.title }}">
