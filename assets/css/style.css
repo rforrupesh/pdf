@@ -70,7 +70,7 @@ nav {
   gap: 20px;
 }
 
-  nav { padding: 0 16px; }
+  nav { padding-left: 1px; }
   .icon-btn {
     display: block; width: 40px; height: 40px;
     border: none; background: #eaecef; cursor: pointer;
