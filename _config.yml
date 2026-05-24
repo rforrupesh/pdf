@@ -5,7 +5,7 @@ kramdown:
   auto_ids: true
   auto_id_stripping: false
 
-title: My Website
+title: UnificarPDF.com
 
 url: "https://rforrupesh.github.io"
 baseurl: "/pdf"
