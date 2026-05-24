@@ -13,6 +13,9 @@
   <!-- SEO -->
   <meta name="description" content="{{ page.description | default: site.description }}">
   <meta name="author" content="{{ site.title }}">
+  {% if page.keywords %}
+<meta name="keywords" content="{{ page.keywords }}">
+{% endif %}
 
   <!-- ✅ Canonical URL -->
   <link rel="canonical" href="{{ page.url | absolute_url }}">
