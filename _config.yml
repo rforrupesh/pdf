@@ -1,12 +1,14 @@
 permalink: /blog/:title/
 theme: null
 markdown: kramdown
+
 kramdown:
   auto_ids: true
   auto_id_stripping: false
 
 title: UnificarPDF.com
+author: UnificarPDF.com
+og_site_name: UnificarPDF - Herramientas online para PDF
 
 url: "https://rforrupesh.github.io"
 baseurl: "/pdf"
-
