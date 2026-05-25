@@ -37,7 +37,7 @@
       {% assign cat_page = site.pages | where:"category_name", cat | first %}
   
       <a
-        class="relatedbloganywhere-category"
+        class=""
         href="{{ cat_page.url | relative_url }}">
         {{ cat_page.title | default: cat }}
       </a>
