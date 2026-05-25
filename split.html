@@ -1039,6 +1039,7 @@ async function loadFile(file) {
 
   pdfFile = file;
   $('uploadState').style.display = 'none';
+ $('mainFooter').style.display = 'none';
   $('uploadedState').style.display = 'flex';
   $('fileNameLabel').textContent = file.name;
   $('fileSizeLabel').textContent = fmtSize(file.size);
