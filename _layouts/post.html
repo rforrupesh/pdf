@@ -27,20 +27,27 @@
   
   
 {% if page.categories %}
-  File Under:
+<div class="post-categories">
+  <strong>File Under:</strong>
+
   {% for category in page.categories %}
     {% assign cat_page = site.pages | where: "category_name", category | first %}
-    
-      class=""
+
+    <a
+      class="post-category-link"
       href="{{ '/category/' | append: category | append: '/' | relative_url }}">
+
       {% if cat_page %}
         {{ cat_page.title }}
       {% else %}
         {{ category | replace: '-', ' ' | capitalize }}
       {% endif %}
+
     </a>
+
     {% unless forloop.last %} | {% endunless %}
   {% endfor %}
+</div>
 {% endif %}
 
       
