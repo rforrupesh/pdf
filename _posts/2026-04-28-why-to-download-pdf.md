@@ -7,7 +7,7 @@ categories:
   - mergepdf
   - pdftool
   - compresspdf
-
+category_name: pdftool
 ---
 
 
