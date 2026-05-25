@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Why Download PDF Files? (Complete Guide)"
+title: "how-to-split-pdf.md"
 description: "Faster Access Once downloaded, PDFs open instantly without needing internet access. Easy Printing"
 thumbnail: /assets/img/Stylish-Name.png
 category: mergepdf
