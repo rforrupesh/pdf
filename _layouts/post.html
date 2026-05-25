@@ -16,7 +16,7 @@
 
     <h1 class="post-title">{{ page.title }}</h1>
 
- 
+   
 
     {% if page.thumbnail %}
       <img class="post-thumb" src="{{ page.thumbnail | relative_url }}" alt="{{ page.title }}">
@@ -24,8 +24,8 @@
 
     <article class="post-content" id="postContent">
       {{ content }}
-         {% if page.category %}
-    <a href="{{ '/blog/category/' | append: page.category | downcase | replace: ' ', '-' | relative_url }}" id="post-cat-tag">
+       {% if page.category %}
+    <a href="{{ '/category/' | append: page.category | downcase | replace: ' ', '-' | relative_url }}">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
       {{ page.category }}
     </a>
