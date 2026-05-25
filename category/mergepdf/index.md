@@ -1,6 +1,6 @@
 ---
 layout: category
-title: Merge PDF
-permalink: /category/mergepdf/
-category_name: mergepdf
+title: Combinar PDF
+permalink: /category/combinar-pdf/
+category_name: Combinar PDF
 ---
