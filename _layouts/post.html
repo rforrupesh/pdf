@@ -12,20 +12,13 @@
     <div class="post-breadcrumb">
       <a href="{{ '/' | relative_url }}">Home</a> /
       <a href="{{ '/blog/' | relative_url }}">Blog</a>
+      {% if page.categories and page.categories.size > 0 %}
+        {% assign first_cat = page.categories | first %}
+        / <a href="{{ '/category/' | append: first_cat | downcase | relative_url }}">{{ first_cat }}</a>
+      {% elsif page.category %}
+        / <a href="{{ '/category/' | append: page.category | downcase | relative_url }}">{{ page.category }}</a>
+      {% endif %}
     </div>
-
-    <!-- Category badges (top) -->
-    {% if page.categories and page.categories.size > 0 %}
-      <div class="post-categories-top">
-        {% for category in page.categories %}
-          <a href="{{ '/category/' | append: category | downcase | relative_url }}" class="post-category-badge">{{ category }}</a>
-        {% endfor %}
-      </div>
-    {% elsif page.category %}
-      <div class="post-categories-top">
-        <a href="{{ '/category/' | append: page.category | downcase | relative_url }}" class="post-category-badge">{{ page.category }}</a>
-      </div>
-    {% endif %}
 
     <h1 class="post-title">{{ page.title }}</h1>
 
@@ -39,16 +32,14 @@
 
     <!-- Category badges (bottom) -->
     {% if page.categories and page.categories.size > 0 %}
-      <div class="post-footer-meta">
-        <span class="post-footer-label">Filed under:</span>
+      <div class="post-tags">
         {% for category in page.categories %}
-          <a href="{{ '/category/' | append: category | downcase | relative_url }}" class="post-category-badge">{{ category }}</a>
+          <a href="{{ '/category/' | append: category | downcase | relative_url }}" class="post-tag">{{ category }}</a>
         {% endfor %}
       </div>
     {% elsif page.category %}
-      <div class="post-footer-meta">
-        <span class="post-footer-label">Filed under:</span>
-        <a href="{{ '/category/' | append: page.category | downcase | relative_url }}" class="post-category-badge">{{ page.category }}</a>
+      <div class="post-tags">
+        <a href="{{ '/category/' | append: page.category | downcase | relative_url }}" class="post-tag">{{ page.category }}</a>
       </div>
     {% endif %}
 
