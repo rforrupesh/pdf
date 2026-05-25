@@ -1,6 +1,7 @@
 ---
 layout: default
 ---
+
 <div class="blogpage-wrap">
   <div class="blogpage-hero">
     <h1>{{ page.title }}</h1>
@@ -8,7 +9,9 @@ layout: default
       All articles from {{ page.title }} category.
     </p>
   </div>
-  {% assign posts = site.posts | where:"category", page.category_name %}
+
+  {% assign posts = site.categories[page.category_name] %}
+
   <div class="blogpage-grid">
     {% for post in posts %}
       <article class="blogpage-card">
@@ -18,12 +21,14 @@ layout: default
             alt="{{ post.title }}"
             loading="lazy">
         </a>
+
         <div class="blogpage-content">
           <h2>
             <a href="{{ post.url | relative_url }}">
               {{ post.title }}
             </a>
           </h2>
+
           {% if post.description %}
           <p>
             {{ post.description | strip_html | truncate: 120 }}
