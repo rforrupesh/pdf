@@ -62,7 +62,7 @@
         {
           "@type": "ListItem",
           "position": 1,
-          "name": "Home",
+          "name": "Hogar",
           "item": "{{ '/' | absolute_url }}"
         },
         {
@@ -140,7 +140,7 @@
 
     <!-- Breadcrumb -->
     <div class="post-breadcrumb">
-      <a href="{{ '/' | relative_url }}">Home</a> /
+      <a href="{{ '/' | relative_url }}">Hogar</a> /
       <a href="{{ '/blog/' | relative_url }}">Blog</a>
     </div>
 
@@ -155,7 +155,7 @@
 
       {% if page.categories %}
       <div class="post-categories">
-        <strong>File Under:</strong>
+        <strong>Archivo en:</strong>
 
         {% for category in page.categories %}
           {% assign cat_page = site.pages | where: "category_name", category | first %}
@@ -181,7 +181,7 @@
 
     <!-- RELATED POSTS -->
     <div class="related">
-      <h3>Related Articles</h3>
+      <h3>Artículos relacionados</h3>
       <ul class="related-list">
         {% for post in site.posts limit:5 %}
           {% if post.url != page.url %}
@@ -198,7 +198,7 @@
   <!-- SIDEBAR TOC — server-side, visible to Google -->
   <aside class="post-sidebar">
     <div class="toc-box">
-      <h4>Contents</h4>
+      <h4>Tabla de contenido</h4>
       <ul id="toc">
         {% assign headers = content | split: '<h' %}
         {% for block in headers %}
