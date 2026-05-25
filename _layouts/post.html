@@ -12,12 +12,6 @@
     <div class="post-breadcrumb">
       <a href="{{ '/' | relative_url }}">Home</a> /
       <a href="{{ '/blog/' | relative_url }}">Blog</a>
-      {% if page.categories and page.categories.size > 0 %}
-        {% assign first_cat = page.categories | first %}
-        / <a href="{{ '/category/' | append: first_cat | downcase | relative_url }}">{{ first_cat }}</a>
-      {% elsif page.category %}
-        / <a href="{{ '/category/' | append: page.category | downcase | relative_url }}">{{ page.category }}</a>
-      {% endif %}
     </div>
 
     <h1 class="post-title">{{ page.title }}</h1>
@@ -29,19 +23,6 @@
     <article class="post-content" id="postContent">
       {{ content }}
     </article>
-
-    <!-- Category badges (bottom) -->
-    {% if page.categories and page.categories.size > 0 %}
-      <div class="post-tags">
-        {% for category in page.categories %}
-          <a href="{{ '/category/' | append: category | downcase | relative_url }}" class="post-tag">{{ category }}</a>
-        {% endfor %}
-      </div>
-    {% elsif page.category %}
-      <div class="post-tags">
-        <a href="{{ '/category/' | append: page.category | downcase | relative_url }}" class="post-tag">{{ page.category }}</a>
-      </div>
-    {% endif %}
 
     <!-- RELATED POSTS -->
     <div class="related">
