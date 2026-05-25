@@ -25,19 +25,21 @@
     <article class="post-content" id="postContent">
       {{ content }}
 
-{% if page.category %}
-  <svg width="13" height="13" viewBox="0 0 24 24"
-       fill="none" stroke="currentColor" stroke-width="2.2">
-    <path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-  </svg>
-
-  File Under:
-  <a
-    class="relatedbloganywhere-category"
-    href="/category/{{ page.category }}/">
-    {{ page.category }}
-  </a>
-{% endif %}
+        {% if page.category %}
+          {% assign cat_page = site.pages | where: "category_name", page.category | first %}
+        
+          <svg width="13" height="13" viewBox="0 0 24 24"
+               fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          </svg>
+        
+          File Under:
+          <a
+            class="relatedbloganywhere-category"
+            href="{{ cat_page.url | relative_url }}">
+            {{ cat_page.title }}
+          </a>
+        {% endif %}
 
    
     </article>
