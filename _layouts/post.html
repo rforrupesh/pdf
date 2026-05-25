@@ -12,20 +12,18 @@
     <div class="post-breadcrumb">
       <a href="{{ '/' | relative_url }}">Home</a> /
       <a href="{{ '/blog/' | relative_url }}">Blog</a>
-      {% if page.category %}
-        / <a href="{{ '/category/' | append: page.category | slugify | relative_url }}">{{ page.category }}</a>
-      {% elsif page.categories.first %}
-        / <a href="{{ '/category/' | append: page.categories.first | slugify | relative_url }}">{{ page.categories.first }}</a>
-      {% endif %}
     </div>
 
-    <!-- Category badge (header) -->
-    {% if page.category or page.categories.first %}
-      <div class="post-category-header">
-        {% assign cat = page.category | default: page.categories.first %}
-        <a class="category-badge" href="{{ '/category/' | append: cat | slugify | relative_url }}">
-          {{ cat }}
-        </a>
+    <!-- Category badges (top) -->
+    {% if page.categories and page.categories.size > 0 %}
+      <div class="post-categories-top">
+        {% for category in page.categories %}
+          <a href="{{ '/category/' | append: category | downcase | relative_url }}" class="post-category-badge">{{ category }}</a>
+        {% endfor %}
+      </div>
+    {% elsif page.category %}
+      <div class="post-categories-top">
+        <a href="{{ '/category/' | append: page.category | downcase | relative_url }}" class="post-category-badge">{{ page.category }}</a>
       </div>
     {% endif %}
 
@@ -39,42 +37,20 @@
       {{ content }}
     </article>
 
-    <!-- POST FOOTER META: categories + tags -->
-    <div class="post-footer-meta">
-
-      {% if page.category or page.categories.size > 0 %}
-        <div class="post-footer-row">
-          <span class="post-footer-label">
-            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2z"/></svg>
-            {% if page.categories.size > 1 %}Categories{% else %}Category{% endif %}:
-          </span>
-          <span class="post-footer-items">
-            {% if page.categories.size > 0 %}
-              {% for cat in page.categories %}
-                <a class="category-badge category-badge--footer" href="{{ '/category/' | append: cat | slugify | relative_url }}">{{ cat }}</a>
-              {% endfor %}
-            {% elsif page.category %}
-              <a class="category-badge category-badge--footer" href="{{ '/category/' | append: page.category | slugify | relative_url }}">{{ page.category }}</a>
-            {% endif %}
-          </span>
-        </div>
-      {% endif %}
-
-      {% if page.tags.size > 0 %}
-        <div class="post-footer-row">
-          <span class="post-footer-label">
-            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
-            Tags:
-          </span>
-          <span class="post-footer-items">
-            {% for tag in page.tags %}
-              <a class="tag-badge" href="{{ '/tag/' | append: tag | slugify | relative_url }}">#{{ tag }}</a>
-            {% endfor %}
-          </span>
-        </div>
-      {% endif %}
-
-    </div>
+    <!-- Category badges (bottom) -->
+    {% if page.categories and page.categories.size > 0 %}
+      <div class="post-footer-meta">
+        <span class="post-footer-label">Filed under:</span>
+        {% for category in page.categories %}
+          <a href="{{ '/category/' | append: category | downcase | relative_url }}" class="post-category-badge">{{ category }}</a>
+        {% endfor %}
+      </div>
+    {% elsif page.category %}
+      <div class="post-footer-meta">
+        <span class="post-footer-label">Filed under:</span>
+        <a href="{{ '/category/' | append: page.category | downcase | relative_url }}" class="post-category-badge">{{ page.category }}</a>
+      </div>
+    {% endif %}
 
     <!-- RELATED POSTS -->
     <div class="related">
@@ -155,90 +131,6 @@
 </div>
 
 {% include footer.html %}
-
-<style>
-/* ── Category badge (header, above title) ── */
-.post-category-header {
-  margin-bottom: 0.6rem;
-}
-
-.category-badge {
-  display: inline-block;
-  padding: 0.25em 0.75em;
-  border-radius: 999px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  background: #f0f4ff;
-  color: #3b5bdb;
-  border: 1px solid #c5d0f5;
-  text-decoration: none;
-  transition: background 0.18s, color 0.18s;
-}
-.category-badge:hover {
-  background: #3b5bdb;
-  color: #fff;
-}
-
-/* ── Post footer meta block ── */
-.post-footer-meta {
-  margin-top: 2.5rem;
-  padding: 1.25rem 1.5rem;
-  border-top: 2px solid #f0f0f0;
-  border-bottom: 2px solid #f0f0f0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-.post-footer-row {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.post-footer-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35em;
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: #888;
-  white-space: nowrap;
-}
-
-.post-footer-items {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-}
-
-/* Footer category badge — slightly different style */
-.category-badge--footer {
-  font-size: 0.72rem;
-  padding: 0.2em 0.65em;
-}
-
-/* Tag badges */
-.tag-badge {
-  display: inline-block;
-  padding: 0.2em 0.65em;
-  border-radius: 999px;
-  font-size: 0.72rem;
-  font-weight: 500;
-  background: #f5f5f5;
-  color: #555;
-  border: 1px solid #e0e0e0;
-  text-decoration: none;
-  transition: background 0.18s, color 0.18s;
-}
-.tag-badge:hover {
-  background: #555;
-  color: #fff;
-}
-</style>
 
 <script>
 (function () {
