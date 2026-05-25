@@ -9,6 +9,7 @@ kramdown:
 title: UnificarPDF.com
 author: UnificarPDF.com
 og_site_name: UnificarPDF - Herramientas online para PDF
+lang: es
 
 url: "https://rforrupesh.github.io"
 baseurl: "/pdf"
