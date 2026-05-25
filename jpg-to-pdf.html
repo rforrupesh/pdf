@@ -121,22 +121,28 @@ head_style: |
   overflow: hidden;
   position: relative;
   cursor: grab;
-  transition: box-shadow .18s, border-color .18s, transform .22s cubic-bezier(.25,.46,.45,.94), opacity .18s;
-  will-change: transform;
+  transition: box-shadow .18s, border-color .18s;
   user-select: none;
+  isolation: isolate;
   }
   .img-card:hover { border-color: #b0b8d0; box-shadow: var(--shadow-md); }
 
-  .img-card.is-source {
-  opacity: 0.22;
-  transform: scale(0.96);
-  border-style: dashed;
-  border-color: #aab4cc;
-  pointer-events: none;
+  /* Placeholder that appears in the grid while dragging */
+  .placeholder {
+    background: #eef2ff;
+    border: 2px dashed #93aedd;
+    border-radius: var(--radius);
+    aspect-ratio: 3/4;
+    pointer-events: none;
+    box-sizing: border-box;
+    /* No transition — snaps instantly */
   }
 
-  .img-card.nudge-right { transform: translateX(12px); }
-  .img-card.nudge-left  { transform: translateX(-12px); }
+  /* Hide the original card while it is being dragged */
+  .is-dragging {
+    opacity: 0;
+    pointer-events: none;
+  }
 
   .img-thumb-wrap {
   width: 100%;
@@ -178,6 +184,7 @@ head_style: |
   position: absolute;
   top: 6px;
   left: 6px;
+  z-index: 10;
   background: rgba(0,0,0,0.55);
   color: #fff;
   font-size: 10px;
@@ -537,21 +544,21 @@ head_style: |
   font-size: 14px; color: #555;
   }
 
-  /* Ghost */
+  /* Ghost — follows cursor top-left, no transition */
   #dragGhost {
-  position: fixed;
-  pointer-events: none;
-  z-index: 9999;
-  background: #fff;
-  border: 1.5px solid #93c5fd;
-  border-radius: var(--radius);
-  display: none;
-  flex-direction: column;
-  width: 130px;
-  overflow: hidden;
-  box-shadow: 0 12px 32px rgba(37,99,235,0.18), 0 4px 12px rgba(0,0,0,0.12);
-  transform: translate(-50%, -50%) rotate(2deg) scale(1.04);
-  transition: none;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    background: #fff;
+    border: 1.5px solid #93c5fd;
+    border-radius: var(--radius);
+    display: none;
+    flex-direction: column;
+    width: 130px;
+    overflow: hidden;
+    box-shadow: 0 12px 32px rgba(37,99,235,0.18), 0 4px 12px rgba(0,0,0,0.12);
+    transform: rotate(2deg) scale(1.04);
+    transition: none;
   }
   #dragGhost .ghost-thumb {
   width: 100%;
@@ -948,6 +955,7 @@ head_style: |
   </p>
 
 </div>
+ 
   <script>
   /* ─── STATE ─── */
   let files = []; // { file, thumbUrl, w, h, rotation }
@@ -1007,7 +1015,7 @@ head_style: |
       $('uploadState').style.display   = 'none';
       $('uploadedState').style.display = 'block';
       $('mobileBottom').style.display  = window.innerWidth <= 700 ? 'flex' : 'none';
-      render(true);
+      render();
     }
   }
 
@@ -1029,10 +1037,6 @@ head_style: |
   $('moreInput').addEventListener('change', e => { loadMore(e.target.files); $('moreInput').value = ''; });
   $('dropZone').addEventListener('dragover', e => { e.preventDefault(); $('dropZone').classList.add('dragover'); });
   $('dropZone').addEventListener('dragleave', () => $('dropZone').classList.remove('dragover'));
-  // Prevent Chrome mobile pull-to-refresh during drag
-$('imgGrid').addEventListener('touchstart', e => {
-  if (e.touches.length === 1) e.preventDefault();
-}, { passive: false });
   $('dropZone').addEventListener('drop', e => {
     e.preventDefault(); $('dropZone').classList.remove('dragover');
     load(e.dataTransfer.files);
@@ -1042,6 +1046,9 @@ $('imgGrid').addEventListener('touchstart', e => {
     const imgs = [...raw].filter(f => f.type.startsWith('image/'));
     if (!imgs.length) { showToast('No image files found.'); return; }
     showToast('Loading…', 99999);
+    // Revoke all existing blob URLs before resetting (fresh load)
+    files.forEach(e => URL.revokeObjectURL(e.thumbUrl));
+    history.forEach(snap => snap.forEach(e => URL.revokeObjectURL(e.thumbUrl)));
     // Initial load — don't save to history (starting from empty)
     for (const f of imgs) {
       const thumbUrl = URL.createObjectURL(f);
@@ -1088,44 +1095,12 @@ $('imgGrid').addEventListener('touchstart', e => {
     if (files.length) $('mobileBottom').style.display = window.innerWidth <= 700 ? 'flex' : 'none';
   });
 
-  /* ─── RENDER GRID  (with FLIP drop animation) ─── */
-  let _flipSnapshots = null;
-
-  function snapPositions() {
-    _flipSnapshots = {};
-    document.querySelectorAll('#imgGrid .img-card[data-thumb]').forEach(card => {
-      const r = card.getBoundingClientRect();
-      _flipSnapshots[card.dataset.thumb] = { x: r.left, y: r.top };
-    });
-  }
-
-  function applyFlip(newCards) {
-    if (!_flipSnapshots) return;
-    newCards.forEach(card => {
-      const thumb = card.dataset.thumb;
-      const snap  = _flipSnapshots[thumb];
-      if (!snap) return;
-      const r    = card.getBoundingClientRect();
-      const dx   = snap.x - r.left;
-      const dy   = snap.y - r.top;
-      if (Math.abs(dx) < 1 && Math.abs(dy) < 1) return;
-      card.style.transition = 'none';
-      card.style.transform  = `translate(${dx}px, ${dy}px)`;
-      card.getBoundingClientRect();
-      card.style.transition = 'transform .28s cubic-bezier(.25,.46,.45,.94)';
-      card.style.transform  = '';
-    });
-    _flipSnapshots = null;
-  }
-
-  function render(animated) {
+  /* ─── RENDER GRID ─── */
+  function render() {
     const grid = $('imgGrid');
 
-    if (animated) snapPositions();
     grid.innerHTML = '';
     $('fileCount').textContent = files.length + ' image' + (files.length !== 1 ? 's' : '');
-
-    const newCards = [];
 
     files.forEach((entry, i) => {
       const { file: f, thumbUrl, w, h, rotation } = entry;
@@ -1159,7 +1134,7 @@ $('imgGrid').addEventListener('touchstart', e => {
         e.stopPropagation();
         const idx = +e.currentTarget.dataset.i;
         saveHistory();
-        URL.revokeObjectURL(files[idx].thumbUrl);
+        // Do NOT revoke thumbUrl here — undo needs it to restore the image preview
         files.splice(idx, 1);
         if (!files.length) {
           $('uploadState').style.display   = 'block';
@@ -1183,10 +1158,7 @@ $('imgGrid').addEventListener('touchstart', e => {
       handle.addEventListener('pointerdown', onDragStart, { passive: false });
 
       grid.appendChild(card);
-      newCards.push(card);
     });
-
-    if (animated) requestAnimationFrame(() => applyFlip(newCards));
   }
 
   function sortFiles(dir) {
@@ -1270,15 +1242,29 @@ $('imgGrid').addEventListener('touchstart', e => {
       '<div class="orient-icon' + landCls + '"></div>' + label + '</div>';
   }
 
-  /* ─── DRAG & DROP ─── */
+  /* ─── DRAG & DROP ───────────────────────────────────────────────────────
+     Strategy:
+       • PointerEvents + setPointerCapture → works on touch & mouse, no
+         browser scroll/pull-to-refresh interference.
+       • The dragged card gets .is-dragging (opacity:0, stays in DOM as
+         an invisible size-holder — keeps the grid stable at drag start).
+       • A .placeholder div is also inserted right before the card and
+         then tracks the pointer as the user moves, snapping instantly
+         (no transitions).  The invisible card is removed right after
+         placeholder insertion so there's only one slot at a time.
+       • The ghost element follows the pointer's top-left corner offset
+         by a small inset so the cursor stays visually "inside" the card.
+       • On pointerup the placeholder's DOM position determines newIdx.
+  ─────────────────────────────────────────────────────────────────────── */
   const ghost      = $('dragGhost');
   const ghostName  = $('dragGhostName');
   const ghostThumb = $('ghostThumb');
 
-  let dragState       = null;
-  let autoScrollRAF   = null;
-  let lastDropIdx     = -1;
+  let dragState     = null;   // { srcIdx, srcCard, offsetX, offsetY }
+  let autoScrollRAF = null;
+  let placeholder   = null;   // .placeholder div in the grid
 
+  /* ── Auto-scroll near viewport edges ── */
   function autoScroll(clientY) {
     stopAutoScroll();
     const ZONE = 80, MAX = 14;
@@ -1301,106 +1287,131 @@ $('imgGrid').addEventListener('touchstart', e => {
     else stopAutoScroll();
   }
 
-  function cardAtPoint(x, y) {
-    ghost.style.display = 'none';
-    const el = document.elementFromPoint(x, y);
-    ghost.style.display = 'flex';
-    return el ? el.closest('.img-card[data-i]') : null;
-  }
+  /* ── Move placeholder: snap instantly to closest gap in grid ── */
+  function movePlaceholder(clientX, clientY) {
+    const grid  = $('imgGrid');
+    // Only real cards (not the placeholder itself)
+    const cards = Array.from(grid.querySelectorAll('.img-card[data-i]'));
+    if (!cards.length) { grid.appendChild(placeholder); return; }
 
-  function applyNudges(srcIdx, insertBefore) {
-    if (lastDropIdx === insertBefore) return;
-    lastDropIdx = insertBefore;
-    const cards = document.querySelectorAll('#imgGrid .img-card[data-i]');
-    cards.forEach(card => {
-      const i = +card.dataset.i;
-      card.classList.remove('nudge-left', 'nudge-right');
-      if (i === srcIdx) return;
-      if (insertBefore > srcIdx) {
-        if (i > srcIdx && i < insertBefore) card.classList.add('nudge-left');
-      } else if (insertBefore < srcIdx) {
-        if (i >= insertBefore && i < srcIdx) card.classList.add('nudge-right');
-      }
-    });
-  }
+    // Find closest card by pointer distance to card center
+    let closest = null, closestDist = Infinity;
+    for (const card of cards) {
+      const r  = card.getBoundingClientRect();
+      const cx = r.left + r.width  / 2;
+      const cy = r.top  + r.height / 2;
+      const d  = Math.hypot(clientX - cx, clientY - cy);
+      if (d < closestDist) { closestDist = d; closest = card; }
+    }
 
-  function clearNudges() {
-    lastDropIdx = -1;
-    document.querySelectorAll('#imgGrid .img-card[data-i]').forEach(c => {
-      c.classList.remove('nudge-left', 'nudge-right');
-    });
-  }
-
-  function calcInsertIdx(target, clientX, srcIdx) {
-    if (!target) return srcIdx;
-    const rect   = target.getBoundingClientRect();
-    const toIdx  = +target.dataset.i;
+    const rect   = closest.getBoundingClientRect();
     const isLeft = clientX < rect.left + rect.width / 2;
-    return isLeft ? toIdx : toIdx + 1;
+
+    // insertBefore with same reference is a no-op in the DOM — instant snap
+    if (isLeft) {
+      grid.insertBefore(placeholder, closest);
+    } else {
+      grid.insertBefore(placeholder, closest.nextSibling);
+    }
   }
 
- function onDragStart(e) {
-  if (e.button !== undefined && e.button !== 0) return;
-  const card = e.currentTarget.closest('.img-card');
-  if (!card) return;
-  const srcIdx = +card.dataset.i;
+  /* ── onDragStart ── */
+  function onDragStart(e) {
+    if (e.button !== undefined && e.button !== 0) return; // left-button / touch only
+    const card = e.currentTarget.closest('.img-card');
+    if (!card) return;
+    const srcIdx = +card.dataset.i;
 
-  e.preventDefault();        // must be before setPointerCapture
-  e.stopPropagation();       // ← ADD: stop bubbling to window scroll handlers
+    e.preventDefault();         // block scroll on touch
+    e.stopPropagation();
 
-  e.currentTarget.setPointerCapture(e.pointerId);
+    // Capture pointer so pointermove fires even if finger leaves the element
+    e.currentTarget.setPointerCapture(e.pointerId);
 
-  ghostName.textContent = files[srcIdx].file.name;
-  ghostThumb.src        = files[srcIdx].thumbUrl;
-  ghost.style.left    = e.clientX + 'px';
-  ghost.style.top     = e.clientY + 'px';
-  ghost.style.display = 'flex';
+    // Offset so the ghost's top-left is offset from the finger/cursor
+    const cardRect = card.getBoundingClientRect();
+    const offsetX  = e.clientX - cardRect.left;
+    const offsetY  = e.clientY - cardRect.top;
 
-  card.classList.add('is-source');
-  dragState = { srcIdx, srcCard: card, insertBefore: srcIdx };
+    // Position & show ghost
+    ghostThumb.src        = files[srcIdx].thumbUrl;
+    ghostName.textContent = files[srcIdx].file.name;
+    ghost.style.left    = (e.clientX - offsetX) + 'px';
+    ghost.style.top     = (e.clientY - offsetY) + 'px';
+    ghost.style.display = 'flex';
 
-  document.addEventListener('pointermove',   onDragMove,   { passive: false });
-  document.addEventListener('pointerup',     onDragEnd);
-  document.addEventListener('pointercancel', onDragCancel);
-}
+    // Insert placeholder before the card, then hide the original card
+    // (keeping it in the DOM prevents grid reflow jank at drag start)
+    placeholder = document.createElement('div');
+    placeholder.className = 'placeholder';
+    card.parentNode.insertBefore(placeholder, card);
+    card.classList.add('is-dragging');  // opacity:0, pointer-events:none
+    // Remove the hidden card so only the placeholder occupies the slot
+    card.remove();
 
+    dragState = { srcIdx, srcCard: card, offsetX, offsetY };
+
+    document.addEventListener('pointermove',   onDragMove,   { passive: false });
+    document.addEventListener('pointerup',     onDragEnd);
+    document.addEventListener('pointercancel', onDragCancel);
+  }
+
+  /* ── onDragMove ── */
   function onDragMove(e) {
     if (!dragState) return;
-    e.preventDefault();
-    ghost.style.left = e.clientX + 'px';
-    ghost.style.top  = e.clientY + 'px';
+    e.preventDefault();   // prevent pull-to-refresh / page scroll on mobile
+
+    // Ghost follows the pointer exactly (anchored at the offset we recorded)
+    ghost.style.left = (e.clientX - dragState.offsetX) + 'px';
+    ghost.style.top  = (e.clientY - dragState.offsetY) + 'px';
+
     updateAutoScroll(e.clientY);
-    const target       = cardAtPoint(e.clientX, e.clientY);
-    const insertBefore = calcInsertIdx(target, e.clientX, dragState.srcIdx);
-    dragState.insertBefore = insertBefore;
-    applyNudges(dragState.srcIdx, insertBefore);
+    movePlaceholder(e.clientX, e.clientY);
   }
 
   function onDragEnd()    { cleanupDrag(true);  }
   function onDragCancel() { cleanupDrag(false); }
 
+  /* ── cleanupDrag ── */
   function cleanupDrag(commit) {
     stopAutoScroll();
-    clearNudges();
-    if (dragState && dragState.srcCard) dragState.srcCard.classList.remove('is-source');
     ghost.style.display = 'none';
+
     document.removeEventListener('pointermove',   onDragMove);
     document.removeEventListener('pointerup',     onDragEnd);
     document.removeEventListener('pointercancel', onDragCancel);
 
-    if (commit && dragState) {
-      const { srcIdx, insertBefore } = dragState;
-      let toIdx = insertBefore > srcIdx ? insertBefore - 1 : insertBefore;
-      toIdx = Math.max(0, Math.min(toIdx, files.length - 1));
-      if (toIdx !== srcIdx) {
-        snapPositions();
+    if (!dragState) return;
+
+    const grid = $('imgGrid');
+
+    if (commit && placeholder && placeholder.parentNode) {
+      // Count real img-cards that come before the placeholder in the DOM.
+      // That count is the destination index in the files array.
+      const children = Array.from(grid.children);
+      const phIdx    = children.indexOf(placeholder);
+      let newIdx = 0;
+      for (let i = 0; i < phIdx; i++) {
+        if (children[i].classList && children[i].classList.contains('img-card')) newIdx++;
+      }
+
+      placeholder.remove();
+      placeholder = null;
+
+      const srcIdx = dragState.srcIdx;
+      if (newIdx !== srcIdx) {
         saveHistory();
         const moved = files.splice(srcIdx, 1)[0];
-        files.splice(toIdx, 0, moved);
-        render(true);
+        files.splice(newIdx, 0, moved);
       }
+    } else {
+      // Cancelled — just clean up the placeholder
+      if (placeholder && placeholder.parentNode) placeholder.remove();
+      placeholder = null;
     }
+
     dragState = null;
+    render(); // full re-render resets all card states cleanly
   }
 
   /* ─── IMAGE → JPEG BYTES ─── */
