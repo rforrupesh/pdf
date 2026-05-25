@@ -13,13 +13,4 @@ og_site_name: UnificarPDF - Herramientas online para PDF
 url: "https://rforrupesh.github.io"
 baseurl: "/pdf"
 
-plugins:
-  - jekyll-archives
 
-jekyll-archives:
-  enabled:
-    - categories
-  layouts:
-    category: category
-  permalinks:
-    category: /category/:name/
