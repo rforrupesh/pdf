@@ -138,7 +138,7 @@ title: Blog
           {% for cat in post_cats %}
             {% assign cat_page = site.pages | where:"category_key", cat | first %}
             
-              href="{{ site.baseurl }}/category/{{ cat }}/"
+             <a href="{{ site.baseurl }}/category/{{ cat }}/"
               class="blogpage-category-link">
               {{ cat_page.title | default: cat | replace: "-", " " | capitalize }}
             </a>
