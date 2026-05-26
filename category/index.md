@@ -3,7 +3,6 @@ layout: default
 title: Categories
 permalink: /category/
 robots: noindex
-
 ---
 <div class="blogpage-wrap">
   <div class="blogpage-hero">
@@ -12,11 +11,11 @@ robots: noindex
   </div>
   <div class="blogpage-grid">
     {% for cat_page in site.pages %}
-      {% if cat_page.category_name %}
+      {% if cat_page.category_key %}
         <article class="blogpage-card">
           <div class="blogpage-content">
             <h2>
-              <a href="{{ site.baseurl }}/category/{{ cat_page.category_name }}/">
+              <a href="{{ site.baseurl }}/category/{{ cat_page.category_key }}/">
                 {{ cat_page.title }}
               </a>
             </h2>
