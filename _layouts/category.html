@@ -39,3 +39,45 @@ layout: default
     {% endfor %}
   </div>
 </div>
+
+
+
+
+<div class="blogpage-wrap">
+  <div class="blogpage-hero">
+    <h1>{{ page.title }}</h1>
+    <p>Todos los artículos de la categoría {{ page.title }}.</p>
+  </div>
+
+  {% assign cat_key = page.category_key %}
+  {% assign matched_posts = "" | split: "" %}
+
+  {% for post in site.posts %}
+    {% if post.category == cat_key %}
+      {% assign matched_posts = matched_posts | push: post %}
+    {% elsif post.categories contains cat_key %}
+      {% assign matched_posts = matched_posts | push: post %}
+    {% endif %}
+  {% endfor %}
+
+  <div class="blogpage-grid">
+    {% for post in matched_posts %}
+      <article class="blogpage-card">
+        <a href="{{ post.url | relative_url }}" class="blogpage-thumb">
+          <img
+            src="{{ post.thumbnail | default:'/assets/img/unit.png' | relative_url }}"
+            alt="{{ post.title }}"
+            loading="lazy">
+        </a>
+        <div class="blogpage-content">
+          <h2>
+            <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+          </h2>
+          {% if post.description %}
+            <p>{{ post.description | strip_html | truncate: 120 }}</p>
+          {% endif %}
+        </div>
+      </article>
+    {% endfor %}
+  </div>
+</div>
