@@ -126,14 +126,25 @@ title: Blog
             </a>
           </h2>
           <!-- CATEGORY -->
+<!-- CATEGORY -->
+          {% assign post_cats = "" | split: "" %}
           {% if post.category %}
-            {% assign cat_page = site.pages | where:"category_name", post.category | first %}
-            <a 
-              href="{{ site.baseurl }}/category/{{ post.category }}/"
-              class="blogpage-category-link">
-              {{ cat_page.title | default: post.category }}
-            </a>
+            {% assign post_cats = post_cats | push: post.category %}
           {% endif %}
+          {% if post.categories %}
+            {% assign post_cats = post_cats | concat: post.categories %}
+          {% endif %}
+          {% assign post_cats = post_cats | uniq %}
+          {% for cat in post_cats %}
+            {% assign cat_page = site.pages | where:"category_key", cat | first %}
+            
+              href="{{ site.baseurl }}/category/{{ cat }}/"
+              class="blogpage-category-link">
+              {{ cat_page.title | default: cat | replace: "-", " " | capitalize }}
+            </a>
+          {% endfor %}
+
+          
           <!-- DESCRIPTION -->
           {% if post.description %}
           <p>
