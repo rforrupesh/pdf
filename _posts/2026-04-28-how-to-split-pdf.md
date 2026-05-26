@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "how-to-split-pdf.md"
+title: How to Split a PDF File (Complete Guide)
 description: "Faster Access Once downloaded, PDFs open instantly without needing internet access. Easy Printing"
 thumbnail: /assets/img/Stylish-Name.png
 category: combinar-pdf
