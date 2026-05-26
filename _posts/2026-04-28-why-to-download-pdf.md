@@ -4,9 +4,8 @@ title: "why-to-download-pdf"
 description: "separate PDF pages, extract specific sections, create smaller PDF files, and manage documents efficiently. Discover the best PDF splitter tools, safety tips, and solutions for common PDF splitting problems"
 thumbnail: /assets/img/Education.png
 categories:
-  - pdftool
-  - compresspdf
-category_name: pdftool
+  - combinar-pdf
+category_name: combinar-pdf
 ---
 
 
