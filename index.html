@@ -687,14 +687,17 @@ Reordene manualmente los archivos antes de fusionarlos o cámbieles el nombre ut
             loading="lazy">
         </div>
       </a>
-    {% if post.category %}
-  {% assign cat_page = site.pages | where:"permalink", "/category/" | append: post.category | append: "/" | first %}
+
+      {% if post.category %}
+  {% assign cat_slug = post.category %}
+  {% assign cat_page = site.pages | where:"category_key", cat_slug | first %}
   <a 
     class="relatedbloganywhere-category"
-    href="{{ site.baseurl }}/category/{{ post.category }}/">
-    {{ cat_page.title | default: post.category }}
+    href="{{ site.baseurl }}/category/{{ cat_slug }}/">
+    {{ cat_page.title | default: cat_slug | replace: "-", " " }}
   </a>
 {% endif %}
+      
       <div class="relatedbloganywhere-content">
         <a href="{{ post.url | relative_url }}">
           <h3>{{ post.title }}</h3>
