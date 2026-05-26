@@ -1031,6 +1031,7 @@ $('dropZone').addEventListener('drop', e => {
 });
 
 async function loadFile(file) {
+  thumbCache = {};  // clear cache only on new file load
   if (!file) return;
   // Accept by extension too — some browsers/OS don't set MIME type reliably
   const nameOk = file.name.toLowerCase().endsWith('.pdf');
@@ -1170,11 +1171,12 @@ function onZoom(val) {
 }
 
 /* ── Thumbnail system ── */
-const THUMB_SCALE    = 0.35;
-const MAX_CONCURRENT = 4;
+const THUMB_SCALE    = 0.25;
+const MAX_CONCURRENT = 8;
 let   renderQueue    = [];
 let   activeRenders  = 0;
-let   pageCache      = [];   // pre-fetched PDF.js page objects
+let   pageCache      = [];
+let   thumbCache     = {};   // canvas imageData cache per "idx:rotation"
 let   thumbObserver  = null;
 
 // Pre-fetch all page objects in parallel — getPage() is cheap (parses structure only, no render)
@@ -1201,11 +1203,28 @@ async function renderThumb(pageIdx, canvas) {
   const pg  = pageCache[pageIdx];
   const rot = pages[pageIdx] ? pages[pageIdx].rotation : 0;
   if (!pg) return;
+
+  const cacheKey = pageIdx + ':' + rot;
+
+  // instant paint from cache
+  if (thumbCache[cacheKey]) {
+    const cached = thumbCache[cacheKey];
+    canvas.width  = cached.width;
+    canvas.height = cached.height;
+    canvas.getContext('2d').putImageData(cached, 0, 0);
+    canvas.dataset.rendered = '1';
+    canvas.style.opacity = '1';
+    return;
+  }
+
   try {
     const vp = pg.getViewport({ scale: THUMB_SCALE, rotation: rot });
     canvas.width  = vp.width;
     canvas.height = vp.height;
-    await pg.render({ canvasContext: canvas.getContext('2d'), viewport: vp }).promise;
+    const ctx = canvas.getContext('2d');
+    await pg.render({ canvasContext: ctx, viewport: vp }).promise;
+    // store in cache
+    thumbCache[cacheKey] = ctx.getImageData(0, 0, canvas.width, canvas.height);
     canvas.dataset.rendered = '1';
     canvas.style.opacity = '1';
   } catch {
@@ -1220,7 +1239,7 @@ async function renderThumb(pageIdx, canvas) {
 
 function initThumbObserver() {
   if (thumbObserver) thumbObserver.disconnect();
-  const scrollRoot = document.querySelector('.page-grid-wrap'); // ← correct root!
+  const scrollRoot = document.querySelector('.page-grid-wrap');
   thumbObserver = new IntersectionObserver((entries) => {
     for (const entry of entries) {
       if (!entry.isIntersecting) continue;
@@ -1228,10 +1247,10 @@ function initThumbObserver() {
       const idx    = +entry.target.dataset.pi;
       const canvas = entry.target.querySelector('canvas');
       if (canvas && !canvas.dataset.rendered) {
-        enqueueRender(() => renderThumb(idx, canvas), true); // priority = visible first
+        enqueueRender(() => renderThumb(idx, canvas), true);
       }
     }
-  }, { root: scrollRoot, rootMargin: '400px' });
+  }, { root: scrollRoot, rootMargin: '600px' }); // bigger lookahead
 }
 
 /* ── Page grid ── */
@@ -1240,6 +1259,7 @@ async function renderPageGrid() {
   grid.innerHTML = '';
   renderQueue   = [];
   activeRenders = 0;
+  // don't wipe thumbCache — reuse across reorders
 
   // Build all card shells instantly (no render yet)
   const frag = document.createDocumentFragment();
@@ -1326,9 +1346,8 @@ function buildPageCard(page, idx) {
     updateCardVisual(card, page); updateSelectionCount();
     scheduleAutoSplit();
   });
-  card.addEventListener('pointerdown', onPageDragStart, { passive: false });
-
-  return card;
+card.style.cursor = 'move';
+  card.addEventListener('pointerdown', onPageDragStart, { passive: false });  return card;
 }
 
 function applyCanvasRotation(canvas, deg) {
@@ -1365,6 +1384,15 @@ function syncAllCards() {
 
 /* ── Drag & Reorder ── */
 const ghost = $('dragGhost'), ghostName = $('dragGhostName');
+const dropIndicator = document.createElement('div');
+dropIndicator.id = 'dropIndicator';
+dropIndicator.style.cssText = `
+  position:fixed;pointer-events:none;z-index:9999;display:none;
+  width:3px;border-radius:3px;background:var(--blue,#3b82f6);
+  box-shadow:0 0 8px rgba(59,130,246,0.7);
+  transition: top 0.08s ease, left 0.08s ease, height 0.08s ease;
+`;
+document.body.appendChild(dropIndicator);
 let pageDragState = null, autoScrollRAF = null;
 
 function startAutoScroll(y) {
@@ -1387,41 +1415,25 @@ function cardAtPoint(x, y) {
 }
 
 function onPageDragStart(e) {
-  if (e.target.closest('.card-btn,.card-zoom-btn') || e.target.tagName==='CANVAS') return;
+  if (e.target.closest('.card-btn,.card-zoom-btn')) return;
   if (e.button!==undefined&&e.button!==0) return;
+  e.preventDefault();
+
   const card=e.currentTarget, srcIdx=+card.dataset.pi;
-  const startX=e.clientX, startY=e.clientY;
   const pointerId=e.pointerId;
-  // Don't preventDefault yet — let native horizontal scroll work until we confirm a drag
-  let dragCommitted=false;
-  let longPressTimer=null;
 
-  function commitDrag(cx,cy) {
-    if (dragCommitted) return;
-    dragCommitted=true;
-    try { card.setPointerCapture(pointerId); } catch(_) {}
-    ghostName.textContent='Page '+(srcIdx+1);
-    ghost.style.display='flex'; ghost.style.left=cx+'px'; ghost.style.top=cy+'px';
-    card.classList.add('is-source');
+  // commit drag instantly on mousedown
+  try { card.setPointerCapture(pointerId); } catch(_) {}
+  ghostName.textContent='Page '+(srcIdx+1);
+  ghost.style.display='flex';
+  ghost.style.left=e.clientX+'px';
+  ghost.style.top=e.clientY+'px';
+card.classList.add('is-source');
+  card.style.cursor='move';
+  document.body.style.cursor='move';
     pageDragState={srcIdx,srcCard:card,lastTarget:null};
-  }
-
-  longPressTimer=setTimeout(()=>{ commitDrag(startX,startY); },400);
 
   function onMove(ev) {
-    const dx=ev.clientX-startX, dy=ev.clientY-startY;
-    const dist=Math.sqrt(dx*dx+dy*dy);
-    // Mostly horizontal → cancel drag, let native scroll take over
-    if (!dragCommitted && Math.abs(dx)>Math.abs(dy)*1.5 && dist>6) {
-      cleanup(); return;
-    }
-    // Vertical drag with enough movement → commit drag
-    if (!dragCommitted && dist>10 && Math.abs(dy)>Math.abs(dx)*0.5) {
-      clearTimeout(longPressTimer);
-      ev.preventDefault();
-      commitDrag(ev.clientX,ev.clientY);
-    }
-    if (!dragCommitted) return;
     ev.preventDefault();
     ghost.style.left=ev.clientX+'px'; ghost.style.top=ev.clientY+'px';
     const ZONE=80,vh=window.innerHeight;
@@ -1430,17 +1442,39 @@ function onPageDragStart(e) {
     $('pageGrid').querySelectorAll('[data-pi]').forEach(c=>{c.style.outline='';c.style.outlineOffset='';});
     if (target&&target!==pageDragState.srcCard) {
       const rect=target.getBoundingClientRect(), midX=rect.left+rect.width/2;
-      target.style.outline='2.5px solid var(--blue)'; target.style.outlineOffset='-2px';
-      pageDragState.lastTarget={card:target,position:ev.clientX<midX?'before':'after',toIdx:+target.dataset.pi};
-    } else pageDragState.lastTarget=null;
+      const isBefore=ev.clientX<midX;
+      target.style.outline='2px solid var(--blue)'; target.style.outlineOffset='-2px';
+      pageDragState.lastTarget={card:target,position:isBefore?'before':'after',toIdx:+target.dataset.pi};
+      const lineX=isBefore ? rect.left-3 : rect.right+1;
+      dropIndicator.style.display='block';
+      dropIndicator.style.left=(lineX+window.scrollX)+'px';
+      dropIndicator.style.top=(rect.top+window.scrollY)+'px';
+      dropIndicator.style.height=rect.height+'px';
+    } else {
+      pageDragState.lastTarget=null;
+      dropIndicator.style.display='none';
+    }
   }
 
-  function onUp() { clearTimeout(longPressTimer); if (dragCommitted) cleanupPageDrag(); else cleanup(); }
-  function onCancel() { clearTimeout(longPressTimer); if (dragCommitted) cleanupPageDrag(); else cleanup(); }
+  function onUp() {
+    cleanup();
+    cleanupPageDrag();
+  }
 
-  function cleanup() {
-    clearTimeout(longPressTimer);
-    document.removeEventListener('pointermove',onMove);
+  function onCancel() {
+    cleanup();
+    stopAutoScroll();
+    const ds=pageDragState;
+    $('pageGrid').querySelectorAll('[data-pi]').forEach(c=>{c.style.outline='';c.style.outlineOffset='';});
+    if (ds&&ds.srcCard) ds.srcCard.classList.remove('is-source');
+    ghost.style.display='none';
+    dropIndicator.style.display='none';
+    pageDragState=null;
+  }
+
+function cleanup() {
+    card.style.cursor='move';
+    document.body.style.cursor='';    document.removeEventListener('pointermove',onMove);
     document.removeEventListener('pointerup',onUp);
     document.removeEventListener('pointercancel',onCancel);
   }
@@ -1449,29 +1483,48 @@ function onPageDragStart(e) {
   document.addEventListener('pointerup',onUp);
   document.addEventListener('pointercancel',onCancel);
 }
+
 function onPageDragMove(e) {
   // handled inline in onPageDragStart closure above
 }
 function cleanupPageDrag() {
   stopAutoScroll();
   const ds=pageDragState;
+  pageDragState=null;
   $('pageGrid').querySelectorAll('[data-pi]').forEach(c=>{c.style.outline='';c.style.outlineOffset='';});
   if (ds&&ds.srcCard) ds.srcCard.classList.remove('is-source');
   ghost.style.display='none';
-  document.removeEventListener('pointermove',onPageDragMove);
-  document.removeEventListener('pointerup',onPageDragEnd);
-  document.removeEventListener('pointercancel',onPageDragCancel);
-  if (ds&&ds.lastTarget&&ds.srcIdx!==null) {
-    let {toIdx,position}=ds.lastTarget;
-    if (position==='after') toIdx+=1;
-    toIdx=Math.max(0,Math.min(toIdx,pages.length));
-    if (toIdx!==ds.srcIdx&&toIdx!==ds.srcIdx+1) {
-      const moved=pages.splice(ds.srcIdx,1)[0];
-      const at=toIdx>ds.srcIdx?toIdx-1:toIdx;
-      pages.splice(at,0,moved); renderPageGrid(); scheduleAutoSplit(800);
-    }
-  }
-  pageDragState=null;
+  dropIndicator.style.display='none';
+  if (!ds||!ds.lastTarget||ds.srcIdx===null) return;
+
+  let {toIdx,position}=ds.lastTarget;
+  if (position==='after') toIdx+=1;
+  toIdx=Math.max(0,Math.min(toIdx,pages.length));
+  if (toIdx===ds.srcIdx||toIdx===ds.srcIdx+1) return;
+
+  const moved=pages.splice(ds.srcIdx,1)[0];
+  const at=toIdx>ds.srcIdx?toIdx-1:toIdx;
+  pages.splice(at,0,moved);
+
+  // Reorder DOM cards directly — no full re-render needed
+  const grid=$('pageGrid');
+  const cards=[...grid.querySelectorAll('[data-pi]')];
+  // Detach source card
+  const srcCard=cards[ds.srcIdx];
+  grid.removeChild(srcCard);
+  // Re-attach at correct position
+  const remaining=[...grid.querySelectorAll('[data-pi]')];
+  const refCard=remaining[at]||null;
+  grid.insertBefore(srcCard, refCard);
+  // Update all data-pi indices and labels
+  [...grid.querySelectorAll('[data-pi]')].forEach((card,i)=>{
+    card.dataset.pi=i;
+    const lbl=card.querySelector('.card-label');
+    if (lbl) lbl.textContent='Page '+(i+1);
+    if (pages[i]) updateCardVisual(card,pages[i]);
+  });
+  updateRangeHighlight();
+  scheduleAutoSplit(800);
 }
 
 /* ── PDF helpers ── */
