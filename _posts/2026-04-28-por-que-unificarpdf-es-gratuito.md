@@ -17,7 +17,6 @@ La respuesta corta: **UniFicarPDF es gratis porque así lo decidimos desde el d�
 
 Fusionar PDF gratis no debería ser un privilegio. Es algo que millones de personas necesitan todos los días para el trabajo, los estudios o trámites personales. Por eso existe UniFicarPDF.
 
----
 
 ## No es un modelo freemium disfrazado
 
@@ -29,7 +28,6 @@ UniFicarPDF no funciona así. No existe un plan premium que desbloquea más func
 
 Subes tus archivos, los combinas, los descargas. Eso es todo.
 
----
 
 ## ¿Cómo se sostiene entonces?
 
@@ -39,7 +37,7 @@ La respuesta es publicidad no intrusiva y costos de operación que se mantienen 
 
 No hay funciones innecesarias que encarezcan el mantenimiento. Esa simplicidad nos permite ofrecer el servicio sin pasarle el costo al usuario.
 
----
+
 
 ## Lo que sí hacemos con tus archivos (y lo que no)
 
@@ -51,7 +49,7 @@ Un PDF de facturas, documentos laborales o contratos personales merece ese trato
 
 No pedimos que inicies sesión precisamente porque no necesitamos saber quién eres. Cada vez que usas la herramienta es como si fuera la primera vez: sin historial, sin rastreo de tus archivos.
 
----
+
 
 ## ¿Qué puedes hacer con UniFicarPDF sin pagar nada?
 
@@ -71,7 +69,7 @@ No pedimos correo electrónico ni datos personales para usar la herramienta.
 
 Celular, computador o tablet. Funciona igual en todos.
 
----
+
 
 ## ¿Es lo mismo que otras herramientas gratuitas?
 
@@ -83,7 +81,7 @@ Tampoco necesitas tener Adobe Acrobat instalado ni pagar una licencia anual solo
 
 Ese tipo de software tiene su lugar, pero para unir PDFs del día a día es mucho más de lo que la mayoría necesita.
 
----
+
 
 ## Quién usa UniFicarPDF
 
@@ -96,7 +94,6 @@ En Colombia, México, Argentina, Chile y otros países de habla hispana, el acce
 
 UniFicarPDF existe para cerrar esa brecha.
 
----
 
 ## ¿Hay algo que UniFicarPDF no puede hacer?
 
@@ -108,7 +105,7 @@ Nos enfocamos en hacer una cosa muy bien en lugar de hacer muchas cosas a medias
 
 Si necesitas algo más específico, existen herramientas especializadas para eso.
 
----
+
 
 ## Preguntas frecuentes
 
