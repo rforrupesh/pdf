@@ -44,4 +44,4 @@ Porque hay muchos servicios en línea que son realmente poco claros sobre lo que
  
 Usar UnificarPDF significa que tu documento se cifra cuando se transfiere a través de tu navegador, permanece completamente inaccesible para nuestro personal y se elimina definitivamente después de solo unas pocas horas — ya sea que estés en escritorio, móvil o usando una VPN. Esto no es un eslogan, sino la estructura real de nuestro servicio.
  
-¿Tienes alguna pregunta que no se mencionó anteriormente? [Contáctanos](https://unificarpdf.com/contacto). Siempre damos la bienvenida a una conversación.
+¿Tienes alguna pregunta que no se mencionó anteriormente? Contáctanos. Siempre damos la bienvenida a una conversación.
