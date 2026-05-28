@@ -1,7 +1,7 @@
 ---
 layout: post
 title: ¿Es seguro subir archivos a UnificarPDF?
-thumbnail: /assets/img/Fancy-Text-Style.png
+thumbnail: /assets/img/subir-archivos-unificarpdf-es-seguro.png
 description: "Conoce todo sobre la seguridad de tus archivos en UnificarPDF: cifrado, privacidad y eliminación automática."
 category: recursos
 ---
