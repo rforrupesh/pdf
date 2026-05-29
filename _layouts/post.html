@@ -5,20 +5,21 @@
 {% include navbar.html %}
 
 <!-- ─────────────────────────────────────────────
-     SCHEMA.ORG STRUCTURED DATA (auto-generated)
+     SCHEMA.ORG STRUCTURED DATA
 ───────────────────────────────────────────────── -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@graph": [
-
     {
-      "@type": "WebPage",
+      "@type": "Article",
       "@id": "{{ page.url | absolute_url }}",
       "url": "{{ page.url | absolute_url }}",
       "name": "{{ page.title | escape }}",
+      "headline": "{{ page.title | escape }}",
       "isPartOf": { "@id": "{{ '/' | absolute_url }}#website" },
-      "about":   { "@id": "{{ '/' | absolute_url }}#organization" },
+      "about":    { "@id": "{{ '/' | absolute_url }}#organization" },
+      "author":   { "@id": "{{ '/' | absolute_url }}#organization" },
       {% if page.thumbnail %}
       "primaryImageOfPage": { "@id": "{{ page.url | absolute_url }}#primaryimage" },
       "image":              { "@id": "{{ page.url | absolute_url }}#primaryimage" },
@@ -59,34 +60,20 @@
       "@type": "BreadcrumbList",
       "@id": "{{ page.url | absolute_url }}#breadcrumb",
       "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Hogar",
-          "item": "{{ '/' | absolute_url }}"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "Blog",
-          "item": "{{ '/blog/' | absolute_url }}"
-        }
+        { "@type": "ListItem", "position": 1, "name": "Hogar",  "item": "{{ '/' | absolute_url }}" },
+        { "@type": "ListItem", "position": 2, "name": "Blog",   "item": "{{ '/blog/' | absolute_url }}" }
         {% if page.categories %}
         {% for category in page.categories %}
-        ,{
-          "@type": "ListItem",
-          "position": {{ forloop.index | plus: 2 }},
-          "name": "{{ category | replace: '-', ' ' | capitalize }}",
-          "item": "{{ '/category/' | append: category | append: '/' | absolute_url }}"
-        }
+        ,{ "@type": "ListItem",
+           "position": {{ forloop.index | plus: 2 }},
+           "name": "{{ category | replace: '-', ' ' | capitalize }}",
+           "item": "{{ '/category/' | append: category | append: '/' | absolute_url }}" }
         {% endfor %}
         {% endif %}
-        ,{
-          "@type": "ListItem",
-          "position": {% if page.categories %}{{ page.categories.size | plus: 3 }}{% else %}3{% endif %},
-          "name": "{{ page.title | escape }}",
-          "item": "{{ page.url | absolute_url }}"
-        }
+        ,{ "@type": "ListItem",
+           "position": {% if page.categories %}{{ page.categories.size | plus: 3 }}{% else %}3{% endif %},
+           "name": "{{ page.title | escape }}",
+           "item": "{{ page.url | absolute_url }}" }
       ]
     },
 
@@ -99,15 +86,8 @@
       "publisher": { "@id": "{{ '/' | absolute_url }}#organization" },
       "potentialAction": [{
         "@type": "SearchAction",
-        "target": {
-          "@type": "EntryPoint",
-          "urlTemplate": "{{ '/' | absolute_url }}?s={search_term_string}"
-        },
-        "query-input": {
-          "@type": "PropertyValueSpecification",
-          "valueRequired": true,
-          "valueName": "search_term_string"
-        }
+        "target": { "@type": "EntryPoint", "urlTemplate": "{{ '/' | absolute_url }}?s={search_term_string}" },
+        "query-input": { "@type": "PropertyValueSpecification", "valueRequired": true, "valueName": "search_term_string" }
       }],
       "inLanguage": "{{ site.lang | default: 'en-US' }}"
     },
@@ -129,7 +109,6 @@
       "image": { "@id": "{{ '/' | absolute_url }}#/schema/logo/image/" }
       {% endif %}
     }
-
   ]
 }
 </script>
@@ -138,179 +117,181 @@
 
   <main class="post-main">
 
-    <!-- Breadcrumb -->
-    <div class="post-breadcrumb">
+    <!-- Breadcrumb (visible + SEO) -->
+    <nav class="post-breadcrumb" aria-label="Breadcrumb">
       <a href="{{ '/' | relative_url }}">Hogar</a> /
       <a href="{{ '/blog/' | relative_url }}">Blog</a>
-    </div>
+      {% if page.categories %}
+        {% for category in page.categories %}
+          / <a href="{{ '/category/' | append: category | append: '/' | relative_url }}">
+              {{ category | replace: '-', ' ' | capitalize }}
+            </a>
+        {% endfor %}
+      {% endif %}
+    </nav>
 
     <h1 class="post-title">{{ page.title }}</h1>
 
+    <!-- Meta row -->
+    <div class="post-meta">
+      {% if page.date %}
+        <time datetime="{{ page.date | date_to_xmlschema }}">
+          {{ page.date | date: "%B %-d, %Y" }}
+        </time>
+      {% endif %}
+      {% if page.last_modified_at %}
+        · <span>Actualizado: <time datetime="{{ page.last_modified_at | date_to_xmlschema }}">{{ page.last_modified_at | date: "%B %-d, %Y" }}</time></span>
+      {% endif %}
+    </div>
+
     {% if page.thumbnail %}
-      <img class="post-thumb" src="{{ page.thumbnail | relative_url }}" alt="{{ page.title }}">
+      <img class="post-thumb"
+           src="{{ page.thumbnail | relative_url }}"
+           alt="{{ page.title }}"
+           width="{{ page.thumbnail_width }}"
+           height="{{ page.thumbnail_height }}"
+           loading="eager">
     {% endif %}
+
+    <!-- ── TABLE OF CONTENTS ───────────────────────────────────── -->
+    <!-- JS extracts h2/h3 from #postContent and builds the list   -->
+    <nav class="toc" id="toc" aria-label="Tabla de contenidos">
+      <p class="toc-title">📋 Tabla de contenidos</p>
+      <ol class="toc-list" id="tocList"></ol>
+    </nav>
 
     <article class="post-content" id="postContent">
       {{ content }}
 
       {% if page.categories %}
       <div class="post-categories">
-        <strong>Archivo en:</strong>
-
+        <strong>Archivado en:</strong>
         {% for category in page.categories %}
           {% assign cat_page = site.pages | where: "category_name", category | first %}
-
-          <a
-            class="post-category-link"
-            href="{{ '/category/' | append: category | append: '/' | relative_url }}">
-
-            {% if cat_page %}
-              {{ cat_page.title }}
-            {% else %}
-              {{ category | replace: '-', ' ' | capitalize }}
-            {% endif %}
-
+          <a class="post-category-link"
+             href="{{ '/category/' | append: category | append: '/' | relative_url }}">
+            {% if cat_page %}{{ cat_page.title }}{% else %}{{ category | replace: '-', ' ' | capitalize }}{% endif %}
           </a>
-
           {% unless forloop.last %} | {% endunless %}
         {% endfor %}
       </div>
       {% endif %}
-
     </article>
 
     <!-- RELATED POSTS -->
-    <div class="related">
+    <aside class="related" aria-label="Artículos relacionados">
       <h3>Artículos relacionados</h3>
       <ul class="related-list">
-        {% for post in site.posts limit:5 %}
-          {% if post.url != page.url %}
-            <li>
-              <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-            </li>
-          {% endif %}
-        {% endfor %}
-      </ul>
-    </div>
-
-  </main>
-
-  <!-- SIDEBAR TOC — server-side, visible to Google -->
-  <aside class="post-sidebar">
-    <div class="toc-box">
-      <h4>Tabla de contenido</h4>
-      <ul id="toc">
-        {% assign headers = content | split: '<h' %}
-        {% for block in headers %}
-          {% assign level = block | slice: 0, 1 %}
-          {% if level == '2' or level == '3' %}
-            {% if block contains '</h' %}
-              {% assign text_part = block | split: '>' | slice: 1, 99 | join: '>' | split: '</h' | first %}
-              {% assign text_clean = text_part | strip_html | strip %}
-              {% assign id = text_clean
-                | downcase
-                | replace: ' ', '_'
-                | replace: '-', '_'
-                | replace: '.', ''
-                | replace: '?', ''
-                | replace: '!', ''
-                | replace: ',', ''
-                | replace: ':', ''
-                | replace: ';', ''
-                | replace: "'", ''
-                | replace: '"', ''
-                | replace: '(', ''
-                | replace: ')', ''
-                | replace: '[', ''
-                | replace: ']', ''
-                | replace: '{', ''
-                | replace: '}', ''
-                | replace: '/', ''
-                | replace: '#', ''
-                | replace: '@', ''
-                | replace: '&', ''
-                | replace: '%', ''
-                | replace: '+', ''
-                | replace: '=', ''
-                | replace: '<', ''
-                | replace: '>', ''
-                | replace: '`', ''
-                | replace: '~', ''
-                | replace: '^', ''
-                | replace: '*', ''
-                | replace: '|', ''
-                | replace: '$', ''
-                | replace: '__', '_'
-                | replace: '__', '_'
-              %}
-              {% if text_clean != '' and id != '' %}
-                <li class="toc-h{{ level }}">
-                  <a href="#{{ id }}">{{ text_clean }}</a>
-                </li>
+        {% assign related_posts = site.posts | where_exp: "post", "post.url != page.url" %}
+        {% assign shown = 0 %}
+        {% for post in related_posts %}
+          {% if shown < 5 %}
+            {% assign shared = post.categories | concat: page.categories | uniq %}
+            {% if post.categories and page.categories %}
+              {% assign merged_size = post.categories.size | plus: page.categories.size %}
+              {% assign unique_size = shared.size %}
+              {% if unique_size < merged_size %}
+                <li><a href="{{ post.url | relative_url }}">{{ post.title }}</a></li>
+                {% assign shown = shown | plus: 1 %}
               {% endif %}
             {% endif %}
           {% endif %}
         {% endfor %}
+        {% if shown < 5 %}
+          {% for post in related_posts limit: 5 %}
+            {% if shown < 5 %}
+              <li><a href="{{ post.url | relative_url }}">{{ post.title }}</a></li>
+              {% assign shown = shown | plus: 1 %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
       </ul>
-    </div>
-  </aside>
+    </aside>
+
+  </main>
 
 </div>
 
-{% include footer.html %}
-
+<!-- ── TOC SCRIPT ───────────────────────────────────────────────── -->
 <script>
 (function () {
-  var content = document.getElementById("postContent");
-  if (!content) return;
+  const content = document.getElementById('postContent');
+  const tocList = document.getElementById('tocList');
+  const toc     = document.getElementById('toc');
+  if (!content || !tocList) return;
 
-  var headings = content.querySelectorAll("h2, h3");
-  if (!headings.length) return;
+  // Grab h2 and h3 only
+  const headings = Array.from(content.querySelectorAll('h2, h3'));
+  if (headings.length < 2) { toc.style.display = 'none'; return; }
 
-  var tocLinks = document.querySelectorAll("#toc a");
-
-  function makeId(text) {
-    return text
-      .trim()
-      .toLowerCase()
-      .replace(/[^a-z0-9\s]/g, "")
-      .trim()
-      .replace(/\s+/g, "_")
-      .replace(/_+/g, "_")
-      .replace(/^_|_$/g, "");
-  }
-
-  var idCount = {};
-  headings.forEach(function (h) {
-    var baseId = makeId(h.textContent);
-    if (!baseId) baseId = "section";
-    if (idCount[baseId] === undefined) {
-      idCount[baseId] = 0;
-    } else {
-      idCount[baseId]++;
-      baseId = baseId + "_" + (idCount[baseId] + 1);
+  headings.forEach(function (h, i) {
+    // Auto-assign id if missing
+    if (!h.id) {
+      h.id = 'heading-' + i + '-' + h.textContent.trim()
+               .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
     }
-    h.id = baseId;
+
+    const li = document.createElement('li');
+    li.className = h.tagName === 'H3' ? 'toc-sub' : '';
+
+    const a = document.createElement('a');
+    a.href = '#' + h.id;
+    a.textContent = h.textContent;
+    li.appendChild(a);
+    tocList.appendChild(li);
   });
 
-  window.addEventListener("scroll", function () {
-    var current = "";
-    headings.forEach(function (h) {
-      if (window.scrollY >= h.offsetTop - 130) {
-        current = h.id;
+  // Active-link highlight on scroll
+  const observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      const id = entry.target.id;
+      const link = tocList.querySelector('a[href="#' + id + '"]');
+      if (!link) return;
+      if (entry.isIntersecting) {
+        tocList.querySelectorAll('a').forEach(function (a) { a.classList.remove('active'); });
+        link.classList.add('active');
       }
     });
-    tocLinks.forEach(function (a) {
-      if (a.getAttribute("href") === "#" + current) {
-        a.classList.add("active");
-      } else {
-        a.classList.remove("active");
-      }
-    });
-  });
+  }, { rootMargin: '0px 0px -70% 0px' });
 
+  headings.forEach(function (h) { observer.observe(h); });
 })();
 </script>
 
+<!-- ── TOC CSS ───────────────────────────────────────────────────── -->
+<style>
+.toc {
+  background: #f8f9fa;
+  border-left: 4px solid #2563eb;
+  border-radius: 6px;
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0 2rem;
+  font-size: 0.92rem;
+}
+.toc-title {
+  font-weight: 700;
+  margin: 0 0 0.6rem;
+  font-size: 0.95rem;
+  color: #1e293b;
+}
+.toc-list {
+  margin: 0;
+  padding-left: 1.25rem;
+  line-height: 1.8;
+}
+.toc-list li { margin: 0; }
+.toc-list li.toc-sub { padding-left: 1rem; list-style-type: disc; }
+.toc-list a { color: #2563eb; text-decoration: none; }
+.toc-list a:hover,
+.toc-list a.active { color: #1d4ed8; text-decoration: underline; font-weight: 600; }
+
+.post-meta {
+  font-size: 0.85rem;
+  color: #64748b;
+  margin: 0.25rem 0 1.25rem;
+}
+</style>
+
+{% include footer.html %}
 </body>
 </html>
