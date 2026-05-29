@@ -53,19 +53,19 @@ No pedimos que inicies sesión precisamente porque no necesitamos saber quién e
 
 ## ¿Qué puedes hacer con UniFicarPDF sin pagar nada?
 
-### 📎 Unir varios PDF en uno
+## 📎 Unir varios PDF en uno
 
 Combina 2, 5 o 20 archivos en un solo documento. Sin límite de archivos por sesión.
 
-### ⚡ Sin instalación
+## ⚡ Sin instalación
 
 Funciona directo desde el navegador. No hay que descargar ningún programa.
 
-### 🔒 Sin cuenta obligatoria
+## 🔒 Sin cuenta obligatoria
 
 No pedimos correo electrónico ni datos personales para usar la herramienta.
 
-### 🌐 Desde cualquier dispositivo
+## 🌐 Desde cualquier dispositivo
 
 Celular, computador o tablet. Funciona igual en todos.
 
@@ -109,30 +109,30 @@ Si necesitas algo más específico, existen herramientas especializadas para eso
 
 ## Preguntas frecuentes
 
-### ¿UniFicarPDF es realmente gratis o tiene costos ocultos?
+## ¿UniFicarPDF es realmente gratis o tiene costos ocultos?
 
 Es completamente gratis. No hay costos ocultos, no hay versión de pago y no pedimos tarjeta de crédito en ningún momento.
 
-### ¿Necesito crear una cuenta para fusionar PDF?
+## ¿Necesito crear una cuenta para fusionar PDF?
 
 No. Puedes usar la herramienta sin registrarte ni dejar ningún dato personal.
 
-### ¿Cuántos archivos PDF puedo combinar a la vez?
+## ¿Cuántos archivos PDF puedo combinar a la vez?
 
 Puedes subir múltiples archivos en una sola sesión. No hay un límite fijo de archivos por combinación.
 
-### ¿Funciona en Colombia, México y otros países de habla hispana?
+## ¿Funciona en Colombia, México y otros países de habla hispana?
 
 Sí. UniFicarPDF funciona desde cualquier navegador con conexión a internet, sin importar desde qué país accedas.
 
-### ¿Mis archivos quedan guardados después de fusionarlos?
+## ¿Mis archivos quedan guardados después de fusionarlos?
 
 No. Los archivos se procesan para generar el PDF combinado y luego se eliminan. No los almacenamos.
 
-### ¿Necesito instalar algo para usar UniFicarPDF?
+## ¿Necesito instalar algo para usar UniFicarPDF?
 
 Nada. Funciona directamente desde el navegador, en computador, celular o tablet.
 
-### ¿Es lo mismo que un merge PDF gratuito de otras plataformas?
+## ¿Es lo mismo que un merge PDF gratuito de otras plataformas?
 
 Cumple la misma función, pero sin los formularios de pago ni las restricciones que aparecen al final del proceso en otros sitios. Aquí no hay sorpresas.
