@@ -5,21 +5,20 @@
 {% include navbar.html %}
 
 <!-- ─────────────────────────────────────────────
-     SCHEMA.ORG STRUCTURED DATA
+     SCHEMA.ORG STRUCTURED DATA (auto-generated)
 ───────────────────────────────────────────────── -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@graph": [
+
     {
-      "@type": "Article",
+      "@type": "WebPage",
       "@id": "{{ page.url | absolute_url }}",
       "url": "{{ page.url | absolute_url }}",
       "name": "{{ page.title | escape }}",
-      "headline": "{{ page.title | escape }}",
       "isPartOf": { "@id": "{{ '/' | absolute_url }}#website" },
-      "about":    { "@id": "{{ '/' | absolute_url }}#organization" },
-      "author":   { "@id": "{{ '/' | absolute_url }}#organization" },
+      "about":   { "@id": "{{ '/' | absolute_url }}#organization" },
       {% if page.thumbnail %}
       "primaryImageOfPage": { "@id": "{{ page.url | absolute_url }}#primaryimage" },
       "image":              { "@id": "{{ page.url | absolute_url }}#primaryimage" },
@@ -60,20 +59,34 @@
       "@type": "BreadcrumbList",
       "@id": "{{ page.url | absolute_url }}#breadcrumb",
       "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "Hogar",  "item": "{{ '/' | absolute_url }}" },
-        { "@type": "ListItem", "position": 2, "name": "Blog",   "item": "{{ '/blog/' | absolute_url }}" }
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Hogar",
+          "item": "{{ '/' | absolute_url }}"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blog",
+          "item": "{{ '/blog/' | absolute_url }}"
+        }
         {% if page.categories %}
         {% for category in page.categories %}
-        ,{ "@type": "ListItem",
-           "position": {{ forloop.index | plus: 2 }},
-           "name": "{{ category | replace: '-', ' ' | capitalize }}",
-           "item": "{{ '/category/' | append: category | append: '/' | absolute_url }}" }
+        ,{
+          "@type": "ListItem",
+          "position": {{ forloop.index | plus: 2 }},
+          "name": "{{ category | replace: '-', ' ' | capitalize }}",
+          "item": "{{ '/category/' | append: category | append: '/' | absolute_url }}"
+        }
         {% endfor %}
         {% endif %}
-        ,{ "@type": "ListItem",
-           "position": {% if page.categories %}{{ page.categories.size | plus: 3 }}{% else %}3{% endif %},
-           "name": "{{ page.title | escape }}",
-           "item": "{{ page.url | absolute_url }}" }
+        ,{
+          "@type": "ListItem",
+          "position": {% if page.categories %}{{ page.categories.size | plus: 3 }}{% else %}3{% endif %},
+          "name": "{{ page.title | escape }}",
+          "item": "{{ page.url | absolute_url }}"
+        }
       ]
     },
 
@@ -86,8 +99,15 @@
       "publisher": { "@id": "{{ '/' | absolute_url }}#organization" },
       "potentialAction": [{
         "@type": "SearchAction",
-        "target": { "@type": "EntryPoint", "urlTemplate": "{{ '/' | absolute_url }}?s={search_term_string}" },
-        "query-input": { "@type": "PropertyValueSpecification", "valueRequired": true, "valueName": "search_term_string" }
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "{{ '/' | absolute_url }}?s={search_term_string}"
+        },
+        "query-input": {
+          "@type": "PropertyValueSpecification",
+          "valueRequired": true,
+          "valueName": "search_term_string"
+        }
       }],
       "inLanguage": "{{ site.lang | default: 'en-US' }}"
     },
@@ -109,6 +129,7 @@
       "image": { "@id": "{{ '/' | absolute_url }}#/schema/logo/image/" }
       {% endif %}
     }
+
   ]
 }
 </script>
@@ -117,181 +138,134 @@
 
   <main class="post-main">
 
-    <!-- Breadcrumb (visible + SEO) -->
-    <nav class="post-breadcrumb" aria-label="Breadcrumb">
+    <!-- Breadcrumb -->
+    <div class="post-breadcrumb">
       <a href="{{ '/' | relative_url }}">Hogar</a> /
       <a href="{{ '/blog/' | relative_url }}">Blog</a>
-      {% if page.categories %}
-        {% for category in page.categories %}
-          / <a href="{{ '/category/' | append: category | append: '/' | relative_url }}">
-              {{ category | replace: '-', ' ' | capitalize }}
-            </a>
-        {% endfor %}
-      {% endif %}
-    </nav>
+    </div>
 
     <h1 class="post-title">{{ page.title }}</h1>
 
-    <!-- Meta row -->
-    <div class="post-meta">
-      {% if page.date %}
-        <time datetime="{{ page.date | date_to_xmlschema }}">
-          {{ page.date | date: "%B %-d, %Y" }}
-        </time>
-      {% endif %}
-      {% if page.last_modified_at %}
-        · <span>Actualizado: <time datetime="{{ page.last_modified_at | date_to_xmlschema }}">{{ page.last_modified_at | date: "%B %-d, %Y" }}</time></span>
-      {% endif %}
-    </div>
-
     {% if page.thumbnail %}
-      <img class="post-thumb"
-           src="{{ page.thumbnail | relative_url }}"
-           alt="{{ page.title }}"
-           width="{{ page.thumbnail_width }}"
-           height="{{ page.thumbnail_height }}"
-           loading="eager">
+      <img class="post-thumb" src="{{ page.thumbnail | relative_url }}" alt="{{ page.title }}">
     {% endif %}
-
-    <!-- ── TABLE OF CONTENTS ───────────────────────────────────── -->
-    <!-- JS extracts h2/h3 from #postContent and builds the list   -->
-    <nav class="toc" id="toc" aria-label="Tabla de contenidos">
-      <p class="toc-title">📋 Tabla de contenidos</p>
-      <ol class="toc-list" id="tocList"></ol>
-    </nav>
 
     <article class="post-content" id="postContent">
       {{ content }}
 
       {% if page.categories %}
       <div class="post-categories">
-        <strong>Archivado en:</strong>
+        <strong>Archivo en:</strong>
+
         {% for category in page.categories %}
           {% assign cat_page = site.pages | where: "category_name", category | first %}
-          <a class="post-category-link"
-             href="{{ '/category/' | append: category | append: '/' | relative_url }}">
-            {% if cat_page %}{{ cat_page.title }}{% else %}{{ category | replace: '-', ' ' | capitalize }}{% endif %}
+
+          <a
+            class="post-category-link"
+            href="{{ '/category/' | append: category | append: '/' | relative_url }}">
+
+            {% if cat_page %}
+              {{ cat_page.title }}
+            {% else %}
+              {{ category | replace: '-', ' ' | capitalize }}
+            {% endif %}
+
           </a>
+
           {% unless forloop.last %} | {% endunless %}
         {% endfor %}
       </div>
       {% endif %}
+
     </article>
 
     <!-- RELATED POSTS -->
-    <aside class="related" aria-label="Artículos relacionados">
+    <div class="related">
       <h3>Artículos relacionados</h3>
       <ul class="related-list">
-        {% assign related_posts = site.posts | where_exp: "post", "post.url != page.url" %}
-        {% assign shown = 0 %}
-        {% for post in related_posts %}
-          {% if shown < 5 %}
-            {% assign shared = post.categories | concat: page.categories | uniq %}
-            {% if post.categories and page.categories %}
-              {% assign merged_size = post.categories.size | plus: page.categories.size %}
-              {% assign unique_size = shared.size %}
-              {% if unique_size < merged_size %}
-                <li><a href="{{ post.url | relative_url }}">{{ post.title }}</a></li>
-                {% assign shown = shown | plus: 1 %}
+        {% for post in site.posts limit:5 %}
+          {% if post.url != page.url %}
+            <li>
+              <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+            </li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    </div>
+
+  </main>
+
+  <!-- SIDEBAR TOC — server-side, visible to Google -->
+  <!-- SIDEBAR TOC — server-side, visible to Google -->
+  <aside class="post-sidebar">
+    <div class="toc-box">
+      <h4>Tabla de contenido</h4>
+      <ul id="toc">
+        {% assign toc_items = '' | split: '' %}
+        {% assign parts = content | split: '<h' %}
+        {% for block in parts %}
+          {% assign level = block | slice: 0, 1 %}
+          {% if level == '2' or level == '3' %}
+            {% assign id_parts = block | split: 'id="' %}
+            {% if id_parts.size > 1 %}
+              {% assign id_val = id_parts[1] | split: '"' | first %}
+              {% assign text_val = '' %}
+              {% assign segs = block | split: '>' %}
+              {% for seg in segs offset: 1 %}
+                {% if text_val == '' and seg != '' %}
+                  {% assign text_val = seg | split: '</h' | first | strip_html | strip %}
+                {% endif %}
+              {% endfor %}
+              {% if id_val != '' and text_val != '' %}
+                {% assign row = level | append: '|||' | append: id_val | append: '|||' | append: text_val %}
+                {% assign toc_items = toc_items | push: row %}
               {% endif %}
             {% endif %}
           {% endif %}
         {% endfor %}
-        {% if shown < 5 %}
-          {% for post in related_posts limit: 5 %}
-            {% if shown < 5 %}
-              <li><a href="{{ post.url | relative_url }}">{{ post.title }}</a></li>
-              {% assign shown = shown | plus: 1 %}
-            {% endif %}
-          {% endfor %}
-        {% endif %}
-      </ul>
-    </aside>
 
-  </main>
+        {% for row in toc_items %}
+          {% assign cols  = row | split: '|||' %}
+          {% assign lvl   = cols[0] %}
+          {% assign hid   = cols[1] %}
+          {% assign htxt  = cols[2] %}
+          <li class="toc-h{{ lvl }}">
+            <a href="#{{ hid }}">{{ htxt }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </aside>
 
 </div>
 
-<!-- ── TOC SCRIPT ───────────────────────────────────────────────── -->
+{% include footer.html %}
+
 <script>
 (function () {
-  const content = document.getElementById('postContent');
-  const tocList = document.getElementById('tocList');
-  const toc     = document.getElementById('toc');
-  if (!content || !tocList) return;
+  var tocLinks = document.querySelectorAll("#toc a");
+  if (!tocLinks.length) return;
 
-  // Grab h2 and h3 only
-  const headings = Array.from(content.querySelectorAll('h2, h3'));
-  if (headings.length < 2) { toc.style.display = 'none'; return; }
-
-  headings.forEach(function (h, i) {
-    // Auto-assign id if missing
-    if (!h.id) {
-      h.id = 'heading-' + i + '-' + h.textContent.trim()
-               .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-    }
-
-    const li = document.createElement('li');
-    li.className = h.tagName === 'H3' ? 'toc-sub' : '';
-
-    const a = document.createElement('a');
-    a.href = '#' + h.id;
-    a.textContent = h.textContent;
-    li.appendChild(a);
-    tocList.appendChild(li);
+  var headingIds = Array.from(tocLinks).map(function(a) {
+    return a.getAttribute("href").slice(1);
   });
+  var headingEls = headingIds.map(function(id) {
+    return document.getElementById(id);
+  }).filter(Boolean);
 
-  // Active-link highlight on scroll
-  const observer = new IntersectionObserver(function (entries) {
-    entries.forEach(function (entry) {
-      const id = entry.target.id;
-      const link = tocList.querySelector('a[href="#' + id + '"]');
-      if (!link) return;
-      if (entry.isIntersecting) {
-        tocList.querySelectorAll('a').forEach(function (a) { a.classList.remove('active'); });
-        link.classList.add('active');
+  window.addEventListener("scroll", function () {
+    var current = "";
+    headingEls.forEach(function (h) {
+      if (window.scrollY >= h.offsetTop - 130) {
+        current = h.id;
       }
     });
-  }, { rootMargin: '0px 0px -70% 0px' });
-
-  headings.forEach(function (h) { observer.observe(h); });
+    tocLinks.forEach(function (a) {
+      a.classList.toggle("active", a.getAttribute("href") === "#" + current);
+    });
+  });
 })();
 </script>
 
-<!-- ── TOC CSS ───────────────────────────────────────────────────── -->
-<style>
-.toc {
-  background: #f8f9fa;
-  border-left: 4px solid #2563eb;
-  border-radius: 6px;
-  padding: 1rem 1.25rem;
-  margin: 1.5rem 0 2rem;
-  font-size: 0.92rem;
-}
-.toc-title {
-  font-weight: 700;
-  margin: 0 0 0.6rem;
-  font-size: 0.95rem;
-  color: #1e293b;
-}
-.toc-list {
-  margin: 0;
-  padding-left: 1.25rem;
-  line-height: 1.8;
-}
-.toc-list li { margin: 0; }
-.toc-list li.toc-sub { padding-left: 1rem; list-style-type: disc; }
-.toc-list a { color: #2563eb; text-decoration: none; }
-.toc-list a:hover,
-.toc-list a.active { color: #1d4ed8; text-decoration: underline; font-weight: 600; }
-
-.post-meta {
-  font-size: 0.85rem;
-  color: #64748b;
-  margin: 0.25rem 0 1.25rem;
-}
-</style>
-
-{% include footer.html %}
 </body>
 </html>
