@@ -20,7 +20,7 @@ La experiencia del usuario ha sido otro aspecto fundamental en el diseño del si
 
 Para UnificarPDF.com, las herramientas en línea deben servir para aliviar el estrés, no para generarlo. Por este motivo, la empresa ofrece sus herramientas para PDF de forma gratuita y se asegura de que su uso sea totalmente intuitivo.
 
-##Cómo funciona
+## Cómo funciona
 
 Usar UnificarPDF.com es rápido y sencillo. Solo tienes que subir tu documento PDF, seleccionar la herramienta que necesitas y descargar el archivo procesado en cuestión de segundos. No requiere ninguna instalación ni la creación de una cuenta para empezar a usar el servicio.
 
