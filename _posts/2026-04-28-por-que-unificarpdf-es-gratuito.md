@@ -20,13 +20,15 @@ La experiencia del usuario ha sido otro aspecto fundamental en el diseño del si
 
 Para UnificarPDF.com, las herramientas en línea deben servir para aliviar el estrés, no para generarlo. Por este motivo, la empresa ofrece sus herramientas para PDF de forma gratuita y se asegura de que su uso sea totalmente intuitivo.
 
-## How It Works
+##Cómo funciona
 
-Using UnificarPDF.com is fast and easy. One only needs to upload their PDF document, select the required tool, and download the processed file in just a matter of seconds. It does not require any installations or account creation to begin using the service.
+Usar UnificarPDF.com es rápido y sencillo. Solo tienes que subir tu documento PDF, seleccionar la herramienta que necesitas y descargar el archivo procesado en cuestión de segundos. No requiere ninguna instalación ni la creación de una cuenta para empezar a usar el servicio.
 
-The entire website operates directly from your web browser, which allows you to quickly combine, divide, compress, arrange pages, or remove unnecessary pages from your documents. All features are tailored toward simplicity and convenience.
+Todo el sitio web funciona directamente desde tu navegador, lo que te permite combinar, dividir, comprimir y reorganizar páginas rápidamente, o eliminar las páginas innecesarias de tus documentos. Todas las funciones están diseñadas para ofrecer simplicidad y comodidad.
 
-UnificarPDF.com is also compatible with mobile phones, tablets, or PCs. The service is extremely user-friendly, even for beginners.
+UnificarPDF.com también es compatible con teléfonos móviles, tabletas y ordenadores. El servicio es extremadamente fácil de usar, incluso para principiantes.
+
+
 
 ## Otras herramientas para PDF en el sitio
 
