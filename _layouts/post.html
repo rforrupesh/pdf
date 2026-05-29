@@ -160,7 +160,7 @@
         {% for category in page.categories %}
           {% assign cat_page = site.pages | where: "category_name", category | first %}
 
-          <a
+          
             class="post-category-link"
             href="{{ '/category/' | append: category | append: '/' | relative_url }}">
 
@@ -209,11 +209,55 @@
               {% assign text_clean = text_part | strip_html | strip %}
               {% assign id = text_clean
                 | downcase
-                | replace: ' ', '_'
-                | replace: '-', '_'
+                | replace: 'á', 'a'
+                | replace: 'é', 'e'
+                | replace: 'í', 'i'
+                | replace: 'ó', 'o'
+                | replace: 'ú', 'u'
+                | replace: 'ü', 'u'
+                | replace: 'ñ', 'n'
+                | replace: 'à', 'a'
+                | replace: 'è', 'e'
+                | replace: 'ì', 'i'
+                | replace: 'ò', 'o'
+                | replace: 'ù', 'u'
+                | replace: 'â', 'a'
+                | replace: 'ê', 'e'
+                | replace: 'î', 'i'
+                | replace: 'ô', 'o'
+                | replace: 'û', 'u'
+                | replace: 'ä', 'a'
+                | replace: 'ë', 'e'
+                | replace: 'ï', 'i'
+                | replace: 'ö', 'o'
+                | replace: 'ã', 'a'
+                | replace: 'õ', 'o'
+                | replace: 'ç', 'c'
+                | replace: 'å', 'a'
+                | replace: 'ø', 'o'
+                | replace: 'ž', 'z'
+                | replace: 'š', 's'
+                | replace: 'č', 'c'
+                | replace: 'ý', 'y'
+                | replace: 'ř', 'r'
+                | replace: 'ů', 'u'
+                | replace: 'ă', 'a'
+                | replace: 'ș', 's'
+                | replace: 'ț', 't'
+                | replace: 'ğ', 'g'
+                | replace: 'ı', 'i'
+                | replace: 'ń', 'n'
+                | replace: 'ę', 'e'
+                | replace: 'ą', 'a'
+                | replace: 'ź', 'z'
+                | replace: 'ż', 'z'
+                | replace: ' ', '-'
+                | replace: '_', '-'
                 | replace: '.', ''
                 | replace: '?', ''
+                | replace: '¿', ''
                 | replace: '!', ''
+                | replace: '¡', ''
                 | replace: ',', ''
                 | replace: ':', ''
                 | replace: ';', ''
@@ -240,8 +284,8 @@
                 | replace: '*', ''
                 | replace: '|', ''
                 | replace: '$', ''
-                | replace: '__', '_'
-                | replace: '__', '_'
+                | replace: '--', '-'
+                | replace: '--', '-'
               %}
               {% if text_clean != '' and id != '' %}
                 <li class="toc-h{{ level }}">
@@ -269,44 +313,96 @@
 
   var tocLinks = document.querySelectorAll("#toc a");
 
-  function makeId(text) {
+  // Universal slug — matches the Liquid logic above.
+  // Transliterates Latin accents, preserves non-Latin Unicode (Arabic, CJK, Cyrillic, etc.)
+  function universalSlug(text) {
+    var latinMap = {
+      'á':'a','é':'e','í':'i','ó':'o','ú':'u','ü':'u','ñ':'n',
+      'à':'a','è':'e','ì':'i','ò':'o','ù':'u',
+      'â':'a','ê':'e','î':'i','ô':'o','û':'u',
+      'ä':'a','ë':'e','ï':'i','ö':'o',
+      'ã':'a','õ':'o','ç':'c','å':'a','ø':'o',
+      'Á':'a','É':'e','Í':'i','Ó':'o','Ú':'u','Ü':'u','Ñ':'n',
+      'À':'a','È':'e','Ì':'i','Ò':'o','Ù':'u',
+      'Â':'a','Ê':'e','Î':'i','Ô':'o','Û':'u',
+      'Ä':'a','Ë':'e','Ï':'i','Ö':'o',
+      'Ã':'a','Õ':'o','Ç':'c','Å':'a','Ø':'o',
+      'æ':'ae','Æ':'ae','ð':'d','Ð':'d','þ':'th','Þ':'th','ß':'ss',
+      'ž':'z','Ž':'z','š':'s','Š':'s','č':'c','Č':'c',
+      'ý':'y','Ý':'y','ř':'r','Ř':'r','ů':'u','Ů':'u',
+      'ă':'a','Ă':'a','ș':'s','Ș':'s','ț':'t','Ț':'t',
+      'ğ':'g','Ğ':'g','ı':'i','İ':'i',
+      'ń':'n','Ń':'n','ę':'e','Ę':'e','ą':'a','Ą':'a',
+      'ź':'z','Ź':'z','ż':'z','Ż':'z',
+      'ā':'a','ē':'e','ī':'i','ō':'o','ū':'u',
+      'ĩ':'i','ũ':'u'
+    };
+
     return text
       .trim()
+      // Replace known Latin accented chars
+      .replace(/[^\u0000-\u007E]/g, function (ch) {
+        return latinMap[ch] !== undefined ? latinMap[ch] : ch;
+      })
       .toLowerCase()
-      .replace(/[^a-z0-9\s]/g, "")
-      .trim()
-      .replace(/\s+/g, "_")
-      .replace(/_+/g, "_")
-      .replace(/^_|_$/g, "");
+      // Replace punctuation and spaces with hyphens
+      .replace(/[\s\u0021-\u002F\u003A-\u0040\u005B-\u0060\u007B-\u007E]+/g, '-')
+      // Collapse multiple hyphens
+      .replace(/-{2,}/g, '-')
+      // Trim leading/trailing hyphens
+      .replace(/^-+|-+$/g, '');
   }
 
+  // Assign IDs to all headings
   var idCount = {};
   headings.forEach(function (h) {
-    var baseId = makeId(h.textContent);
-    if (!baseId) baseId = "section";
+    var baseId = universalSlug(h.textContent);
+    if (!baseId) baseId = 'section';
+
     if (idCount[baseId] === undefined) {
       idCount[baseId] = 0;
     } else {
       idCount[baseId]++;
-      baseId = baseId + "_" + (idCount[baseId] + 1);
+      baseId = baseId + '-' + idCount[baseId];
     }
     h.id = baseId;
   });
 
-  window.addEventListener("scroll", function () {
-    var current = "";
-    headings.forEach(function (h) {
-      if (window.scrollY >= h.offsetTop - 130) {
-        current = h.id;
+  // Smooth scroll when a TOC link is clicked
+  tocLinks.forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      var rawHref  = a.getAttribute('href');
+      var targetId = decodeURIComponent(rawHref.slice(1));
+      var target   = document.getElementById(targetId)
+                  || document.getElementById(rawHref.slice(1));
+      if (target) {
+        var top = target.getBoundingClientRect().top + window.scrollY - 100;
+        window.scrollTo({ top: top, behavior: 'smooth' });
+        history.pushState(null, null, rawHref);
       }
     });
-    tocLinks.forEach(function (a) {
-      if (a.getAttribute("href") === "#" + current) {
-        a.classList.add("active");
-      } else {
-        a.classList.remove("active");
-      }
-    });
+  });
+
+  // Highlight active TOC link on scroll (throttled via rAF)
+  var ticking = false;
+  window.addEventListener('scroll', function () {
+    if (!ticking) {
+      window.requestAnimationFrame(function () {
+        var current = '';
+        headings.forEach(function (h) {
+          if (window.scrollY >= h.offsetTop - 130) {
+            current = h.id;
+          }
+        });
+        tocLinks.forEach(function (a) {
+          var href = decodeURIComponent(a.getAttribute('href').slice(1));
+          a.classList.toggle('active', href === current || a.getAttribute('href').slice(1) === current);
+        });
+        ticking = false;
+      });
+      ticking = true;
+    }
   });
 
 })();
