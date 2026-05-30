@@ -1,3 +1,4 @@
+
 ---
 layout: post
 title: ¿Es seguro subir archivos a UnificarPDF?
@@ -10,13 +11,13 @@ category: recursos
 
 ## Sobre nosotros
 
-Nuestra aplicación se creó con un único propósito: facilitar la edición de PDF. Contamos con una audiencia diversa que incluye secretarias, estudiantes, abogados, profesores e incluso propietarios de pequeñas empresas. Cada persona que utiliza nuestro servicio merece nuestra atención y respeto.
+Nuestra aplicación se creó con un único propósito: facilitar la [edición de PDF](/blog/como-usar-unificarpdf-com/). Contamos con una audiencia diversa que incluye secretarias, estudiantes, abogados, profesores e incluso propietarios de pequeñas empresas. Cada persona que utiliza nuestro servicio merece nuestra atención y respeto.
 
 ## ¡Su archivo estará protegido automáticamente una vez que lo suba!
 
 En el momento en que decide seleccionar un archivo, este pasa por nuestro canal HTTPS seguro, que funciona con los mismos principios que las redes de bancos en línea y hospitales. Nadie puede interceptar ni usar su información durante la transmisión, ni descifrar su contenido en el camino.
 
-Evitamos usar el protocolo HTTP porque carece de medidas de seguridad y permite que cualquier persona que observe la red lea la información transmitida en los mensajes.
+Evitamos usar el [protocolo HTTP](https://www.cloudflare.com/learning/ssl/what-is-https/) porque carece de medidas de seguridad y permite que cualquier persona que observe la red lea la información transmitida en los mensajes.
 
 ## ¡Nadie en UnificarPDF puede ver tu archivo!
 
