@@ -677,7 +677,7 @@ Reordene manualmente los archivos antes de fusionarlos o cámbieles el nombre ut
   {% else %}
     {% assign posts_to_show = site.posts %}
   {% endif %}
-  {% for post in posts_to_show %}
+  {% for post in posts_to_show limit:6 %}
     <div class="relatedbloganywhere-card">
       <a href="{{ post.url | relative_url }}">
         <div class="relatedbloganywhere-thumb">
