@@ -6,42 +6,24 @@ description: "Conoce todo sobre la seguridad de tus archivos en UnificarPDF: cif
 category: recursos
 ---
 
-¿Qué pasa exactamente con tus documentos mientras usas nuestro sitio web? La respuesta corta es: sí, absolutamente. Sin embargo, creemos en los detalles en lugar de darte una sola palabra. Aquí te lo explicamos.
- 
-## Quiénes somos
- 
-Creamos UnificarPDF por una sola razón: hacer el trabajo con archivos PDF más conveniente. Muchos tipos de personas usan nuestro software — empleados de oficina, estudiantes, abogados, profesores y dueños de pequeñas empresas. Tratamos a cada una de esas personas que confían en nosotros con sus documentos de manera muy seria.
- 
-## Tu documento se cifra en cuanto se sube
- 
-En cuanto seleccionas un archivo y lo subes al sitio web, tu archivo viaja a través de un canal cifrado directamente en tu navegador. Nuestro sitio web usa tecnología HTTPS — el mismo cifrado SSL/TLS utilizado en los sistemas bancarios en línea. Esto significa que si alguien intenta interceptar tu archivo en el camino, todo lo que verá es información cifrada que no puede ser descifrada de ninguna manera posible.
- 
-A diferencia de servicios más antiguos e inseguros, usamos el sistema cifrado, no el sistema HTTP que deja tus datos abiertos para que todos los vean.
- 
-## ¿Puede alguien de UnificarPDF ver mis archivos?
- 
-¡Absolutamente no! Nadie de nuestro personal tiene ningún medio para acceder o ver nada de lo que subes. No espiamos lo que estás haciendo ni intentamos analizar la información en tus archivos. Solo nos encargamos de procesar tus archivos por ti. No necesitas una VPN para usar nuestro servicio de forma segura — pero si prefieres privacidad adicional, también funciona perfectamente con una.
- 
-## ¿Cuánto tiempo almacenan mis archivos?
- 
-Durante dos horas. Es todo el tiempo que tienes para descargar tu archivo antes de que sea borrado de nuestra base de datos para siempre. No hacemos copias, no almacenamos tu archivo en ningún otro lugar — simplemente lo borramos cuando el tiempo expira. Por supuesto, tienes otra opción y puedes eliminarlo tú mismo justo después de que termine su procesamiento.
- 
-Todo el manejo de archivos ocurre del lado del servidor en un entorno seguro y aislado — nunca compartido, nunca retenido.
- 
-## ¿Qué pasa cuando uso la función de firma?
- 
-Si estás enviando un documento para que sea firmado por varias personas, lo almacenamos hasta que haya sido completamente firmado. También creamos un registro de firma que muestra exactamente quién firmó y cuándo, y que ningún cambio al documento tuvo lugar después de ese punto. Eso es lo que hace que tu firma sea legalmente vinculante en un tribunal. Una vez que se cumplan los requisitos, tu archivo será eliminado. Si firmas un documento tú mismo, permanecerá con nosotros solo un mes.
- 
-## ¿Qué certificaciones tiene nuestra empresa?
- 
-Tenemos la certificación **ISO 27001** — el estándar internacional que aborda cómo las organizaciones gestionan y aseguran la información. La certificación en sí es una tarea difícil: tu sistema de seguridad se audita de forma independiente y pasa solo si se cumplen todos los requisitos. Pero lo logramos, y ahora mantenemos nuestro sistema actualizado de acuerdo con el estándar.
- 
-Cumplimos con el **GDPR** — el reglamento sobre protección de datos dentro de la Unión Europea. Garantiza los mayores derechos a las personas sobre sus datos personales que cualquier otro marco conocido en el mundo. Nuestra infraestructura utiliza cifrado de extremo a extremo y sigue una estricta política de no registros (no-log policy), por lo que no se retiene ningún registro de tu actividad o contenido de archivo.
- 
-## ¿Por qué mencionar todos estos detalles?
- 
-Porque hay muchos servicios en línea que son realmente poco claros sobre lo que le sucede a tus documentos. Hay quienes los guardan para siempre; hay quienes procesan tus datos a través de términos y condiciones oscuros. Preferimos ser honestos contigo.
- 
-Usar UnificarPDF significa que tu documento se cifra cuando se transfiere a través de tu navegador, permanece completamente inaccesible para nuestro personal y se elimina definitivamente después de solo unas pocas horas — ya sea que estés en escritorio, móvil o usando una VPN. Esto no es un eslogan, sino la estructura real de nuestro servicio.
- 
-¿Tienes alguna pregunta que no se mencionó anteriormente? Contáctanos. Siempre damos la bienvenida a una conversación.
+¿Qué sucederá exactamente con sus archivos al usar nuestro sitio web? ¿Hay algo de qué preocuparse? La respuesta corta es sí, absolutamente nada. Sin embargo, preferimos brindarle más información en lugar de simplemente responder a la pregunta. Y aquí le explicamos por qué.
+
+## Sobre nosotros
+
+Nuestra aplicación se creó con un único propósito: facilitar la edición de PDF. Contamos con una audiencia diversa que incluye secretarias, estudiantes, abogados, profesores e incluso propietarios de pequeñas empresas. Cada persona que utiliza nuestro servicio merece nuestra atención y respeto.
+
+## ¡Su archivo estará protegido automáticamente una vez que lo suba!
+
+En el momento en que decide seleccionar un archivo, este pasa por nuestro canal HTTPS seguro, que funciona con los mismos principios que las redes de bancos en línea y hospitales. Nadie puede interceptar ni usar su información durante la transmisión, ni descifrar su contenido en el camino.
+
+Evitamos usar el protocolo HTTP porque carece de medidas de seguridad y permite que cualquier persona que observe la red lea la información transmitida en los mensajes.
+
+## ¡Nadie en UnificarPDF puede ver tu archivo!
+
+Ni nuestros desarrolladores, ni nuestro equipo de soporte, ni ningún otro miembro del personal tienen acceso a tu archivo. El software que utilizamos lo procesará y te lo devolverá.
+
+## ¿Cuánto tiempo se conservará mi archivo?
+
+Respuesta: hasta que finalice la edición de tu documento PDF. Este es el tiempo que tendrás para descargar tu archivo antes de que sea eliminado permanentemente de nuestro servidor. No se crearán copias, ya que no realizamos ninguna duplicación de tu documento; simplemente borramos el archivo del servidor una vez transcurrido este plazo. Puedes optar por eliminar el archivo tú mismo justo después de que se haya procesado.
+
+*Esto significa que todo lo relacionado con su archivo se realiza únicamente en el servidor.*
