@@ -6,7 +6,7 @@ description: "UnifiedPDF.com es una herramienta para fusionar PDFs desde el nave
 category: recursos
 ---
 
-**La edición de PDF con UniFicarPDF se realiza de forma anónima**. El proceso comienza cuando se carga un archivo PDF para su edición; una vez editado y descargado, se elimina de inmediato. Para obtener información detallada, la página «Privacidad de un vistazo» ofrece una descripción exhaustiva de cómo se lleva a cabo este proceso anónimo. [¡Es rápido, sencillo y seguro!](blog/subir-archivos-unificarpdf-es-seguro/ "¡Es rápido, sencillo y seguro!")
+**La edición de PDF con UniFicarPDF se realiza de forma anónima**. El proceso comienza cuando se carga un archivo PDF para su edición; una vez editado y descargado, se elimina de inmediato. Para obtener información detallada, la página «Privacidad de un vistazo» ofrece una descripción exhaustiva de cómo se lleva a cabo este proceso anónimo. [¡Es rápido, sencillo y seguro!](/blog/subir-archivos-unificarpdf-es-seguro/ "¡Es rápido, sencillo y seguro!")
 
 ## Primeros pasos
 
