@@ -5,6 +5,21 @@ description: Arrastra tus imágenes JPG, JPEG o PNG al recuadro y conviértelas 
 permalink: /jpg-a-pdf/
 
 head_style: |
+ :root {
+  --blue: #4285f4;
+  --blue-hover: #357ae8;
+  --blue-light: #e8f0fe;
+  --border: #d1d5db;
+  --radius: 10px;
+  --text: #1f2937;
+  --text-muted: #4b5563;
+  --text-light: #9ca3af;
+  --bg: #ffffff;
+  --hover-bg: #f3f4f6;
+  --red: #ef4444;
+  --red-light: #fee2e2;
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
  #infoContent {
         max-width: 920px;
         margin: 0 auto;
@@ -197,16 +212,19 @@ head_style: |
       }
 
       /* ── EDITOR LAYOUT ── */
-      #uploadedState {
-        display: none;
-        flex: 1;
-      }
+     /* ── EDITOR LAYOUT ── */
+     #uploadedState {
+       display: none !important;
+       flex: 1;
+       flex-direction: column;
+     }
 
-      .editor-layout {
-        display: flex;
-        flex: 1;
-        height: calc(100vh - 58px);
-      }
+    .editor-layout {
+       display: flex;
+       flex: 1;
+       height: calc(100dvh - 58px);
+       min-height: 0;
+     }
 
       /* Left: preview area */
       .preview-panel {
@@ -1457,7 +1475,10 @@ head_style: |
 
       <script>
         /* ─── STATE ─── */
-        let files = []; // { file, thumbUrl, w, h, rotation }
+       const $ = (id) => document.getElementById(id);
+
+        /* ─── STATE ─── */
+        let files = [];{ file, thumbUrl, w, h, rotation }
         let settings = {
           pageSize: "a4",
           orientation: "portrait",
@@ -1516,11 +1537,11 @@ head_style: |
             $("uploadedState").style.display = "none";
             $("mobileBottom").style.display = "none";
           } else {
-           $("uploadState").style.display = "none";
-$("uploadedState").style.display = "flex";
-$("mobileBottom").style.display =
-  window.innerWidth <= 700 ? "flex" : "none";
-render();
+            $("uploadState").style.display = "none";
+            $("uploadedState").style.display = "block";
+            $("mobileBottom").style.display =
+              window.innerWidth <= 700 ? "flex" : "none";
+            render();
           }
         }
 
@@ -1583,8 +1604,6 @@ render();
             snap.forEach((e) => URL.revokeObjectURL(e.thumbUrl)),
           );
           // Initial load — don't save to history (starting from empty)
-       // Initial load — don't save to history (starting from empty)
-          files = [];
        const entries = await Promise.all(
   imgs.map(async (f) => {
     const thumbUrl = URL.createObjectURL(f);
@@ -1593,11 +1612,14 @@ render();
   })
 );
 files.push(...entries);
-          hideToast();
-          $("uploadState").style.display = "none";
-          $("uploadedState").style.display = "flex";
-          $("infoContent").style.display = "none";
-          $("mainFooter").style.display = "none";
+        hideToast();
+          // This forces the "Editor" to show and the "Upload box" to hide
+          $("uploadState").style.setProperty("display", "none", "important");
+          $("uploadedState").style.setProperty("display", "flex", "important");
+          
+          // This hides the long Spanish text and footer to make it look like an app
+          if ($("infoContent")) $("infoContent").style.display = "none";
+          if ($("mainFooter")) $("mainFooter").style.display = "none";
 
           $("mobileBottom").style.display =
             window.innerWidth <= 700 ? "flex" : "none";
