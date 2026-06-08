@@ -5,8 +5,9 @@ description: Arrastra tus imágenes JPG, JPEG o PNG al recuadro y conviértelas 
 permalink: /jpg-a-pdf/
 
 head_style: |
-  html { visibility: hidden; }
-  html.ready { visibility: visible; }
+ html { opacity: 0; }
+ html.ready { opacity: 1; transition: opacity 0.15s ease; }
+
 
   #infoContent {
   max-width: 920px;
