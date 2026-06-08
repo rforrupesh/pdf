@@ -1516,11 +1516,11 @@ head_style: |
             $("uploadedState").style.display = "none";
             $("mobileBottom").style.display = "none";
           } else {
-            $("uploadState").style.display = "none";
-            $("uploadedState").style.display = "block";
-            $("mobileBottom").style.display =
-              window.innerWidth <= 700 ? "flex" : "none";
-            render();
+           $("uploadState").style.display = "none";
+$("uploadedState").style.display = "flex";
+$("mobileBottom").style.display =
+  window.innerWidth <= 700 ? "flex" : "none";
+render();
           }
         }
 
@@ -1593,7 +1593,7 @@ head_style: |
 files.push(...entries);
           hideToast();
           $("uploadState").style.display = "none";
-          $("uploadedState").style.display = "block";
+          $("uploadedState").style.display = "flex";
           $("infoContent").style.display = "none";
           $("mainFooter").style.display = "none";
 
