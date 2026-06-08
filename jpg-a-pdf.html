@@ -1578,10 +1578,14 @@ head_style: |
           }
           showToast("Loading…", 99999);
           // Revoke all existing blob URLs before resetting (fresh load)
-          files.forEach((e) => URL.revokeObjectURL(e.thumbUrl));
+         files.forEach((e) => URL.revokeObjectURL(e.thumbUrl));
           history.forEach((snap) =>
             snap.forEach((e) => URL.revokeObjectURL(e.thumbUrl)),
           );
+          files = [];
+          history = [];
+          future = [];
+          // Initial load — don't save to history (starting from empty)
           // Initial load — don't save to history (starting from empty)
        const entries = await Promise.all(
   imgs.map(async (f) => {
