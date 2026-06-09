@@ -4,10 +4,12 @@
   </p>
 
 <script>
-  document.body.insertAdjacentHTML('beforeend','<div id=z><img></div>');
-Object.assign(z.style,{position:'fixed',inset:0,background:'#000d',display:'none',justifyContent:'center',alignItems:'center',zIndex:99999,cursor:'zoom-out'});
-Object.assign(z.querySelector('img').style,{maxWidth:'95vw',maxHeight:'95vh',objectFit:'contain',transition:'.3s'});
-document.querySelectorAll('img').forEach(i=>i.onclick=()=>{z.style.display='flex';z.querySelector('img').src=i.src});
+document.body.insertAdjacentHTML('beforeend','<div id=z style="position:fixed;inset:0;background:#000d;display:none;justify-content:center;align-items:center;z-index:99999"><img style="max-width:95vw;max-height:95vh"></div>');
+document.addEventListener('click',e=>{
+ if(!e.target.matches('.post-content img,#infoContent img,.info-section img'))return;
+ z.style.display='flex';
+ z.firstChild.src=e.target.src;
+});
 z.onclick=()=>z.style.display='none';
 </script>
 <style>
