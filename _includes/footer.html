@@ -4,12 +4,8 @@
   </p>
 
 <script>
-document.body.insertAdjacentHTML('beforeend','<div id=z style="position:fixed;inset:0;background:#000d;display:none;justify-content:center;align-items:center;z-index:99999"><img style="max-width:95vw;max-height:95vh"></div>');
-document.addEventListener('click',e=>{
- if(!e.target.matches('.post-content img,#infoContent img,.info-section img'))return;
- z.style.display='flex';
- z.firstChild.src=e.target.src;
-});
+document.body.insertAdjacentHTML('beforeend','<div id=z style="position:fixed;inset:0;background:#000d;display:none;justify-content:center;align-items:center;z-index:99999"><img style="max-width:95vw;max-height:95vh;transition:.3s"></div>');
+document.querySelectorAll('#infoContent img,.post-content img,.info-section img').forEach(i=>{if(i.closest('.relatedbloganywhere-grid,.blogpage-grid'))return;i.style.cssText+='cursor:zoom-in;transition:.3s';i.insertAdjacentHTML('afterend','<span style="position:absolute;top:10px;right:10px;width:34px;height:34px;background:#0009;border-radius:8px;display:flex;align-items:center;justify-content:center;pointer-events:none"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M15 3h6v6M21 3l-7 7M9 21H3v-6M3 21l7-7"/></svg></span>');i.parentElement.style.position='relative';i.onmouseenter=()=>i.style.transform='scale(1.03)';i.onmouseleave=()=>i.style.transform='scale(1)';i.onclick=()=>{z.style.display='flex';z.firstChild.src=i.src}});
 z.onclick=()=>z.style.display='none';
 </script>
 <style>
