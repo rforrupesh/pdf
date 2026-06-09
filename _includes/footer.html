@@ -3,7 +3,13 @@
     © <a href="/">Unificar PDF</a> - Tu editor de PDF · Made with Love
   </p>
 
-
+<script>
+  document.body.insertAdjacentHTML('beforeend','<div id=z><img></div>');
+Object.assign(z.style,{position:'fixed',inset:0,background:'#000d',display:'none',justifyContent:'center',alignItems:'center',zIndex:99999,cursor:'zoom-out'});
+Object.assign(z.querySelector('img').style,{maxWidth:'95vw',maxHeight:'95vh',objectFit:'contain',transition:'.3s'});
+document.querySelectorAll('img').forEach(i=>i.onclick=()=>{z.style.display='flex';z.querySelector('img').src=i.src});
+z.onclick=()=>z.style.display='none';
+</script>
 <style>
 
 .fab-grp {
